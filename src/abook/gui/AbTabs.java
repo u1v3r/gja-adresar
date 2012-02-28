@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.event.MouseInputListener;
@@ -67,8 +68,8 @@ public class AbTabs implements AbIGuiComponent, ComponentListener {
 	 * Adds new tab.
 	 */
 	public void addTab() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		JScrollPane panel = new JScrollPane(new AbTable().getWidget());
+		//panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		//tabbedPane.addTab(new String("Tab number" + tabbedPane.getTabCount()), panel);
 		int index = tabbedPane.getTabCount()-1;
 		//tabbedPane.add(panel, index);
