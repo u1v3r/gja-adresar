@@ -76,7 +76,7 @@ public class AbTabLine implements AbIGuiComponent, MouseListener {
 		tabAdd = new JPanel();
 		tabAdd.setLayout(new BoxLayout(tabAdd, BoxLayout.Y_AXIS));
 		tabbedPane.addTab(null, new ImageIcon(this.getClass().getResource("/icons/btn-plus.png")), tabAdd);
-		tabbedPane.addMouseListener(this);
+		//tabbedPane.addMouseListener(this);
 	}
 	
 	/**
@@ -147,7 +147,7 @@ public class AbTabLine implements AbIGuiComponent, MouseListener {
 	/**
 	 * Method adds new default tab.
 	 */
-	public void addTabToLine() {
+	/*public void addTabToLine() {
 		JScrollPane panel = new JScrollPane(new AbTable().getWidget());
 		//panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		//tabbedPane.addTab(new String("Tab number" + tabbedPane.getTabCount()), panel);
@@ -160,7 +160,7 @@ public class AbTabLine implements AbIGuiComponent, MouseListener {
 		tabbedPane.setTabComponentAt(index,
                 new AbTabCloseButton());
 		tabCounter++;
-	}
+	}*/
 	
 	/**
 	 * Method removes specific tab.
@@ -213,10 +213,10 @@ public class AbTabLine implements AbIGuiComponent, MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
-		if(e.getButton() == MouseEvent.BUTTON1
+		/*if(e.getButton() == MouseEvent.BUTTON1
 				&& tabbedPane.getSelectedComponent() == tabAdd) {
 			addTabToLine();
-		}
+		}*/
 	}
 
 	@Override
@@ -300,7 +300,6 @@ public class AbTabLine implements AbIGuiComponent, MouseListener {
 		public void actionPerformed(ActionEvent e) {
 			removeTabFromLine(tabbedPane.indexOfTabComponent(AbTabCloseButton.this));
 		}
-		
 	}
 
 }

@@ -1,17 +1,23 @@
 package abook.gui;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.io.File;
 
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import abook.AbIGuiComponent;
+import abook.profile.InitProfile;
 
 public class AbSideBar implements AbIGuiComponent {
 	
@@ -19,8 +25,11 @@ public class AbSideBar implements AbIGuiComponent {
 	protected JSplitPane splitPane;
 	protected JScrollPane scrollPaneTree;
 	protected JScrollPane scrollPaneList;
+	protected JPanel panelForCheckBox;
+	protected JPanel panelForSearch;
 	protected JTree tree;
 	protected JList list;
+	protected JTextField textField;
 	
 	/**
 	 * Constructor creates side-bar panel with tree.
@@ -60,26 +69,38 @@ public class AbSideBar implements AbIGuiComponent {
         //treePanel.add(tree, BorderLayout.WEST);
         //panel.setBackground(InitProfile.getIjaVariables().getBarvaPozadi());
         
-        String[] myList = { "rodina", "kamarádi", "práce", "projekt1", "projekt2" };
-        list = new JList(myList) {
+        panelForCheckBox = new JPanel() {
             public Insets getInsets()
             { return new Insets(5,5,5,5); }
         };
-        //panel.add(scrollPane, BorderLayout.WEST);
-	    //panel.add(openTreeFile, BorderLayout.SOUTH);
+        panelForCheckBox.setLayout(new BoxLayout(panelForCheckBox, BoxLayout.Y_AXIS));
+        panelForCheckBox.setOpaque(false);
         
+        for(String group : InitProfile.getProfile().getListOfGroups()) {
+        	JCheckBox checkBox = new JCheckBox(group);
+        	checkBox.setOpaque(false);
+        	panelForCheckBox.add(checkBox);
+        }        
         
         // create scroll panes //
         scrollPaneTree = new JScrollPane(tree);
-        scrollPaneList = new JScrollPane(list);
+        scrollPaneList = new JScrollPane(panelForCheckBox);
         
         // create main panel //
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, scrollPaneTree, scrollPaneList);
 		splitPane.setDividerLocation(250);
 		//panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
+		textField = new JTextField() {
+            public Insets getInsets()
+            { return new Insets(5,5,5,5); }
+        };
+		panelForSearch = new JPanel(new GridLayout());
+		panelForSearch.add(textField);
 		
-		
+		panel = new JPanel(new BorderLayout());
+		panel.add(splitPane, BorderLayout.CENTER);
+		panel.add(panelForSearch, BorderLayout.SOUTH);
 	}
 	
 	/** Creates nodes. (recursive function)
@@ -131,7 +152,7 @@ public class AbSideBar implements AbIGuiComponent {
     * @return panel
     */
    public JComponent getWidget() {
-       return splitPane;
+       return panel;
    }
 
 }
