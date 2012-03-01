@@ -1,18 +1,24 @@
 package abook.profile;
 
-/**
- * Represents one tab with table / list / etc...
- * 
- * @author jurij
- *
- */
 public class AbCard {
 	
-	public static enum AbCardType {
-		TABLE, LIST
-	};
+	protected int type;
+	protected int position;
+	public final static int HOME = 0;
+	public final static int DATABASE = 1;
 	
-	public AbCard(AbCardType type) {
+	public AbCard(int type) {
 		
+		this.type = type;
 	}
+
+	public int getType() {
+		return type;
+	}
+
+	public int getIndex() {
+		
+		return InitProfile.getProfile().getListOfAbCards().indexOf(this);
+	}
+
 }

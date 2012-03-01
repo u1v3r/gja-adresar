@@ -1,9 +1,9 @@
 package abook.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 
 import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -34,7 +34,7 @@ public class AbStatus implements AbIGuiComponent {
      *
      * @return statvovaLista
      */
-    public Component getWidget() {
+    public JComponent getWidget() {
         return panel;
     }
 

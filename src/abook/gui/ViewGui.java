@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JSplitPane;
 
+import abook.gui.tabs.AbTabLine;
+
 
 public class ViewGui {
 	
@@ -16,7 +18,7 @@ public class ViewGui {
 	protected AbToolBar toolbar;
 	protected AbSideBar sidebar;
 	protected AbStatus statebar;
-	protected AbTabs tabbedArea;
+	protected static AbTabLine tabbedArea;
 	protected JSplitPane mainField;
 	
 	public void launchAppliacation() {
@@ -41,7 +43,7 @@ public class ViewGui {
         sidebar = new AbSideBar();
         
         // 4b. TABBED AREA //
-        tabbedArea = new AbTabs();
+        tabbedArea = new AbTabLine();
         
         // 4. MAIN FIELD //
         mainField = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, sidebar.getWidget(), tabbedArea.getWidget());
@@ -57,6 +59,11 @@ public class ViewGui {
         // ... //
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+	}
+	
+	public static AbTabLine getAbTabLine() {
+		
+		return tabbedArea;
 	}
 
 }

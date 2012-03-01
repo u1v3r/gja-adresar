@@ -1,15 +1,10 @@
 package abook.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Insets;
-import java.awt.event.MouseAdapter;
 import java.io.File;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
@@ -131,7 +126,7 @@ public class AbSideBar implements AbIGuiComponent {
     *
     * @return panel
     */
-   public Component getWidget() {
+   public JComponent getWidget() {
        return panel;
    }
 

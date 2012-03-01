@@ -1,7 +1,6 @@
 package abook.gui;
 
-import java.awt.Component;
-
+import javax.swing.JComponent;
 import javax.swing.JTable;
 
 import abook.AbIGuiComponent;
@@ -24,7 +23,7 @@ public class AbTable implements AbIGuiComponent {
 	}
 	
 	@Override
-	public Component getWidget() {
+	public JComponent getWidget() {
 		return table;
 	}
 

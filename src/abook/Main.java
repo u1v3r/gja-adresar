@@ -3,6 +3,7 @@ package abook;
 import javax.swing.UIManager;
 
 import abook.gui.ViewGui;
+import abook.profile.InitProfile;
 
 public class Main {
 
@@ -18,6 +19,9 @@ public class Main {
         } catch (Exception e) {
            System.err.println("Oops!  Something went wrong!");
         }
+        
+        InitProfile newProfile = new InitProfile();
+        newProfile.createProfile();
         
         ViewGui newGui = new ViewGui();
         newGui.launchAppliacation();

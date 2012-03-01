@@ -1,9 +1,9 @@
 package abook;
 
-import java.awt.Component;
+import javax.swing.JComponent;
 
 public interface AbIGuiComponent {
 	
-	public Component getWidget();
+	public JComponent getWidget();
 
 }
