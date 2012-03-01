@@ -50,6 +50,20 @@ public class AbProfile {
 	
 	/**
 	 * 
+	 * @param name
+	 * @param surname
+	 * @return
+	 */
+	public AbPerson addPerson(String name, String surname) {
+		
+		AbPerson person = new AbPerson(name, surname);
+		listOfAbPersons.remove(person);
+		
+		return person;
+	}
+	
+	/**
+	 * 
 	 * @param person
 	 */
 	public void getPerson(AbPerson person) {
@@ -122,7 +136,7 @@ public class AbProfile {
      * 
      * @return
      */
-    public List<AbPerson> getListOfAbPesrons() {
+    public List<AbPerson> getListOfAbPersons() {
     	return listOfAbPersons;
     }
     

@@ -15,7 +15,7 @@ public class AbPerson {
 	public AbPerson(String name, String surname) {
 		this.id = counter;
 		this.name = name;
-		this.name = surname;
+		this.surname = surname;
 		this.listOfGroupIndex = new ArrayList<Integer>();
 		
 		counter++;
@@ -53,7 +53,7 @@ public class AbPerson {
 		this.listOfGroupIndex.remove(group);
 	}
 	
-	public List<Integer> getGroup() {
+	public List<Integer> getListOfGroupIndex() {
 		return this.listOfGroupIndex;
 	}
 }

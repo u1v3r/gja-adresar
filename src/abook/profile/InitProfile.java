@@ -30,12 +30,14 @@ public class InitProfile {
 		AbPerson person1 = new AbPerson("Karel", "Novák");
 		person1.setCity("Praha");
 		person1.addGroup(0);
+		profile.addPerson(person1);
 		
 		// create default contacts //
 		AbPerson person2 = new AbPerson("Laco", "Lakatoš");
 		person2.setCity("Košice");
 		person2.addGroup(0);
 		person2.addGroup(1);
+		profile.addPerson(person2);
 		
 		
 	}
