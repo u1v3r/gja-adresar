@@ -21,6 +21,18 @@ public class InitProfile {
 		// set default variables //
 		profile.addSpecialCard(AbCard.HOME);
 		profile.addSpecialCard(AbCard.DATABASE);
+		
+		// create default contacts //
+		AbPerson person1 = new AbPerson("Karel", "Novák");
+		person1.setCity("Praha");
+		person1.addGroup("friends");
+		
+		// create default contacts //
+		AbPerson person2 = new AbPerson("Laco", "Lakatoš");
+		person2.setCity("Košice");
+		person2.addGroup("friends");
+		
+		
 	}
 	
 	public static AbProfile getProfile() {
