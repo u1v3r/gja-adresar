@@ -1,4 +1,4 @@
-package abook.gui;
+package abook.gui.table;
 
 import javax.swing.table.DefaultTableModel;
 

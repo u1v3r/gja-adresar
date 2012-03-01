@@ -1,16 +1,14 @@
 package abook.profile;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class AbProfile {
 	
 	protected static int counter = 1;
 	protected int id;
 	protected String user;
-	protected Set<AbPerson> directory;
+	protected List<AbPerson> listOfAbPersons;
 	protected List<AbCard> listOfAbCards;
 	
 	/**
@@ -20,26 +18,47 @@ public class AbProfile {
 		
 		this.id = counter;
 		this.user = user;
-		this.directory = new HashSet<AbPerson>();
-		listOfAbCards = new ArrayList<AbCard>();
+		this.listOfAbPersons = new ArrayList<AbPerson>();
+		this.listOfAbCards = new ArrayList<AbCard>();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getUser() {
 		return user;
 	}
 
+	/**
+	 * 
+	 * @param user
+	 */
 	public void setUser(String user) {
 		this.user = user;
 	}
 	
+	/**
+	 * 
+	 * @param person
+	 */
 	public void addPerson(AbPerson person) {
-		directory.add(person);
+		listOfAbPersons.add(person);
 	}
 	
+	/**
+	 * 
+	 * @param person
+	 */
 	public void getPerson(AbPerson person) {
-		directory.remove(person);
+		listOfAbPersons.remove(person);
 	}
 	
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 */
 	public AbCard addSpecialCard(int type) {
 		
 		AbCard specialCard = (AbCard) new AbCard(type);
@@ -48,10 +67,19 @@ public class AbProfile {
 		return (AbCard) specialCard;	
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<AbCard> getListOfAbCards() {
 		return listOfAbCards;
 	}
 	
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 */
 	public int getIndexOfCard(int type) {
 		
 		int index = 0;
@@ -67,16 +95,34 @@ public class AbProfile {
 		return -1;
 	}
 	
+	/**
+	 * 
+	 * @param index
+	 * @return
+	 */
 	public AbCard removeAbICard(int index) {
 		
 		return (listOfAbCards.remove(index));
 		
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
     public AbCard removeAbICard() {
 		
 		return removeAbICard(listOfAbCards.size());
 		
 	}
+    
+    /**
+     * 
+     * @return
+     */
+    public List<AbPerson> getListOfAbPesrons() {
+    	return listOfAbPersons;
+    }
+    
 
 }

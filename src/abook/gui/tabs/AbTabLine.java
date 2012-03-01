@@ -21,7 +21,7 @@ import javax.swing.JTabbedPane;
 
 import abook.AbIGuiComponent;
 import abook.AbIGuiTabComponent;
-import abook.gui.AbTable;
+import abook.gui.table.AbTable;
 import abook.profile.AbCard;
 import abook.profile.InitProfile;
 
