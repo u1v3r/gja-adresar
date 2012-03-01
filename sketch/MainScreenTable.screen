@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Window" id="1" x="112" y="32" width="1033" height="721" text="Kontakty" measuredWidth="1033" measuredHeight="721"/>
+  <widgets xsi:type="model:Panel" id="2" x="112" y="144" width="217" height="609" measuredWidth="217" measuredHeight="609"/>
+  <widgets xsi:type="model:Panel" id="4" x="112" y="75" width="1033" height="70" measuredWidth="1033" measuredHeight="70"/>
+  <widgets xsi:type="model:Menu" id="5" x="112" y="51" width="1033" text="&amp;File,&amp;Edit,&amp;View,~&amp;Window~,&amp;Help" measuredWidth="1033" measuredHeight="25">
+    <items x="5" y="0" width="31" height="25" text="&amp;File"/>
+    <items x="36" y="0" width="33" height="25" text="&amp;Edit"/>
+    <items x="69" y="0" width="39" height="25" text="&amp;View"/>
+    <items x="108" y="0" width="58" height="25" text="~&amp;Window~"/>
+    <items x="166" y="0" width="38" height="25" text="&amp;Help"/>
+  </widgets>
+  <widgets xsi:type="model:List" id="37" x="136" y="181" text="[x] rodina&#xA;[ ] škola&#xA;[ ] priatelia&#xA;[x] práca" measuredWidth="78" measuredHeight="92" border="false" alpha="0">
+    <font/>
+    <items x="0" y="2" width="78" height="22" text="[x] rodina"/>
+    <items x="0" y="24" width="78" height="22" text="[ ] škola"/>
+    <items x="0" y="46" width="78" height="22" text="[ ] priatelia"/>
+    <items x="0" y="68" width="78" height="22" text="[x] práca"/>
+  </widgets>
+  <widgets xsi:type="model:Checkbox" id="38" x="120" y="159" text="všetky" measuredWidth="59" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="39" x="128" y="81" text="New" measuredWidth="32" measuredHeight="57" textAlignment="Center" icon="image (large)" iconPosition="top" link="AddContactMainScreen.screen">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="40" x="178" y="81" text="Load" measuredWidth="33" measuredHeight="57" textAlignment="Center" icon="image (large)" iconPosition="top">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:SearchField" id="41" x="960" y="98" width="169" text="Search" measuredWidth="169" measuredHeight="24"/>
+  <widgets xsi:type="model:HLine" id="42" x="112" y="448" width="217" measuredWidth="217" measuredHeight="6"/>
+  <widgets xsi:type="model:Label" id="43" x="159" y="584" text="ďalšie potrebne veci" measuredWidth="124" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="44" x="232" y="81" text="Save" measuredWidth="32" measuredHeight="57" textAlignment="Center" icon="image (large)" iconPosition="top">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="45" x="282" y="81" text="Home" measuredWidth="38" measuredHeight="57" textAlignment="Center" icon="image (large)" iconPosition="top">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="46" x="366" y="81" text="Table" measuredWidth="35" measuredHeight="57" textAlignment="Center" icon="image (large)" iconPosition="top" link="">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="47" x="424" y="81" text="List" measuredWidth="32" measuredHeight="57" textAlignment="Center" icon="image (large)" iconPosition="top" link="MainScreenDetails.screen">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Table" id="48" x="328" y="144" width="817" height="609" text="Meno a priezvisko,=. E-Mail v,Tel. číslo,Dátum narodenia, Skupina&#xA;Peter Severin, email1@mail.com,123456789,21.12.1988, Priatelia&#xA;Henri Severin, email2@mail.com,123456789,22.12.1988, Rodina&#xA;Olga Severin, email3@mail.com,123456789,23.12.1988, Priatelia&#xA;" measuredWidth="817" measuredHeight="609" alternative="#eeeeee">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font/>
+</model:Screen>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Window" id="1" x="112" y="32" width="1033" height="721" text="Kontakty" measuredWidth="1033" measuredHeight="721"/>
+  <widgets xsi:type="model:Panel" id="2" x="112" y="144" width="217" height="609" measuredWidth="217" measuredHeight="609"/>
+  <widgets xsi:type="model:Panel" id="4" x="112" y="75" width="1033" height="70" measuredWidth="1033" measuredHeight="70"/>
+  <widgets xsi:type="model:Menu" id="5" x="112" y="51" width="1033" text="&amp;File,&amp;Edit,&amp;View,~&amp;Window~,&amp;Help" measuredWidth="1033" measuredHeight="25">
+    <items x="5" y="0" width="31" height="25" text="&amp;File"/>
+    <items x="36" y="0" width="33" height="25" text="&amp;Edit"/>
+    <items x="69" y="0" width="39" height="25" text="&amp;View"/>
+    <items x="108" y="0" width="58" height="25" text="~&amp;Window~"/>
+    <items x="166" y="0" width="38" height="25" text="&amp;Help"/>
+  </widgets>
+  <widgets xsi:type="model:List" id="7" x="328" y="168" width="257" height="585" text="Človek Priezviko 1&#xA;clovek.priezviko@mail.com&#xA;Človek Priezviko 2&#xA;clovek.priezviko2@mail.com&#xA;|Meno Priezvisko&#xA;|meno.priezvisko@mail.com&#xA;Človek Priezviko 3&#xA;clovek.priezviko3@mail.com&#xA;Človek Priezviko 4&#xA;clovek.priezviko4@mail.com&#xA;&#xA;" measuredWidth="257" measuredHeight="585">
+    <font bold="false"/>
+    <items x="0" y="2" width="257" height="20" text="Človek Priezviko 1"/>
+    <items x="0" y="22" width="257" height="20" text="clovek.priezviko@mail.com"/>
+    <items x="0" y="42" width="257" height="20" text="Človek Priezviko 2"/>
+    <items x="0" y="62" width="257" height="20" text="clovek.priezviko2@mail.com"/>
+    <items x="0" y="82" width="257" height="20" text="|Meno Priezvisko"/>
+    <items x="0" y="102" width="257" height="20" text="|meno.priezvisko@mail.com"/>
+    <items x="0" y="122" width="257" height="20" text="Človek Priezviko 3"/>
+    <items x="0" y="142" width="257" height="20" text="clovek.priezviko3@mail.com"/>
+    <items x="0" y="162" width="257" height="20" text="Človek Priezviko 4"/>
+    <items x="0" y="182" width="257" height="20" text="clovek.priezviko4@mail.com"/>
+    <items x="0" y="202" width="257" height="20"/>
+  </widgets>
+  <widgets xsi:type="model:HLine" id="8" x="328" y="208" width="257" measuredWidth="257" measuredHeight="6"/>
+  <widgets xsi:type="model:HLine" id="10" x="328" y="248" width="257" measuredWidth="257" measuredHeight="6"/>
+  <widgets xsi:type="model:HLine" id="11" x="328" y="288" width="257" measuredWidth="257" measuredHeight="6"/>
+  <widgets xsi:type="model:HLine" id="12" x="328" y="328" width="257" measuredWidth="257" measuredHeight="6"/>
+  <widgets xsi:type="model:HLine" id="13" x="328" y="368" width="257" measuredWidth="257" measuredHeight="6"/>
+  <widgets xsi:type="model:Rectangle" id="14" x="328" y="144" width="257" height="25" text="Meno" measuredWidth="257" measuredHeight="25" textAlignment="Left">
+    <font bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="15" x="584" y="144" width="561" height="609" measuredWidth="561" measuredHeight="609"/>
+  <widgets xsi:type="model:Icon" id="16" x="594" y="154" width="79" height="71" measuredWidth="79" measuredHeight="71" icon="user (custom)"/>
+  <widgets xsi:type="model:HLine" id="17" x="584" y="224" width="561" measuredWidth="561" measuredHeight="6"/>
+  <widgets xsi:type="model:Label" id="18" x="696" y="160" text="Meno Priezvisko" measuredWidth="101" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="19" x="696" y="181" text="123456789" measuredWidth="68" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="20" x="629" y="280" text="Mobil: 123456789" measuredWidth="108" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="21" x="629" y="301" text="Domov: 123456789" measuredWidth="117" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="25" x="615" y="248" text="Tel. čísla" measuredWidth="58" measuredHeight="22">
+    <font bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="26" x="615" y="333" text="Internet:" measuredWidth="61" measuredHeight="22">
+    <font bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="27" x="629" y="360" text="email 1: meno.priezvisko@mail.com" measuredWidth="214" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="28" x="629" y="382" text="email 2: meno.priezvisko@mail.com" measuredWidth="214" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="29" x="615" y="438" text="Adresa:" measuredWidth="51" measuredHeight="22">
+    <font bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="30" x="629" y="464" text="Ulica:" measuredWidth="37" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="31" x="629" y="486" text="Mesto:" measuredWidth="45" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="32" x="629" y="507" text="PSČ:" measuredWidth="31" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="33" x="629" y="529" text="Krajina:" measuredWidth="48" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="34" x="615" y="566" text="Osobné:" measuredWidth="56" measuredHeight="22">
+    <font bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="35" x="629" y="408" width="214" text="chat: skype, icq,..." measuredWidth="214" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="36" x="629" y="592" text="Dátum narodenia: 21.2.2012" measuredWidth="167" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:List" id="37" x="136" y="181" text="[x] rodina&#xA;[ ] škola&#xA;[ ] priatelia&#xA;[x] práca" measuredWidth="78" measuredHeight="92" border="false" alpha="0">
+    <font/>
+    <items x="0" y="2" width="78" height="22" text="[x] rodina"/>
+    <items x="0" y="24" width="78" height="22" text="[ ] škola"/>
+    <items x="0" y="46" width="78" height="22" text="[ ] priatelia"/>
+    <items x="0" y="68" width="78" height="22" text="[x] práca"/>
+  </widgets>
+  <widgets xsi:type="model:Checkbox" id="38" x="120" y="159" text="všetky" measuredWidth="59" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="39" x="128" y="81" text="New" measuredWidth="32" measuredHeight="57" textAlignment="Center" icon="image (large)" iconPosition="top" link="">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="40" x="178" y="81" text="Load" measuredWidth="33" measuredHeight="57" textAlignment="Center" icon="image (large)" iconPosition="top">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:SearchField" id="41" x="960" y="98" width="169" text="Search" measuredWidth="169" measuredHeight="24"/>
+  <widgets xsi:type="model:HLine" id="42" x="112" y="448" width="217" measuredWidth="217" measuredHeight="6"/>
+  <widgets xsi:type="model:Label" id="43" x="159" y="584" text="ďalšie potrebne veci" measuredWidth="124" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="44" x="232" y="81" text="Save" measuredWidth="32" measuredHeight="57" textAlignment="Center" icon="image (large)" iconPosition="top">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="45" x="282" y="81" text="Home" measuredWidth="38" measuredHeight="57" textAlignment="Center" icon="image (large)" iconPosition="top">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="46" x="366" y="81" text="Table" measuredWidth="35" measuredHeight="57" textAlignment="Center" icon="image (large)" iconPosition="top" link="MainScreenTable.screen">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="47" x="424" y="81" text="List" measuredWidth="32" measuredHeight="57" textAlignment="Center" icon="image (large)" iconPosition="top" link="MainScreenDetails.screen">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Window" id="48" x="263" y="173" width="657" height="491" text="Pridať nový kontakt" measuredWidth="657" measuredHeight="491"/>
+  <widgets xsi:type="model:Icon" id="49" x="282" y="222" width="79" height="71" measuredWidth="79" measuredHeight="71" icon="user (custom)"/>
+  <widgets xsi:type="model:Label" id="51" x="382" y="233" text="Meno:" measuredWidth="44" measuredHeight="22">
+    <font bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="52" x="288" y="343" text="Tel. čísla:" measuredWidth="61" measuredHeight="22">
+    <font bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="53" x="470" y="233" width="105" text="Text field" measuredWidth="105" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="54" x="382" y="266" text="Priezvisko" measuredWidth="70" measuredHeight="22">
+    <font bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="55" x="470" y="266" width="105" text="Text field" measuredWidth="105" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="56" x="382" y="199" text="Titul:" measuredWidth="38" measuredHeight="22">
+    <font bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="57" x="470" y="199" width="105" text="Text field" measuredWidth="105" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="58" x="382" y="295" text="Titul za:" measuredWidth="55" measuredHeight="22">
+    <font bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="59" x="470" y="295" width="105" text="Text field" measuredWidth="105" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:HLine" id="60" x="263" y="327" width="657" measuredWidth="657" measuredHeight="6"/>
+  <widgets xsi:type="model:TextField" id="61" x="317" y="372" width="70" text="Praca" measuredWidth="70" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="62" x="317" y="408" width="70" text="Domov" measuredWidth="70" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="63" x="317" y="442" width="70" text="Mobil" measuredWidth="70" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="64" x="456" y="343" text="Internet:" measuredWidth="61" measuredHeight="22">
+    <font bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="65" x="480" y="372" width="70" text="email 1" measuredWidth="70" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="66" x="480" y="408" width="70" text="email 2" measuredWidth="70" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="68" x="638" y="343" text="Adresa:" measuredWidth="51" measuredHeight="22">
+    <font bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="71" x="657" y="409" text="Mesto:" measuredWidth="45" measuredHeight="22">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="72" x="745" y="409" width="105" text="Text field" measuredWidth="105" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="73" x="657" y="442" text="PSČ:" measuredWidth="31" measuredHeight="22">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="74" x="745" y="442" width="105" text="Text field" measuredWidth="105" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="75" x="657" y="375" text="Ulica:" measuredWidth="37" measuredHeight="22">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="76" x="745" y="375" width="105" text="Text field" measuredWidth="105" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="77" x="657" y="471" text="Krajina:" measuredWidth="48" measuredHeight="22">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="78" x="745" y="471" width="105" text="Text field" measuredWidth="105" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="79" x="300" y="527" text="Osobné:" measuredWidth="56" measuredHeight="22">
+    <font bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="80" x="314" y="559" text="Dátum narodenia:" measuredWidth="109" measuredHeight="22">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="81" x="432" y="559" width="105" text="Text field" measuredWidth="105" measuredHeight="22">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="82" x="816" y="621" width="72" height="25" text="Pridať" measuredWidth="72" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="83" x="719" y="621" width="72" height="25" text="Cancel" measuredWidth="72" measuredHeight="25">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font/>
+</model:Screen>
