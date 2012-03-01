@@ -5,6 +5,7 @@ import java.io.File;
 
 import javax.swing.JComponent;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
@@ -14,7 +15,8 @@ import abook.AbIGuiComponent;
 
 public class AbSideBar implements AbIGuiComponent {
 	
-	protected JSplitPane panel;
+	protected JPanel panel;
+	protected JSplitPane splitPane;
 	protected JScrollPane scrollPaneTree;
 	protected JScrollPane scrollPaneList;
 	protected JTree tree;
@@ -72,9 +74,11 @@ public class AbSideBar implements AbIGuiComponent {
         scrollPaneList = new JScrollPane(list);
         
         // create main panel //
-		panel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, scrollPaneTree, scrollPaneList);
-		panel.setDividerLocation(250);
+		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, scrollPaneTree, scrollPaneList);
+		splitPane.setDividerLocation(250);
 		//panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		
+		
 		
 	}
 	
@@ -127,7 +131,7 @@ public class AbSideBar implements AbIGuiComponent {
     * @return panel
     */
    public JComponent getWidget() {
-       return panel;
+       return splitPane;
    }
 
 }

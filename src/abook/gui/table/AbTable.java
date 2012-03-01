@@ -14,8 +14,10 @@ public class AbTable implements AbIGuiComponent {
 		
 		model = new AbTableModel();
 		table = new JTable(model);
-		model.addColumn("jmeno");
-		model.addColumn("prijmeni");
+		model.addColumn("Name");
+		model.addColumn("Surname");
+		model.addColumn("City");
+		model.addColumn("Groups");
 	}
 
 	public AbTableModel getTableModel() {

@@ -22,15 +22,20 @@ public class InitProfile {
 		profile.addSpecialCard(AbCard.HOME);
 		profile.addSpecialCard(AbCard.DATABASE);
 		
+		// create default groups //
+		profile.addGroup("friends");
+		profile.addGroup("school");
+		
 		// create default contacts //
 		AbPerson person1 = new AbPerson("Karel", "Novák");
 		person1.setCity("Praha");
-		person1.addGroup("friends");
+		person1.addGroup(0);
 		
 		// create default contacts //
 		AbPerson person2 = new AbPerson("Laco", "Lakatoš");
 		person2.setCity("Košice");
-		person2.addGroup("friends");
+		person2.addGroup(0);
+		person2.addGroup(1);
 		
 		
 	}

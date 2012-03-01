@@ -1,7 +1,7 @@
 package abook.profile;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AbPerson {
 	
@@ -9,14 +9,14 @@ public class AbPerson {
 	protected int id;
 	protected String name;
 	protected String surname;
-	protected Set<String> groupSet;
+	protected List<Integer> listOfGroupIndex;
 	protected String city;
 	
 	public AbPerson(String name, String surname) {
 		this.id = counter;
 		this.name = name;
 		this.name = surname;
-		this.groupSet = new HashSet<String>();
+		this.listOfGroupIndex = new ArrayList<Integer>();
 		
 		counter++;
 	}
@@ -45,15 +45,15 @@ public class AbPerson {
 		this.city = city;
 	}
 	
-	public void addGroup(String group) {
-		this.groupSet.add(group);
+	public void addGroup(Integer group) {
+		this.listOfGroupIndex.add(group);
 	}
 	
 	public void removeGroup(String group) {
-		this.groupSet.remove(group);
+		this.listOfGroupIndex.remove(group);
 	}
 	
-	public Set<String> getGroup() {
-		return this.groupSet;
+	public List<Integer> getGroup() {
+		return this.listOfGroupIndex;
 	}
 }

@@ -10,6 +10,7 @@ public class AbProfile {
 	protected String user;
 	protected List<AbPerson> listOfAbPersons;
 	protected List<AbCard> listOfAbCards;
+	protected List<String> listOfGroups;
 	
 	/**
 	 * Creates new profile
@@ -20,6 +21,7 @@ public class AbProfile {
 		this.user = user;
 		this.listOfAbPersons = new ArrayList<AbPerson>();
 		this.listOfAbCards = new ArrayList<AbCard>();
+		this.listOfGroups = new ArrayList<String>();
 	}
 
 	/**
@@ -122,6 +124,41 @@ public class AbProfile {
      */
     public List<AbPerson> getListOfAbPesrons() {
     	return listOfAbPersons;
+    }
+    
+    /**
+     * 
+     * @param newGroup
+     */
+    public void addGroup(String newGroup) {
+    	
+    	for(String group : listOfGroups) {
+    		if(newGroup.equals(group)) return;
+    	}
+    	
+    	listOfGroups.add(newGroup);
+    }
+    
+    /**
+     * 
+     * @param newGroup
+     */
+    public void removeGroup(String newGroup) {
+    	
+    	for(String group : listOfGroups) {
+    		if(newGroup.equals(group)) {
+    			listOfGroups.remove(group);
+    			return;
+    		}
+    	}
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public List<String> getListOfGroups() {
+    	return listOfGroups;
     }
     
 
