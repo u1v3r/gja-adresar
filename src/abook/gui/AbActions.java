@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
+import javax.swing.JDialog;
+
+import abook.gui.dialogs.AbDialogAddContact;
 
 import abook.profile.InitProfile;
 
@@ -62,7 +65,8 @@ public class AbActions {
 	class ActionAddContact extends AbstractAction
     {
         public void actionPerformed(ActionEvent e) {
-            // TODO
+           JDialog addContactDialog = new AbDialogAddContact();
+           addContactDialog.setVisible(true);
         }
     }
     

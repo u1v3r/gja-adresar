@@ -45,8 +45,8 @@ public class AbTabDatabase implements AbIGuiTabComponent {
 		for(AbPerson person : listOfPersons) {
 			
 			String[] row = new String[4];
-			row[0] = person.getName();
-			row[1] = person.getSurname();
+			row[0] = person.getFirstName();
+			row[1] = person.getLastName();
 			row[2] = person.getCity();
 			row[3] = "";
 			
