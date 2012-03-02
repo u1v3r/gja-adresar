@@ -15,11 +15,15 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import abook.AbIGuiComponent;
+import abook.listeners.AbEvent;
+import abook.listeners.AbListener;
+import abook.listeners.InitListenerCore;
 import abook.profile.InitProfile;
 
-public class AbSideBar implements AbIGuiComponent {
+public class AbSideBar implements AbIGuiComponent, AbListener {
 	
 	protected JPanel panel;
 	protected JSplitPane splitPane;
@@ -36,38 +40,12 @@ public class AbSideBar implements AbIGuiComponent {
 	 */
 	@SuppressWarnings("serial")
 	public AbSideBar() {
+		
+		InitListenerCore.getListenerCore().addListener(this);
+		
+		String workspace = InitProfile.getProfile().getWorkspace();
 
-        // set root nodes and his child nodes //
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("./workspace");
-        try {
-            createNodes(rootNode, new File("./workspace"));
-            tree = new JTree(rootNode){
-                public Insets getInsets()
-                { return new Insets(5,5,5,5); }
-            };
-        } catch (NullPointerException npe) {
-            //IjaTasks.hlaseni("Neni slozka examples");
-            DefaultMutableTreeNode rootNode2 = new DefaultMutableTreeNode("ROOT");
-            createNodes(rootNode2, new File("."));
-            tree = new JTree(rootNode2){
-                public Insets getInsets()
-                { return new Insets(5,5,5,5); }
-            };
-            //tree.setBackground(InitProfile.getIjaVariables().getBarvaPozadi());
-            //DoubleClick ml = new DoubleClick();
-            //tree.addMouseListener(ml);
-	    //treePanel.add(tree, BorderLayout.CENTER);
-            //panel.setBackground(InitProfile.getIjaVariables().getBarvaPozadi());
-            //return;
-        }
-        //tree.setBackground(InitProfile.getIjaVariables().getBarvaPozadi());
-        
-        //DoubleClick ml = new DoubleClick();
-        //tree.addMouseListener(ml);
-
-        // add tree to panel //
-        //treePanel.add(tree, BorderLayout.WEST);
-        //panel.setBackground(InitProfile.getIjaVariables().getBarvaPozadi());
+        createTree(workspace);
         
         panelForCheckBox = new JPanel() {
             public Insets getInsets()
@@ -103,28 +81,63 @@ public class AbSideBar implements AbIGuiComponent {
 		panel.add(panelForSearch, BorderLayout.SOUTH);
 	}
 	
+	@SuppressWarnings("serial")
+	private void createTree(String workspace) {
+		
+		// set root nodes and his child nodes //
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(workspace);
+        try {
+            createNodes(rootNode, new File(workspace));
+            tree = new JTree(rootNode){
+                public Insets getInsets()
+                { return new Insets(5,5,5,5); }
+            };
+        } catch (NullPointerException npe) {
+            //IjaTasks.hlaseni("Neni slozka examples");
+            DefaultMutableTreeNode rootNode2 = new DefaultMutableTreeNode("ROOT");
+            createNodes(rootNode2, new File("."));
+            tree = new JTree(rootNode2){
+                public Insets getInsets()
+                { return new Insets(5,5,5,5); }
+            };
+            //tree.setBackground(InitProfile.getIjaVariables().getBarvaPozadi());
+            //DoubleClick ml = new DoubleClick();
+            //tree.addMouseListener(ml);
+	    //treePanel.add(tree, BorderLayout.CENTER);
+            //panel.setBackground(InitProfile.getIjaVariables().getBarvaPozadi());
+            //return;
+        }
+        //tree.setBackground(InitProfile.getIjaVariables().getBarvaPozadi());
+        
+        //DoubleClick ml = new DoubleClick();
+        //tree.addMouseListener(ml);
+
+        // add tree to panel //
+        //treePanel.add(tree, BorderLayout.WEST);
+        //panel.setBackground(InitProfile.getIjaVariables().getBarvaPozadi());
+	}
+
 	/** Creates nodes. (recursive function)
     *
     * @param korenovyUzel
     * @param korenovySoubor
     */
-   private void createNodes(DefaultMutableTreeNode korenovyUzel, File korenovySoubor) {
-       
-       File[] soubory = korenovySoubor.listFiles();
-       
-       // add child nodes to root node //
-       for (int i = 0; i < soubory.length; i++)
-       {
-         DefaultMutableTreeNode potomek = new DefaultMutableTreeNode(soubory[i].getName());
-         korenovyUzel.add(potomek);
-         
-         // repeat with child nodes //
-         if(soubory[i].isDirectory())
-         {
-             createNodes(potomek, soubory[i]);
-         }
-       }
-   }
+	private void createNodes(DefaultMutableTreeNode korenovyUzel, File korenovySoubor) {
+		File[] soubory = korenovySoubor.listFiles();
+		
+		// add child nodes to root node //
+		for (int i = 0; i < soubory.length; i++)
+		{
+			DefaultMutableTreeNode potomek = new DefaultMutableTreeNode(soubory[i].getName());
+			korenovyUzel.add(potomek);
+		         
+			// repeat with child nodes //
+			if(soubory[i].isDirectory())
+			{
+				createNodes(potomek, soubory[i]);
+			}
+		}
+	}
 
    /**
     * TODO Inner class which open selected node (by double click)
@@ -147,12 +160,29 @@ public class AbSideBar implements AbIGuiComponent {
    }*/
    
 
-   /** Return widget with tree
-    *
-    * @return panel
-    */
-   public JComponent getWidget() {
-       return panel;
-   }
+	/** Return widget with tree
+	 * 
+	 * @return panel
+	 */
+	public JComponent getWidget() {
+		return panel;
+	}
+
+	@Override
+	public void myEventOccurred(AbEvent evt, int type) {
+		
+		if(type == AbListener.WORKSPACE_CHANGED) {
+			
+			//TODO
+			
+			System.out.println("ahoj");
+			createTree(InitProfile.getProfile().getWorkspace());
+			scrollPaneTree.repaint();
+			((DefaultTreeModel)tree.getModel()).reload();
+			//splitPane.repaint()
+
+		}
+		
+	}
 
 }

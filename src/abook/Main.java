@@ -3,6 +3,7 @@ package abook;
 import javax.swing.UIManager;
 
 import abook.gui.ViewGui;
+import abook.listeners.InitListenerCore;
 import abook.profile.InitProfile;
 
 public class Main {
@@ -19,6 +20,8 @@ public class Main {
         } catch (Exception e) {
            System.err.println("Oops!  Something went wrong!");
         }
+        
+        new InitListenerCore();
         
         InitProfile newProfile = new InitProfile();
         newProfile.createProfile();

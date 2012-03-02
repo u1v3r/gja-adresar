@@ -5,8 +5,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -16,16 +16,15 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import abook.AbIGuiComponent;
 import abook.AbIGuiTabComponent;
-import abook.gui.table.AbTable;
+import abook.gui.dialogs.AbReports;
 import abook.profile.AbCard;
 import abook.profile.InitProfile;
 
-public class AbTabLine implements AbIGuiComponent, MouseListener {
+public class AbTabLine implements AbIGuiComponent {
 	
 	protected JTabbedPane tabbedPane;
 	protected JPanel tabAdd;
@@ -34,6 +33,7 @@ public class AbTabLine implements AbIGuiComponent, MouseListener {
 	protected Color tabBackgroud;
 	protected ImageIcon iconClose;
 	protected int tabCounter;
+	protected final String[] views = { "Home", "Database" };
 	
 	/**
 	 * Creates list of cards
@@ -75,8 +75,9 @@ public class AbTabLine implements AbIGuiComponent, MouseListener {
 		// tab which adds new tab //
 		tabAdd = new JPanel();
 		tabAdd.setLayout(new BoxLayout(tabAdd, BoxLayout.Y_AXIS));
+		tabAdd.addMouseListener(new MouseClick());
 		tabbedPane.addTab(null, new ImageIcon(this.getClass().getResource("/icons/btn-plus.png")), tabAdd);
-		//tabbedPane.addMouseListener(this);
+		tabbedPane.addMouseListener(new MouseClick());
 	}
 	
 	/**
@@ -145,24 +146,6 @@ public class AbTabLine implements AbIGuiComponent, MouseListener {
 	}
 	
 	/**
-	 * Method adds new default tab.
-	 */
-	/*public void addTabToLine() {
-		JScrollPane panel = new JScrollPane(new AbTable().getWidget());
-		//panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		//tabbedPane.addTab(new String("Tab number" + tabbedPane.getTabCount()), panel);
-		int index = tabbedPane.getTabCount()-1;
-		//tabbedPane.add(panel, index);
-		//tabbedPane.setSelectedIndex(index);
-		tabbedPane.insertTab("Tab" + tabCounter, null, 
-                panel, "nový panel", index);
-		tabbedPane.setSelectedIndex(index);
-		tabbedPane.setTabComponentAt(index,
-                new AbTabCloseButton());
-		tabCounter++;
-	}*/
-	
-	/**
 	 * Method removes specific tab.
 	 * 
 	 * @param index
@@ -209,42 +192,8 @@ public class AbTabLine implements AbIGuiComponent, MouseListener {
 	public JComponent getWidget() {
 		return tabbedPane;
 	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		
-		/*if(e.getButton() == MouseEvent.BUTTON1
-				&& tabbedPane.getSelectedComponent() == tabAdd) {
-			addTabToLine();
-		}*/
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// do nothing //
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// do nothing //
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// do nothing //
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// do nothing //
-	}
 	
-
-	
-	// ----------------------------------------------------------------------------------//
-	
-	
-	
+	// ----------------------------------------------------------------------------------//	
 	
 	/**
 	 * 
@@ -301,5 +250,33 @@ public class AbTabLine implements AbIGuiComponent, MouseListener {
 			removeTabFromLine(tabbedPane.indexOfTabComponent(AbTabCloseButton.this));
 		}
 	}
+	
+	/**
+	 * Inner class for plus button.
+	 * 
+	 * @author jurij
+	 *
+	 */
+    class MouseClick extends MouseAdapter {
+
+        public MouseClick() {
+            super();
+        }
+
+        public void mousePressed(MouseEvent e) {
+        	if(tabbedPane.getSelectedComponent() == tabAdd) {
+        		if(e.getClickCount() == 1) {
+        			
+            		int type = AbReports.select(views, "Zvolte pohled");
+            		if(type < 0) {
+            			
+            		} else {
+            			openTab(type);
+            		}
+            	}
+        	}
+
+        }
+    }
 
 }

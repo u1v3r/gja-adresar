@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 
+import abook.profile.InitProfile;
+
 public class AbActions {
 	
 	/**
@@ -18,6 +20,20 @@ public class AbActions {
     {
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
+        }
+    }
+    
+    /**
+	 * Action which closes application.
+	 * 
+	 * @author jurij
+	 *
+	 */
+    @SuppressWarnings("serial")
+	class ActionSaveProfile extends AbstractAction
+    {
+        public void actionPerformed(ActionEvent e) {
+            InitProfile.saveProfile();
         }
     }
     

@@ -44,8 +44,7 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
 
         // SAVE //
         buttonSave = new JButton();
-        //ActionHelp doKey = new ActionKey();
-        //keyButton.setAction(doKey);
+        buttonSave.setAction(new ActionSaveProfile());
         buttonSave.setIcon(new ImageIcon(this.getClass().getResource("/icons/Save.png")));
         buttonSave.setToolTipText("Save");
         bar.add(buttonSave);

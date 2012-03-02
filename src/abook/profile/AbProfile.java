@@ -8,6 +8,7 @@ public class AbProfile {
 	protected static int counter = 1;
 	protected int id;
 	protected String user;
+	protected String workspace;
 	protected List<AbPerson> listOfAbPersons;
 	protected List<AbCard> listOfAbCards;
 	protected List<String> listOfGroups;
@@ -19,6 +20,7 @@ public class AbProfile {
 		
 		this.id = counter;
 		this.user = user;
+		this.workspace = "./workspace";
 		this.listOfAbPersons = new ArrayList<AbPerson>();
 		this.listOfAbCards = new ArrayList<AbCard>();
 		this.listOfGroups = new ArrayList<String>();
@@ -28,7 +30,7 @@ public class AbProfile {
 	 * 
 	 * @return
 	 */
-	public String getUser() {
+	public String getUserName() {
 		return user;
 	}
 
@@ -36,7 +38,7 @@ public class AbProfile {
 	 * 
 	 * @param user
 	 */
-	public void setUser(String user) {
+	public void setUserName(String user) {
 		this.user = user;
 	}
 	
@@ -174,6 +176,24 @@ public class AbProfile {
     public List<String> getListOfGroups() {
     	return listOfGroups;
     }
+
+    /**
+     * 
+     * @return
+     */
+	public String getWorkspace() {
+		return workspace;
+	}
+
+	/**
+	 * 
+	 * @param workspace
+	 */
+	public void setWorkspace(String workspace) {
+		this.workspace = workspace;
+	}
+    
+    
     
 
 }
