@@ -6,10 +6,14 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -20,8 +24,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileFilter;
+
+import org.apache.commons.validator.GenericValidator;
 
 import abook.others.AddContactFormFocusTravel;
 import abook.profile.AbPerson;
@@ -32,6 +39,7 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+import com.toedter.calendar.JDateChooser;
 
 /**
  * 
@@ -67,7 +75,9 @@ public class AbDialogAddContact extends JDialog {
 		}
 
 	}
-
+	
+	private DefaultListModel groupListModel;
+	private AbProfile profile;
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField namePrefixTextField;
@@ -86,17 +96,22 @@ public class AbDialogAddContact extends JDialog {
 	private JTextField icqTextField;
 	private JTextField skypeTextField;
 	private JTextField jabberTextField;
-	private JTextField birthdayTextField;
 	private JTextField gtalkTextField;
 	private JButton btnUserImage;
 	private JTextArea noteTextArea;
-	private JList goupsList;
+	private JList groupsList;
 	private Image userImage;
+	private JDateChooser birthdayDateChooser;
 
 	/**
 	 * Create the dialog.
 	 */
 	public AbDialogAddContact() {
+		
+		this.profile = InitProfile.getProfile();
+		this.groupListModel = new DefaultListModel();
+		
+		setResizable(false);
 		setAlwaysOnTop(true);
 		setModal(true);
 		setBounds(100, 100, 774, 542);
@@ -111,22 +126,22 @@ public class AbDialogAddContact extends JDialog {
 					FormFactory.RELATED_GAP_COLSPEC,
 					FormFactory.DEFAULT_COLSPEC,
 					FormFactory.RELATED_GAP_COLSPEC,
-					ColumnSpec.decode("default:grow"),
+					ColumnSpec.decode("max(61dlu;default):grow"),
+					FormFactory.RELATED_GAP_COLSPEC,
+					ColumnSpec.decode("max(21dlu;default)"),
 					FormFactory.RELATED_GAP_COLSPEC,
 					FormFactory.DEFAULT_COLSPEC,
 					FormFactory.RELATED_GAP_COLSPEC,
-					FormFactory.DEFAULT_COLSPEC,
+					ColumnSpec.decode("max(60dlu;default):grow"),
 					FormFactory.RELATED_GAP_COLSPEC,
-					ColumnSpec.decode("default:grow"),
+					ColumnSpec.decode("30dlu"),
 					FormFactory.RELATED_GAP_COLSPEC,
-					FormFactory.DEFAULT_COLSPEC,
-					FormFactory.RELATED_GAP_COLSPEC,
-					FormFactory.DEFAULT_COLSPEC,
+					ColumnSpec.decode("29dlu"),
 					FormFactory.RELATED_GAP_COLSPEC,
 					ColumnSpec.decode("default:grow"),},
 				new RowSpec[] {
 					FormFactory.RELATED_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,
+					RowSpec.decode("max(10dlu;default)"),
 					FormFactory.RELATED_GAP_ROWSPEC,
 					FormFactory.DEFAULT_ROWSPEC,
 					FormFactory.RELATED_GAP_ROWSPEC,
@@ -141,135 +156,136 @@ public class AbDialogAddContact extends JDialog {
 					FormFactory.DEFAULT_ROWSPEC,
 					FormFactory.RELATED_GAP_ROWSPEC,
 					FormFactory.DEFAULT_ROWSPEC,
+					FormFactory.RELATED_GAP_ROWSPEC,
+					RowSpec.decode("default:grow"),
 					FormFactory.RELATED_GAP_ROWSPEC,
 					RowSpec.decode("default:grow"),}));
 			{
 				JLabel lblNewLabel = new JLabel("Tel. čísla");
 				lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 14));
-				formPanelContent.add(lblNewLabel, "2, 2");
+				formPanelContent.add(lblNewLabel, "2, 4");
 			}
 			{
 				JLabel lblEmail = new JLabel("E-Mail");
 				lblEmail.setFont(new Font("Dialog", Font.BOLD, 14));
-				formPanelContent.add(lblEmail, "8, 2");
+				formPanelContent.add(lblEmail, "8, 4");
 			}
 			{
 				JLabel lblIm = new JLabel("IM");
 				lblIm.setFont(new Font("Dialog", Font.BOLD, 14));
-				formPanelContent.add(lblIm, "14, 2");
+				formPanelContent.add(lblIm, "14, 4");
 			}
 			{
 				JLabel lblDomov = new JLabel("Domov");
-				formPanelContent.add(lblDomov, "2, 4, right, default");
+				formPanelContent.add(lblDomov, "2, 6, right, default");
 			}
 			{
 				phoneHomeTextField = new JTextField();
-				formPanelContent.add(phoneHomeTextField, "4, 4, fill, default");
+				formPanelContent.add(phoneHomeTextField, "4, 6, left, default");
 				phoneHomeTextField.setColumns(10);
 			}
 			{
 				JLabel lblEmail_1 = new JLabel("Domov");
-				formPanelContent.add(lblEmail_1, "8, 4, right, default");
+				formPanelContent.add(lblEmail_1, "8, 6, right, default");
 			}
 			{
 				emailHomeTextField = new JTextField();
-				formPanelContent.add(emailHomeTextField, "10, 4, fill, default");
+				formPanelContent.add(emailHomeTextField, "10, 6, left, default");
 				emailHomeTextField.setColumns(10);
 			}
 			{
 				JLabel lblIcq = new JLabel("ICQ");
-				formPanelContent.add(lblIcq, "14, 4, right, default");
+				formPanelContent.add(lblIcq, "14, 6, right, default");
 			}
 			{
 				icqTextField = new JTextField();
-				formPanelContent.add(icqTextField, "16, 4, fill, default");
+				formPanelContent.add(icqTextField, "16, 6, left, default");
 				icqTextField.setColumns(10);
 			}
 			{
 				JLabel lblPrca = new JLabel("Práca");
-				formPanelContent.add(lblPrca, "2, 6, right, default");
+				formPanelContent.add(lblPrca, "2, 8, right, default");
 			}
 			{
 				phoneWorkTextField = new JTextField();
-				formPanelContent.add(phoneWorkTextField, "4, 6, fill, default");
+				formPanelContent.add(phoneWorkTextField, "4, 8, left, default");
 				phoneWorkTextField.setColumns(10);
 			}
 			{
 				JLabel lblEmail_2 = new JLabel("Práca");
-				formPanelContent.add(lblEmail_2, "8, 6, right, default");
+				formPanelContent.add(lblEmail_2, "8, 8, right, default");
 			}
 			{
 				emailWorkTextField = new JTextField();
-				formPanelContent.add(emailWorkTextField, "10, 6, fill, default");
+				formPanelContent.add(emailWorkTextField, "10, 8, left, default");
 				emailWorkTextField.setColumns(10);
 			}
 			{
 				JLabel lblSkype = new JLabel("Skype");
-				formPanelContent.add(lblSkype, "14, 6, right, default");
+				formPanelContent.add(lblSkype, "14, 8, right, default");
 			}
 			{
 				skypeTextField = new JTextField();
-				formPanelContent.add(skypeTextField, "16, 6, fill, default");
+				formPanelContent.add(skypeTextField, "16, 8, left, default");
 				skypeTextField.setColumns(10);
 			}
 			{
 				JLabel lblMobil = new JLabel("Mobil");
-				formPanelContent.add(lblMobil, "2, 8, right, default");
+				formPanelContent.add(lblMobil, "2, 10, right, default");
 			}
 			{
 				cellPhoneTextField = new JTextField();
-				formPanelContent.add(cellPhoneTextField, "4, 8, fill, default");
+				formPanelContent.add(cellPhoneTextField, "4, 10, left, default");
 				cellPhoneTextField.setColumns(10);
 			}
 			{
 				JLabel lblJabber = new JLabel("Jabber");
-				formPanelContent.add(lblJabber, "14, 8, right, default");
+				formPanelContent.add(lblJabber, "14, 10, right, default");
 			}
 			{
 				jabberTextField = new JTextField();
-				formPanelContent.add(jabberTextField, "16, 8, fill, default");
+				formPanelContent.add(jabberTextField, "16, 10, left, default");
 				jabberTextField.setColumns(10);
 			}
 			{
 				JLabel lblGtalk = new JLabel("GTalk");
-				formPanelContent.add(lblGtalk, "14, 10, right, default");
+				formPanelContent.add(lblGtalk, "14, 12, right, default");
 			}
 			{
 				gtalkTextField = new JTextField();
-				formPanelContent.add(gtalkTextField, "16, 10, fill, default");
+				formPanelContent.add(gtalkTextField, "16, 12, left, default");
 				gtalkTextField.setColumns(10);
 			}
 			{
 				JLabel lblPersonal = new JLabel("Osobné");
 				lblPersonal.setFont(new Font("Dialog", Font.BOLD, 14));
-				formPanelContent.add(lblPersonal, "2, 14");
+				formPanelContent.add(lblPersonal, "2, 16");
 			}
 			{
 				JLabel lblGroups = new JLabel("Skupiny");
 				lblGroups.setFont(new Font("Dialog", Font.BOLD, 14));
-				formPanelContent.add(lblGroups, "8, 14");
+				formPanelContent.add(lblGroups, "8, 16");
 			}
 			{
 				JLabel lblPoznmka = new JLabel("Poznámka");
 				lblPoznmka.setFont(new Font("Dialog", Font.BOLD, 14));
-				formPanelContent.add(lblPoznmka, "14, 14");
+				formPanelContent.add(lblPoznmka, "14, 16");
 			}
 			{
 				JLabel lblNarodeniny = new JLabel("Narodeniny");
-				formPanelContent.add(lblNarodeniny, "2, 16, right, default");
+				formPanelContent.add(lblNarodeniny, "2, 18, right, default");
 			}
 			{
-				birthdayTextField = new JTextField();
-				formPanelContent.add(birthdayTextField, "4, 16, fill, default");
-				birthdayTextField.setColumns(10);
+				birthdayDateChooser = new JDateChooser();
+				formPanelContent.add(birthdayDateChooser, "4, 18, fill, fill");
 			}
 			{
 				JScrollPane scrollPane = new JScrollPane();
-				formPanelContent.add(scrollPane, "10, 18, fill, fill");
+				formPanelContent.add(scrollPane, "10, 20, fill, fill");
 				{
-					goupsList = new JList();
-					goupsList.setVisibleRowCount(5);
-					scrollPane.setViewportView(goupsList);
+					groupsList = new JList();
+					groupsList.setVisibleRowCount(5);
+					scrollPane.setViewportView(groupsList);
 				}
 			}
 			{
@@ -277,7 +293,7 @@ public class AbDialogAddContact extends JDialog {
 				noteTextArea.setLineWrap(true);
 				noteTextArea.setWrapStyleWord(true);
 				noteTextArea.setColumns(20);
-				formPanelContent.add(noteTextArea, "16, 18, fill, fill");
+				formPanelContent.add(noteTextArea, "16, 20, fill, fill");
 			}
 		}
 		{
@@ -289,13 +305,15 @@ public class AbDialogAddContact extends JDialog {
 				panel.add(formPanelHead, BorderLayout.CENTER);
 				FormLayout fl_formPanelHead = new FormLayout(new ColumnSpec[] {
 						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
+						ColumnSpec.decode("max(16dlu;default)"),
 						FormFactory.RELATED_GAP_COLSPEC,
 						FormFactory.DEFAULT_COLSPEC,
 						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
+						ColumnSpec.decode("max(59dlu;default)"),
 						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
+						ColumnSpec.decode("max(31dlu;default)"),
+						FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("max(28dlu;default)"),
 						FormFactory.RELATED_GAP_COLSPEC,
 						ColumnSpec.decode("default:grow"),},
 					new RowSpec[] {
@@ -313,92 +331,93 @@ public class AbDialogAddContact extends JDialog {
 				{
 					JLabel lblJmnoKontaktu = new JLabel("Jméno kontaktu");
 					lblJmnoKontaktu.setFont(new Font("Dialog", Font.BOLD, 14));
-					formPanelHead.add(lblJmnoKontaktu, "2, 2");
+					formPanelHead.add(lblJmnoKontaktu, "4, 2");
 				}
 				{
 					JLabel lblAddress = new JLabel("Adresa");
 					lblAddress.setFont(new Font("Dialog", Font.BOLD, 14));
-					formPanelHead.add(lblAddress, "8, 2");
+					formPanelHead.add(lblAddress, "10, 2");
 				}
 				{
 					JLabel lblPrefix = new JLabel("Titul");
-					formPanelHead.add(lblPrefix, "2, 4, right, default");
+					formPanelHead.add(lblPrefix, "4, 4, right, default");
 				}
 				{
 					namePrefixTextField = new JTextField();
-					formPanelHead.add(namePrefixTextField, "4, 4, fill, default");
-					namePrefixTextField.setColumns(10);
+					formPanelHead.add(namePrefixTextField, "6, 4, left, default");
+					namePrefixTextField.setColumns(10);				
 				}
 				{
 					JLabel lblStreet = new JLabel("Ulice");
-					formPanelHead.add(lblStreet, "8, 4, right, default");
+					formPanelHead.add(lblStreet, "10, 4, right, default");
 				}
 				{
 					streetTextField = new JTextField();
-					formPanelHead.add(streetTextField, "10, 4, fill, default");
+					formPanelHead.add(streetTextField, "12, 4, left, default");
 					streetTextField.setColumns(10);
 				}
 				{
 					JLabel lblFirstName = new JLabel("Jméno");
-					formPanelHead.add(lblFirstName, "2, 6, right, default");
+					formPanelHead.add(lblFirstName, "4, 6, right, default");
 				}
 				{
 					firstNameTextField = new JTextField();
-					formPanelHead.add(firstNameTextField, "4, 6, fill, default");
+					formPanelHead.add(firstNameTextField, "6, 6, left, default");
 					firstNameTextField.setColumns(10);
 				}
 				{
 					JLabel lblCity = new JLabel("Město");
-					formPanelHead.add(lblCity, "8, 6, right, default");
+					formPanelHead.add(lblCity, "10, 6, right, default");
 				}
 				{
 					cityTextField = new JTextField();
-					formPanelHead.add(cityTextField, "10, 6, fill, default");
+					formPanelHead.add(cityTextField, "12, 6, left, default");
 					cityTextField.setColumns(10);
 				}
 				{
 					JLabel lblLastName = new JLabel("Příjmení");
-					formPanelHead.add(lblLastName, "2, 8, right, default");
+					formPanelHead.add(lblLastName, "4, 8, right, default");
 				}
 				{
 					lastnameTextField = new JTextField();
-					formPanelHead.add(lastnameTextField, "4, 8, fill, default");
+					formPanelHead.add(lastnameTextField, "6, 8, left, default");
 					lastnameTextField.setColumns(10);
 				}
 				{
 					JLabel lblPSC = new JLabel("PSČ");
-					formPanelHead.add(lblPSC, "8, 8, right, default");
+					formPanelHead.add(lblPSC, "10, 8, right, default");
 				}
 				{
 					pscTextField = new JTextField();
-					formPanelHead.add(pscTextField, "10, 8, fill, default");
-					pscTextField.setColumns(10);					
+					formPanelHead.add(pscTextField, "12, 8, left, default");
+					pscTextField.setColumns(10);
 				}
 				{
 					JLabel lblNameSuffix = new JLabel("Titul za");
-					formPanelHead.add(lblNameSuffix, "2, 10, right, default");
+					formPanelHead.add(lblNameSuffix, "4, 10, right, default");
 				}
 				{
 					nameSuffixTextField = new JTextField();
-					formPanelHead.add(nameSuffixTextField, "4, 10, fill, default");
+					formPanelHead.add(nameSuffixTextField, "6, 10, left, default");
 					nameSuffixTextField.setColumns(10);
 				}
 				{
 					JLabel lblCountry = new JLabel("Krajina");
-					formPanelHead.add(lblCountry, "8, 10, right, default");
+					formPanelHead.add(lblCountry, "10, 10, right, default");
 				}
 				{
 					countryTextField = new JTextField();
-					formPanelHead.add(countryTextField, "10, 10, fill, default");
+					formPanelHead.add(countryTextField, "12, 10, left, default");
 					countryTextField.setColumns(10);
 				}
 			}
 			{
 				JPanel panel_1 = new JPanel();
 				panel.add(panel_1, BorderLayout.WEST);
-				panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+				panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 20));
 				{
 					btnUserImage = new JButton(" ");
+					btnUserImage.setMargin(new Insets(10, 14, 2, 14));
 					panel_1.add(btnUserImage);
 					btnUserImage.setPreferredSize(new Dimension(IMAGE_WIDTH, IMAGE_HEIGHT));
 					btnUserImage.addActionListener(new ActionListener() {
@@ -436,26 +455,27 @@ public class AbDialogAddContact extends JDialog {
 			}
 		}
 		
-		Component[] focusList = new Component[19];
-		focusList[0] = namePrefixTextField;
-		focusList[1] = firstNameTextField;
-		focusList[2] = lastnameTextField;
-		focusList[3] = nameSuffixTextField;
-		focusList[4] = streetTextField;
-		focusList[5] = cityTextField;
-		focusList[6] = pscTextField;
-		focusList[7] = countryTextField;
-		focusList[8] = phoneHomeTextField;
-		focusList[9] = phoneWorkTextField;
-		focusList[10] = cellPhoneTextField;
-		focusList[11] = emailHomeTextField;
-		focusList[12] = emailWorkTextField;
-		focusList[13] = icqTextField;
-		focusList[14] = skypeTextField;
-		focusList[15] = jabberTextField;
-		focusList[16] = gtalkTextField;
-		focusList[17] = birthdayTextField;
-		focusList[18] = noteTextArea;
+		initGroupList();
+		
+		List<Component> focusList = new ArrayList<Component>();
+		focusList.add(namePrefixTextField);
+		focusList.add(firstNameTextField);
+		focusList.add(lastnameTextField);
+		focusList.add(nameSuffixTextField);
+		focusList.add(streetTextField);
+		focusList.add(cityTextField);
+		focusList.add(pscTextField);
+		focusList.add(countryTextField);
+		focusList.add(phoneHomeTextField);
+		focusList.add(phoneWorkTextField);
+		focusList.add(cellPhoneTextField);
+		focusList.add(emailHomeTextField);
+		focusList.add(emailWorkTextField);
+		focusList.add(icqTextField);
+		focusList.add(skypeTextField);
+		focusList.add(jabberTextField);
+		focusList.add(gtalkTextField);
+		focusList.add(noteTextArea);
 		
 		setFocusTraversalPolicy(new AddContactFormFocusTravel(focusList));
 		
@@ -464,13 +484,27 @@ public class AbDialogAddContact extends JDialog {
 	
 	
 	/**
+	 * Inicializuje Jlist pre vyber skupin
+	 */
+	private void initGroupList() {
+		
+		groupsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		
+		for (String groupName : profile.getListOfGroups()) {
+			groupListModel.addElement(groupName);
+		}		
+		
+		groupsList.setModel(groupListModel);
+	}
+
+
+	/**
 	 * Uloží hondnoty zadané do formulára
 	 */
 	private void save() {
 		
 		if(validateForm()){
-			
-			AbProfile profile = InitProfile.getProfile();
+						
 			AbPerson contact = new AbPerson(firstNameTextField.getText(), 
 					lastnameTextField.getText());
 			
@@ -488,16 +522,13 @@ public class AbDialogAddContact extends JDialog {
 			contact.setIcq(icqTextField.getText());
 			contact.setSkype(skypeTextField.getText());
 			contact.setJabber(jabberTextField.getText());
-			contact.setGtalk(gtalkTextField.getText());
-			/*
-			 * TODO dorobit pridanie datumu narodenin cez java.date
-			 */
-			//contact.setBirthday()
+			contact.setGtalk(gtalkTextField.getText());			
+			contact.setBirthday(birthdayDateChooser.getDate());
 			
-			/*
-			 * TODO dorobit pridanie skupiny 
-			 */
-			
+			for (Integer groups : this.groupsList.getSelectedIndices()) {
+				contact.addGroup(groups);
+			}
+			contact.setBirthday(birthdayDateChooser.getDate());
 			contact.setNote(noteTextArea.getText());
 			contact.setUserImage(userImage);
 			
@@ -510,12 +541,9 @@ public class AbDialogAddContact extends JDialog {
 
 
 	/**
-	 * Skontroluje správnosť a formát povinných hodnôt zadaných hodnôt do formulára
+	 * Skontroluje správnosť hodnôt zadaných do formulára
 	 * 
-	 * TODO Vytoviť novú triedu Validate, ktora bude obsahovať 
-	 * metody na validaciu formulara 
-	 * 
-	 * @return
+	 * @return boolean
 	 */
 	private boolean validateForm() {
 		
@@ -526,44 +554,76 @@ public class AbDialogAddContact extends JDialog {
 		
 		// ak je nastavene psc, tak musi byt číslo
 		if(!pscTextField.getText().isEmpty()){
-			try{
-				Integer.valueOf(pscTextField.getText());
-			} catch (NumberFormatException e){
-				return false;
+			// je cislo a je 5 znakov dlhe
+			if(GenericValidator.isInt(pscTextField.getText()) &&
+					GenericValidator.isInRange(Integer.valueOf(pscTextField.getText()), 5, 5)){
+				return true;
 			}
 		}
 		
 		// ak su nastavene telefonne cisla, tak musia byt cisla
 		if(!phoneHomeTextField.getText().isEmpty()){
-			try{
-				Integer.valueOf(phoneHomeTextField.getText());
-			} catch (NumberFormatException e){
-				return false;
+			if(GenericValidator.isInt(phoneHomeTextField.getText())){
+				return true;
 			}
 		}
 		
 		if(!phoneWorkTextField.getText().isEmpty()){
-			try{
-				Integer.valueOf(phoneWorkTextField.getText());
-			} catch (NumberFormatException e){
-				return false;
+			if(GenericValidator.isInt(phoneWorkTextField.getText())){
+				return true;
 			}
 		}
 		
 		if(!cellPhoneTextField.getText().isEmpty()){
-			try{
-				Integer.valueOf(cellPhoneTextField.getText());
-			} catch (NumberFormatException e){
-				return false;
+			if(GenericValidator.isInt(cellPhoneTextField.getText())){
+				return true;
 			}
 		}
 		
-		/*
-		 * TODO Treba pridat validaciu emailov
-		 */
+		// ak je nastaveny mail, tak musi mat spravny format
+		if(!emailHomeTextField.getText().isEmpty()){
+			if(GenericValidator.isEmail(emailHomeTextField.getText())){
+				return true;
+			}
+		}
 		
-		return true;
+		if(!emailWorkTextField.getText().isEmpty()){
+			if(GenericValidator.isEmail(emailWorkTextField.getText())){
+				return true;
+			}
+		}
 		
+		// gtalk a jabber ma format emailu
+		if(!gtalkTextField.getText().isEmpty()){
+			if(GenericValidator.isEmail(gtalkTextField.getText())){
+				return true;
+			}
+		}
+		
+		
+		if(!jabberTextField.getText().isEmpty()){
+			if(GenericValidator.isEmail(jabberTextField.getText())){
+				return true;
+			}
+		}
+		
+				
+		// icq musi byt cislo
+		if(!icqTextField.getText().isEmpty()){
+			if(GenericValidator.isInt(icqTextField.getText())){
+				return true;
+			}
+		}
+		
+		// kontrola datumu
+		if(birthdayDateChooser.getDate() != null){
+			if(GenericValidator.isDate(birthdayDateChooser.getDateFormatString(), 
+					getLocale())){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 

@@ -19,7 +19,7 @@ public class AbProfile {
 	public AbProfile(String user) {
 		
 		this.id = counter;
-		;this.user = user;
+		this.user = user;
 		this.listOfAbPersons = new ArrayList<AbPerson>();
 		this.listOfAbCards = new ArrayList<AbCard>();
 		this.listOfGroups = new ArrayList<String>();

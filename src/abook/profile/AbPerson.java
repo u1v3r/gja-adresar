@@ -2,6 +2,7 @@ package abook.profile;
 
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -9,8 +10,7 @@ import java.util.List;
  * @author Radovan Dvorsky
  *
  */
-public class AbPerson {
-	
+public class AbPerson {	
 
 	protected int id;
 	protected String namePrefix;
@@ -32,11 +32,12 @@ public class AbPerson {
 	protected String gtalk;	
 	protected Image userImage;
 	protected String note;
-	
-	protected static int counter = 1;	
+	protected Date birthday;
 	protected List<Integer> listOfGroupIndex;
 	
-		
+	private static int counter = 1;
+	
+	
 	public AbPerson(String firstName, String lastName) {
 		this.id = counter;
 		this.firstName = firstName;
@@ -210,7 +211,15 @@ public class AbPerson {
 	public void setNote(String note) {
 		this.note = note;		
 	}
+	
+	public Date getBirthday(){
+		return this.birthday;
+	}
 
+	public void setBirthday(Date date) {
+		this.birthday = date;
+	}
+	
 	public void addGroup(Integer group) {
 		this.listOfGroupIndex.add(group);
 	}
@@ -222,4 +231,18 @@ public class AbPerson {
 	public List<Integer> getListOfGroupIndex() {
 		return this.listOfGroupIndex;
 	}
+
+	@Override
+	public String toString() {
+		return "AbPerson [id=" + id + ", namePrefix=" + namePrefix
+				+ ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", nameSuffix=" + nameSuffix + ", street=" + street
+				+ ", city=" + city + ", psc=" + psc + ", country=" + country
+				+ ", phoneWork=" + phoneWork + ", phoneHome=" + phoneHome
+				+ ", cellPhone=" + cellPhone + ", emailWork=" + emailWork
+				+ ", emailHome=" + emailHome + ", skype=" + skype + ", icq="
+				+ icq + ", jabber=" + jabber + ", gtalk=" + gtalk
+				+ ", userImage=" + userImage + ", note=" + note + ", birthday="
+				+ birthday + ", listOfGroupIndex=" + listOfGroupIndex + "]";
+	}	
 }
