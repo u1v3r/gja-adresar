@@ -7,7 +7,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import abook.AbIGuiTabComponent;
 import abook.profile.AbPerson;
 import abook.profile.InitProfile;
 

@@ -18,8 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import abook.AbIGuiComponent;
-import abook.AbIGuiTabComponent;
+import abook.gui.AbIGuiComponent;
 import abook.gui.dialogs.AbReports;
 import abook.profile.AbCard;
 import abook.profile.InitProfile;

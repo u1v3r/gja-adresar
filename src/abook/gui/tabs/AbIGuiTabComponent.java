@@ -1,4 +1,4 @@
-package abook;
+package abook.gui.tabs;
 
 import javax.swing.JComponent;
 

@@ -7,7 +7,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import abook.AbIGuiComponent;
 
 public class AbStatus implements AbIGuiComponent {
 	

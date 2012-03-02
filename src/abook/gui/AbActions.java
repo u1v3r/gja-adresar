@@ -10,8 +10,102 @@ import abook.gui.dialogs.AbDialogAddContact;
 
 import abook.profile.InitProfile;
 
+/**
+ * 
+ * @author jurij
+ *
+ */
 public class AbActions {
 	
+	protected ActionSaveProfile actionSaveProfile;
+	protected ActionNewProfile actionNewProfile;
+	protected ActionOpenProfile actionOpenProfile;
+	protected ActionExitProgram actionExitProgram;
+	protected ActionAddContact actionAddContact;
+	protected ActionDeleteContact actionDeleteContact;
+	protected ActionShowView actionShowView;
+	protected ActionHelp actionHelp;
+	
+	/**
+	 * Constructor which creates actions.
+	 */
+	public AbActions() {
+		actionSaveProfile = new ActionSaveProfile();
+		actionNewProfile = new ActionNewProfile();
+		actionOpenProfile = new ActionOpenProfile();
+		actionExitProgram = new ActionExitProgram();
+		actionAddContact = new ActionAddContact();
+		actionDeleteContact = new ActionDeleteContact();
+		actionShowView = new ActionShowView();
+		actionHelp = new ActionHelp();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ActionSaveProfile getActionSaveProfile() {
+		return actionSaveProfile;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ActionNewProfile getActionNewProfile() {
+		return actionNewProfile;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public ActionOpenProfile getActionOpenProfile() {
+		return actionOpenProfile;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public ActionExitProgram getActionExitProgram() {
+		return actionExitProgram;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public ActionAddContact getActionAddContact() {
+		return actionAddContact;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public ActionDeleteContact getActionDeleteContact() {
+		return actionDeleteContact;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ActionShowView getActionShowView() {
+		return actionShowView;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public ActionHelp getActionHelp() {
+		return actionHelp;
+	}
+	
+	// ---------------------------------------------------------------------- //
+
 	/**
 	 * Action which closes application.
 	 * 
@@ -27,6 +121,20 @@ public class AbActions {
     }
     
     /**
+	 * Action which creates new profile.
+	 * 
+	 * @author jurij
+	 *
+	 */
+    @SuppressWarnings("serial")
+	class ActionNewProfile extends AbstractAction
+    {
+        public void actionPerformed(ActionEvent e) {
+            //InitProfile.saveProfile(); TODO
+        }
+    }
+    
+    /**
 	 * Action which closes application.
 	 * 
 	 * @author jurij
@@ -37,6 +145,20 @@ public class AbActions {
     {
         public void actionPerformed(ActionEvent e) {
             InitProfile.saveProfile();
+        }
+    }
+    
+    /**
+	 * Action which open existing profile.
+	 * 
+	 * @author jurij
+	 *
+	 */
+    @SuppressWarnings("serial")
+	class ActionOpenProfile extends AbstractAction
+    {
+        public void actionPerformed(ActionEvent e) {
+            //InitProfile.saveProfile(); TODO
         }
     }
     

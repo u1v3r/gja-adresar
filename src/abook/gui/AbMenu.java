@@ -5,7 +5,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import abook.AbIGuiComponent;
 import abook.profile.AbCard;
 
 public class AbMenu extends AbActions implements AbIGuiComponent {
@@ -19,29 +18,43 @@ public class AbMenu extends AbActions implements AbIGuiComponent {
 
         menuBar = new JMenuBar();
         //menuBar.setBackground(Color.GRAY);
+        
+        AbActions actions = ViewGui.getActions();
 
         // 1.) FILE //
-        JMenu souborMenu = new JMenu("File");
+        JMenu fileMenu = new JMenu("File");
+        
+        // -- New profile //
+        JMenuItem menuNewProfile = fileMenu.add("New");
+        menuNewProfile.addActionListener(actions.getActionNewProfile());
+        
+        // -- Save //
+        JMenuItem menuSave = fileMenu.add("Save");
+        menuSave.setMnemonic(0);
+        menuSave.addActionListener(actions.getActionSaveProfile());
 
+        // -- Save as //
+        JMenuItem menuSaveAs = fileMenu.add("Save as");
+        menuSaveAs.setMnemonic(1);
+        menuSaveAs.addActionListener(actions.getActionSaveProfile());
+        
         // -- Exit //
-        JMenuItem menuExitFile = souborMenu.add("Exit");
-        ActionExitProgram doExitProgram = new ActionExitProgram();
-        menuExitFile.addActionListener(doExitProgram);
-        menuBar.add(souborMenu);
+        JMenuItem menuExitFile = fileMenu.add("Exit");
+        menuExitFile.addActionListener(actions.getActionExitProgram());
+        menuBar.add(fileMenu);
         
         // 2.) VIEW //
         JMenu viewMenu = new JMenu("View");
-        ActionShowView doShowView = new ActionShowView();
 
         // -- Home //
         JMenuItem menuShowHome = viewMenu.add("Home");
         menuShowHome.setMnemonic(AbCard.HOME);
-        menuShowHome.addActionListener(doShowView);
+        menuShowHome.addActionListener(actions.getActionShowView());
         
         // -- Home //
         JMenuItem menuShowDatabase = viewMenu.add("Database");
         menuShowDatabase.setMnemonic(AbCard.DATABASE);
-        menuShowDatabase.addActionListener(doShowView);
+        menuShowDatabase.addActionListener(actions.getActionShowView());
         
         menuBar.add(viewMenu);
 
@@ -51,8 +64,7 @@ public class AbMenu extends AbActions implements AbIGuiComponent {
 
         // a) Help //
         JMenuItem menuHelp = helpMenu.add("Help");
-        ActionHelp doHelp = new ActionHelp();
-        menuHelp.addActionListener(doHelp);
+        menuHelp.addActionListener(actions.getActionHelp());
 
         // TODO ... 
     }

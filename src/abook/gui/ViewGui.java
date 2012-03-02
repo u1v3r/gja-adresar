@@ -13,6 +13,7 @@ import abook.gui.tabs.AbTabLine;
 
 public class ViewGui {
 	
+	protected static AbActions actions;
 	protected static JFrame frame;
 	protected AbMenu menu;
 	protected AbToolBar toolbar;
@@ -22,6 +23,9 @@ public class ViewGui {
 	protected JSplitPane mainField;
 	
 	public void launchAppliacation() {
+		
+		// initialize actions //
+		actions = new AbActions();
 		
 		// creates new Frame //
 		frame = new JFrame("aBook | Projekt GJA 2012");
@@ -64,6 +68,10 @@ public class ViewGui {
 	public static AbTabLine getAbTabLine() {
 		
 		return tabbedArea;
+	}
+	
+	public static AbActions getActions() {
+		return actions;
 	}
 
 }

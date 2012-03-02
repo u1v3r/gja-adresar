@@ -1,4 +1,4 @@
-package abook;
+package abook.gui;
 
 import javax.swing.JComponent;
 

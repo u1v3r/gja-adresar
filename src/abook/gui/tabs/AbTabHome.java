@@ -3,8 +3,6 @@ package abook.gui.tabs;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
-import abook.AbIGuiTabComponent;
-import abook.gui.table.AbTable;
 
 public class AbTabHome implements AbIGuiTabComponent {
 	
@@ -12,15 +10,11 @@ public class AbTabHome implements AbIGuiTabComponent {
 	protected JScrollPane panel;
 	protected final String name = "Home";
 	protected final String tooltip = "Home card";
-	protected AbTable table;
 	
 	public AbTabHome() {
 		
 		this.panel = new JScrollPane();
-		this.open = false;
-		
-		this.table = new AbTable();
-		
+		this.open = false;		
 	}
 
 	@Override

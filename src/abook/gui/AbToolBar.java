@@ -1,11 +1,11 @@
 package abook.gui;
 
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
 
-import abook.AbIGuiComponent;
 import abook.profile.AbCard;
 
 public class AbToolBar extends AbActions implements AbIGuiComponent {
@@ -15,6 +15,7 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
     protected JButton buttonOpen;
     protected JButton buttonHelp;
     protected JButton buttonSave;
+    protected JButton buttonSaveAs;
     protected JButton buttonHome;
     protected JButton buttonGroup;
     protected JButton buttonBirthday;
@@ -26,96 +27,49 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
     	
         bar = new JToolBar();
         
-        // NEW //
-        buttonNew = new JButton();
-        //ActionHelp doKey = new ActionKey();
-        //keyButton.setAction(doKey);
-        buttonNew.setIcon(new ImageIcon(this.getClass().getResource("/icons/Document.png")));
-        buttonNew.setToolTipText("New profile");
-        bar.add(buttonNew);
+        AbActions actions = ViewGui.getActions();
         
-        // OPEN //
-        buttonOpen = new JButton();
-        //ActionHelp doKey = new ActionKey();
-        //keyButton.setAction(doKey);
-        buttonOpen.setIcon(new ImageIcon(this.getClass().getResource("/icons/Open file.png")));
-        buttonOpen.setToolTipText("Open");
-        bar.add(buttonOpen);
-
-        // SAVE //
-        buttonSave = new JButton();
-        buttonSave.setAction(new ActionSaveProfile());
-        buttonSave.setIcon(new ImageIcon(this.getClass().getResource("/icons/Save.png")));
-        buttonSave.setToolTipText("Save");
-        bar.add(buttonSave);
+        // PROFILE //
+        addButton("New profile", "/icons/Document.png", actions.getActionNewProfile(), 0);
+        addButton("Open profile", "/icons/Open file.png", actions.getActionOpenProfile(), 0);
+        addButton("Save", "/icons/Save.png", actions.getActionSaveProfile(), 0);
+        addButton("Save as", "/icons/Save as.png", actions.getActionSaveProfile(), 1);
         
         // SEPARATOR //
         bar.addSeparator();
         
-        ActionShowView doShowView = new ActionShowView();
-        
-        // HOME //
-        buttonHome = new JButton();
-        buttonHome.setAction(doShowView);
-        buttonHome.setIcon(new ImageIcon(this.getClass().getResource("/icons/Home.png")));
-        buttonHome.setToolTipText("Home");
-        buttonHome.setMnemonic(AbCard.HOME);
-        bar.add(buttonHome);
-        
-        // DATABASE //
-        buttonDatabase = new JButton();
-        buttonDatabase.setAction(doShowView);
-        buttonDatabase.setIcon(new ImageIcon(this.getClass().getResource("/icons/Database.png")));
-        buttonDatabase.setToolTipText("Database");
-        buttonDatabase.setMnemonic(AbCard.DATABASE);
-        bar.add(buttonDatabase);
-        
-        // GROUP //
-        buttonGroup = new JButton();
-        buttonGroup.setAction(doShowView);
-        buttonGroup.setIcon(new ImageIcon(this.getClass().getResource("/icons/User group.png")));
-        buttonGroup.setToolTipText("Groups");
-        bar.add(buttonGroup);
-        
-        // BIRTHDAY //
-        buttonBirthday = new JButton();
-        buttonBirthday.setAction(doShowView);
-        buttonBirthday.setIcon(new ImageIcon(this.getClass().getResource("/icons/Gift.png")));
-        buttonBirthday.setToolTipText("Birthday");
-        bar.add(buttonBirthday);
+        // VIEWS //
+        addButton("Home", "/icons/Home.png", actions.getActionShowView(), AbCard.HOME);
+        addButton("Database", "/icons/Database.png", actions.getActionShowView(), AbCard.DATABASE);
+        addButton("Groups", "/icons/User group.png", actions.getActionShowView(), AbCard.GROUPS);
+        addButton("Birthday", "/icons/Gift.png", actions.getActionShowView(), AbCard.BIRTHDAY);
         
         // SEPARATOR //
         bar.addSeparator();
         
-        // GROUP //
-        buttonAdd = new JButton();
-        buttonAdd.setAction(new ActionAddContact());
-        buttonAdd.setIcon(new ImageIcon(this.getClass().getResource("/icons/Add.png")));
-        buttonAdd.setToolTipText("Add contact");
-        bar.add(buttonAdd);
-        
-        // BIRTHDAY //
-        buttonRemove = new JButton();
-        buttonRemove.setAction(doShowView);
-        buttonRemove.setIcon(new ImageIcon(this.getClass().getResource("/icons/Delete.png")));
-        buttonRemove.setToolTipText("Delete contact");
-        bar.add(buttonRemove);
+        // ADD/REMOVE CONTACT //
+        addButton("Add contact", "/icons/Add.png", actions.getActionAddContact(), 0);
+        addButton("Delete contact", "/icons/Delete.png", actions.getActionDeleteContact(), 0);
         
         // SEPARATOR //
         bar.addSeparator();
         
-        // HELP //
-        buttonHelp = new JButton();
-        ActionHelp doHelp = new ActionHelp();
-        buttonHelp.setAction(doHelp);
-        buttonHelp.setIcon(new ImageIcon(this.getClass().getResource("/icons/Info.png")));
-        buttonHelp.setToolTipText("Help");
-        bar.add(buttonHelp);
-        
-        
+        // SYSTEM //
+        addButton("Help", "/icons/Info.png", actions.getActionHelp(), 0);        
     }
-
-   public JComponent getWidget(){
+    
+    
+	private void addButton(String tooltip, String iconPath, Action action, int mnemonic) {
+    	
+    	JButton button = new JButton();
+    	button.setAction(action);
+    	button.setIcon(new ImageIcon(this.getClass().getResource(iconPath)));
+    	button.setToolTipText(tooltip);
+    	button.setMnemonic(mnemonic);
+    	bar.add(button);
+    }
+    
+    public JComponent getWidget(){
         return bar;
     }
 
