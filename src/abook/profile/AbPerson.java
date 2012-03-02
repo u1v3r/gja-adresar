@@ -1,40 +1,102 @@
 package abook.profile;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author Radovan Dvorsky
+ *
+ */
 public class AbPerson {
 	
-	protected static int counter = 1;
+
 	protected int id;
-	protected String name;
-	protected String surname;
-	protected List<Integer> listOfGroupIndex;
+	protected String namePrefix;
+	protected String firstName;
+	protected String lastName;
+	protected String nameSuffix;
+	protected String street;
 	protected String city;
+	protected String psc;
+	protected String country;
+	protected String phoneWork;
+	protected String phoneHome;
+	protected String cellPhone;
+	protected String emailWork;
+	protected String emailHome;
+	protected String skype;
+	protected String icq;
+	protected String jabber;
+	protected String gtalk;	
+	protected Image userImage;
+	protected String note;
 	
-	public AbPerson(String name, String surname) {
-		this.id = counter;
-		this.name = name;
-		this.surname = surname;
-		this.listOfGroupIndex = new ArrayList<Integer>();
+	protected static int counter = 1;	
+	protected List<Integer> listOfGroupIndex;
+	
 		
+	public AbPerson(String firstName, String lastName) {
+		this.id = counter;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.listOfGroupIndex = new ArrayList<Integer>();		
 		counter++;
 	}
-
-	public String getName() {
-		return name;
+	
+	public AbPerson(String namePrefix, String firstName, String lastName){
+		this(firstName,lastName);
+		this.namePrefix = namePrefix;		
+	}
+	
+	public AbPerson(String namePrefix, String firstName, String lastName, String nameSuffix){
+		this(namePrefix,firstName,lastName);
+		this.nameSuffix = nameSuffix;
+	}
+	
+	public int getId(){
+		return this.id;
+	}
+	
+	public String getNamePrefix() {
+		return namePrefix;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNamePrefix(String namePrefix) {
+		this.namePrefix = namePrefix;
 	}
 
-	public String getSurname() {
-		return surname;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setSurname(String surname) {
-		this.surname = surname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getNameSuffix() {
+		return nameSuffix;
+	}
+
+	public void setNameSuffix(String nameSuffix) {
+		this.nameSuffix = nameSuffix;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
 	}
 
 	public String getCity() {
@@ -44,7 +106,111 @@ public class AbPerson {
 	public void setCity(String city) {
 		this.city = city;
 	}
+
+	public String getPsc() {
+		return psc;
+	}
+
+	public void setPsc(String psc) {
+		this.psc = psc;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getPhoneWork() {
+		return phoneWork;
+	}
+
+	public void setPhoneWork(String phoneWork) {
+		this.phoneWork = phoneWork;
+	}
+
+	public String getPhoneHome() {
+		return phoneHome;
+	}
+
+	public void setPhoneHome(String phoneHome) {
+		this.phoneHome = phoneHome;
+	}
+
+	public String getCellPhone() {
+		return cellPhone;
+	}
+
+	public void setCellPhone(String cellPhone) {
+		this.cellPhone = cellPhone;
+	}
+
+	public String getEmailWork() {
+		return emailWork;
+	}
+
+	public void setEmailWork(String emailWork) {
+		this.emailWork = emailWork;
+	}
+
+	public String getEmailHome() {
+		return emailHome;
+	}
+
+	public void setEmailHome(String emailHome) {
+		this.emailHome = emailHome;
+	}
+
+	public String getSkype() {
+		return skype;
+	}
+
+	public void setSkype(String skype) {
+		this.skype = skype;
+	}
+
+	public String getIcq() {
+		return icq;
+	}
+
+	public void setIcq(String icq) {
+		this.icq = icq;
+	}
+
+	public String getJabber() {
+		return jabber;
+	}
+
+	public void setJabber(String jabber) {
+		this.jabber = jabber;
+	}
+
+	public String getGtalk() {
+		return gtalk;
+	}
+
+	public void setGtalk(String gtalk) {
+		this.gtalk = gtalk;
+	}
+
+	public Image getUserImage() {
+		return userImage;
+	}
+
+	public void setUserImage(Image userImage) {
+		this.userImage = userImage;
+	}
 	
+	public String getNote(){
+		return this.note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;		
+	}
+
 	public void addGroup(Integer group) {
 		this.listOfGroupIndex.add(group);
 	}

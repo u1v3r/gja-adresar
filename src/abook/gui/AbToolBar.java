@@ -90,7 +90,7 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
         
         // GROUP //
         buttonAdd = new JButton();
-        buttonAdd.setAction(doShowView);
+        buttonAdd.setAction(new ActionAddContact());
         buttonAdd.setIcon(new ImageIcon(this.getClass().getResource("/icons/Add.png")));
         buttonAdd.setToolTipText("Add contact");
         bar.add(buttonAdd);
