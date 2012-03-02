@@ -555,28 +555,28 @@ public class AbDialogAddContact extends JDialog {
 		// ak je nastavene psc, tak musi byt číslo
 		if(!pscTextField.getText().isEmpty()){
 			// je cislo a je 5 znakov dlhe
-			if(GenericValidator.isInt(pscTextField.getText()) &&
-					GenericValidator.isInRange(Integer.valueOf(pscTextField.getText()), 5, 5)){
-				return true;
+			if(!GenericValidator.isInt(pscTextField.getText()) ||
+					!GenericValidator.isInRange(Integer.valueOf(pscTextField.getText()), 5, 5)){
+				return false;
 			}
 		}
 		
 		// ak su nastavene telefonne cisla, tak musia byt cisla
 		if(!phoneHomeTextField.getText().isEmpty()){
-			if(GenericValidator.isInt(phoneHomeTextField.getText())){
-				return true;
+			if(!GenericValidator.isInt(phoneHomeTextField.getText())){
+				return false;
 			}
 		}
 		
 		if(!phoneWorkTextField.getText().isEmpty()){
-			if(GenericValidator.isInt(phoneWorkTextField.getText())){
-				return true;
+			if(!GenericValidator.isInt(phoneWorkTextField.getText())){
+				return false;
 			}
 		}
 		
 		if(!cellPhoneTextField.getText().isEmpty()){
-			if(GenericValidator.isInt(cellPhoneTextField.getText())){
-				return true;
+			if(!GenericValidator.isInt(cellPhoneTextField.getText())){
+				return false;
 			}
 		}
 		
@@ -595,35 +595,35 @@ public class AbDialogAddContact extends JDialog {
 		
 		// gtalk a jabber ma format emailu
 		if(!gtalkTextField.getText().isEmpty()){
-			if(GenericValidator.isEmail(gtalkTextField.getText())){
-				return true;
+			if(!GenericValidator.isEmail(gtalkTextField.getText())){
+				return false;
 			}
 		}
 		
 		
 		if(!jabberTextField.getText().isEmpty()){
-			if(GenericValidator.isEmail(jabberTextField.getText())){
-				return true;
+			if(!GenericValidator.isEmail(jabberTextField.getText())){
+				return false;
 			}
 		}
 		
 				
 		// icq musi byt cislo
 		if(!icqTextField.getText().isEmpty()){
-			if(GenericValidator.isInt(icqTextField.getText())){
-				return true;
+			if(!GenericValidator.isInt(icqTextField.getText())){
+				return false;
 			}
 		}
 		
 		// kontrola datumu
 		if(birthdayDateChooser.getDate() != null){
-			if(GenericValidator.isDate(birthdayDateChooser.getDateFormatString(), 
+			if(!GenericValidator.isDate(birthdayDateChooser.getDateFormatString(), 
 					getLocale())){
-				return true;
+				return false;
 			}
 		}
 		
-		return false;
+		return true;
 	}
 	
 
