@@ -1,12 +1,16 @@
 package abook.gui;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 import abook.gui.dialogs.AbDialogAddContact;
+import abook.gui.dialogs.AbDialogs;
 import abook.gui.dialogs.AbHelp;
 
 import abook.profile.InitProfile;
@@ -131,6 +135,11 @@ public class AbActions {
 	class ActionNewProfile extends AbstractAction
     {
         public void actionPerformed(ActionEvent e) {
+        	
+        	int result = AbDialogs.YesNoCancel("Do you want to save actual project?");
+        	
+        	System.out.println(result);
+        	
             //InitProfile.saveProfile(); TODO
         }
     }
@@ -167,7 +176,60 @@ public class AbActions {
 	class ActionOpenProfile extends AbstractAction
     {
         public void actionPerformed(ActionEvent e) {
-            //InitProfile.saveProfile(); TODO
+        	
+        	// save actual profile //
+        	int result = AbDialogs.YesNoCancel("Do you want to save actual project?");
+        	
+        	if(result == JOptionPane.CANCEL_OPTION) {
+        		return;
+        	}
+        	
+        	if(result == JOptionPane.OK_OPTION) {
+        		InitProfile.saveProfile();
+        	}
+        	
+        	// get new profile name //
+            File workspaceFile = InitProfile.getWorkspaceFile();
+            File[] allFiles = workspaceFile.listFiles();
+            Vector<String> fileNames = new Vector<String>();
+            
+            for(int i = 0; i < allFiles.length; i++) {
+            	if(allFiles[i].getName().toLowerCase().endsWith(".xml")) {
+            		fileNames.add(allFiles[i].getName());
+            	}
+            }
+            
+            if(fileNames.isEmpty()) {
+            	AbDialogs.report("No xml files are in your workspace.");
+            	return;
+            }
+            
+            String[] a = new String[fileNames.size()];
+            
+            result = AbDialogs.select(fileNames.toArray(a), "Select file:");
+            
+            if(result >= 0) {
+            	
+            	// close all tabs //
+            	ViewGui.getAbTabLine().closeAllTabs();
+            	
+            	// find file from array //
+            	String fileName = fileNames.get(result);
+            	
+            	for(int i = 0; i < allFiles.length; i++) {
+                	if(allFiles[i].getName().toLowerCase().endsWith(".xml")) {
+                		if(fileName.equals(allFiles[i].getName())) {
+                			
+                			System.out.println(allFiles[i]);
+                			
+                			// open new profile //
+                			InitProfile.openProfile(allFiles[i]);
+                			ViewGui.getAbTabLine().restoreTabs();
+                			return;
+                		}
+                	}
+                }
+            }
         }
     }
     

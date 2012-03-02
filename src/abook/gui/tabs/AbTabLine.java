@@ -204,6 +204,14 @@ public class AbTabLine implements AbIGuiComponent {
 		}
 	}
 	
+	public void closeAllTabs() {
+		// remove open tabs //
+		int count = tabbedPane.getTabCount();
+		for(int i = 0; i < (count-1); i++) {
+			removeTabFromLine();
+		}
+	}
+	
 	/**
 	 * Restore tabs to default
 	 */

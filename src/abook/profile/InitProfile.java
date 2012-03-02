@@ -17,7 +17,11 @@ import abook.listeners.InitListenerCore;
 
 import com.thoughtworks.xstream.XStream;
 
-
+/**
+ * 
+ * @author jurij
+ *
+ */
 public class InitProfile {
 	
 	protected static AbProfile profile;
@@ -41,11 +45,12 @@ public class InitProfile {
 		// 2. user //
 		String user = AbDialogs.input("Type user:");
 		if(user == null || user.isEmpty()) {
-			user = "default";
+			user = "user";
 			userFile = new File(workspace + "/user.xml");
 			userFileDir = new File(workspace + "/user");
 		} else {
 			userFile = new File(workspace + "/" + user + ".xml");
+			userFileDir = new File(workspace + "/" + user);
 		}
 		
 		if(!userFile.exists()) {
@@ -58,6 +63,10 @@ public class InitProfile {
 		}
     }
 	
+	/**
+	 * 
+	 * @param user
+	 */
 	private void createNewProfile(String user) {
 		
 		// create new instance of core profile //
@@ -87,7 +96,11 @@ public class InitProfile {
 		
 	}
 	
-	public void openProfile(File file) {
+	/**
+	 * 
+	 * @param file
+	 */
+	public static void openProfile(File file) {
 
         XStream xstream = new XStream();
         byte[] buffer = new byte[(int) file.length()];
@@ -97,16 +110,24 @@ public class InitProfile {
             try {
                 f.read(buffer);
             } catch (IOException ex) {
-                AbDialogs.hlaseni("Unable to read file" + file.getName() + ".");
+                AbDialogs.report("Unable to read file" + file.getName() + ".");
             }
         } catch (FileNotFoundException ex) {
-            AbDialogs.hlaseni("Unable to open file" + file.getName() + "!");
+            AbDialogs.report("Unable to open file" + file.getName() + "!");
         }
 
         String a = new String(buffer);
         profile = (AbProfile) xstream.fromXML(a);
+        String user = profile.getUserName();        
+        userFile = new File(workspace + "/" + user + ".xml");
+		userFileDir = new File(workspace + "/" + user);
+        
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static AbProfile getProfile() {
 		return profile;
 	}
@@ -117,6 +138,22 @@ public class InitProfile {
 	 */
 	public static String getWorkspace() {
 		return workspace;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static File getWorkspaceFile() {
+		return workspaceFile;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static File getUserFileDir() {
+		return userFileDir;
 	}
 
 	/**
@@ -131,7 +168,7 @@ public class InitProfile {
     		PrintStream tisk = new PrintStream(userFile);
     		tisk.print(a);
     	} catch (FileNotFoundException ex) {
-    		AbDialogs.hlaseni("Soubor se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
+    		AbDialogs.report("Soubor se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
     	}
 
     	InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.WORKSPACE_CHANGED);
@@ -174,7 +211,7 @@ public class InitProfile {
             PrintStream tisk = new PrintStream(selFile);
             tisk.print(a);
         } catch (FileNotFoundException ex) {
-            AbDialogs.hlaseni("Soubor se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
+            AbDialogs.report("Soubor se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
         }
     }
 

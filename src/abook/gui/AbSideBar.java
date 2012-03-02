@@ -3,12 +3,15 @@ package abook.gui;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -16,7 +19,9 @@ import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
+import abook.gui.dialogs.AbDialogs;
 import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
 import abook.listeners.InitListenerCore;
@@ -99,21 +104,10 @@ public class AbSideBar implements AbIGuiComponent, AbListener {
                 public Insets getInsets()
                 { return new Insets(5,5,5,5); }
             };
-            //tree.setBackground(InitProfile.getIjaVariables().getBarvaPozadi());
-            //DoubleClick ml = new DoubleClick();
-            //tree.addMouseListener(ml);
-	    //treePanel.add(tree, BorderLayout.CENTER);
-            //panel.setBackground(InitProfile.getIjaVariables().getBarvaPozadi());
-            //return;
         }
-        //tree.setBackground(InitProfile.getIjaVariables().getBarvaPozadi());
         
-        //DoubleClick ml = new DoubleClick();
-        //tree.addMouseListener(ml);
-
-        // add tree to panel //
-        //treePanel.add(tree, BorderLayout.WEST);
-        //panel.setBackground(InitProfile.getIjaVariables().getBarvaPozadi());
+        DoubleClick ml = new DoubleClick();
+        tree.addMouseListener(ml);
 	}
 
 	/** Creates nodes. (recursive function)
@@ -139,24 +133,47 @@ public class AbSideBar implements AbIGuiComponent, AbListener {
 	}
 
    /**
-    * TODO Inner class which open selected node (by double click)
+    * Inner class which open selected node (by double click)
     */
-   /*class DoubleClick extends MouseAdapter {
+   class DoubleClick extends MouseAdapter {
 
        public DoubleClick() {
            super();
        }
 
        public void mousePressed(MouseEvent e) {
-           int selRow = strom.getRowForLocation(e.getX(), e.getY());
+           int selRow = tree.getRowForLocation(e.getX(), e.getY());
            if(selRow != -1) {
                if(e.getClickCount() == 2) {
-                   ActionAddTreeCard pridejKartu = new ActionAddTreeCard();
-                   pridejKartu.actionPerformed(null);
+            	   //System.out.println(tree.getSelectionPath());
+            	   TreePath selection = tree.getSelectionPath();
+            	   if(selection.getPathCount() == 2) {
+            		   String selectedComponent = selection.getLastPathComponent().toString();
+            		   if(selectedComponent.endsWith(".xml")) {
+            			   
+            			   // save actual profile //
+            			   int result = AbDialogs.YesNoCancel("Do you want to save actual project?");
+            			   
+            			   if(result == JOptionPane.CANCEL_OPTION) {
+            	        		return;
+            	           }
+            			   
+            			   if(result == JOptionPane.OK_OPTION) {
+            				   InitProfile.saveProfile();
+            			   }
+            			   
+            			   File file = new File(InitProfile.getWorkspace() + "/" + selectedComponent);
+            			   
+            			   ViewGui.getAbTabLine().closeAllTabs();
+            			   
+            			   InitProfile.openProfile(file);
+            			   ViewGui.getAbTabLine().restoreTabs();
+            		   }
+            	   }
                }
            }
        }
-   }*/
+   }
    
 
 	/** Return widget with tree

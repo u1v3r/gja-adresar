@@ -1,6 +1,6 @@
 <abook.profile.AbProfile>
   <id>1</id>
-  <user>default</user>
+  <user>user</user>
   <listOfAbPersons>
     <abook.profile.AbPerson>
       <id>1</id>
@@ -29,6 +29,10 @@
     </abook.profile.AbCard>
     <abook.profile.AbCard>
       <type>1</type>
+      <position>0</position>
+    </abook.profile.AbCard>
+    <abook.profile.AbCard>
+      <type>2</type>
       <position>0</position>
     </abook.profile.AbCard>
   </listOfAbCards>
