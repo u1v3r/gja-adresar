@@ -7,6 +7,7 @@ import javax.swing.AbstractButton;
 import javax.swing.JDialog;
 
 import abook.gui.dialogs.AbDialogAddContact;
+import abook.gui.dialogs.AbHelp;
 
 import abook.profile.InitProfile;
 
@@ -212,8 +213,7 @@ public class AbActions {
 	class ActionHelp extends AbstractAction
     {
         public void actionPerformed(ActionEvent e) {
-            /*AbHelp napoveda = new AbHelp();
-            napoveda.setVisible(true);*/
+            new AbHelp();
         }
 
     }

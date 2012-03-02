@@ -55,7 +55,7 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
         bar.addSeparator();
         
         // SYSTEM //
-        addButton("Help", "/icons/Info.png", actions.getActionHelp(), 0);        
+        addButton("Help", "/icons/Info.png", actions.getActionHelp(), 0);
     }
     
     
