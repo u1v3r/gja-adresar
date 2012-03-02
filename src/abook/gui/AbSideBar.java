@@ -42,7 +42,7 @@ public class AbSideBar implements AbIGuiComponent, AbListener {
 		
 		InitListenerCore.getListenerCore().addListener(this);
 		
-		String workspace = InitProfile.getProfile().getWorkspace();
+		String workspace = InitProfile.getWorkspace();
 
         createTree(workspace);
         
@@ -175,7 +175,7 @@ public class AbSideBar implements AbIGuiComponent, AbListener {
 			//TODO
 			
 			System.out.println("ahoj");
-			createTree(InitProfile.getProfile().getWorkspace());
+			createTree(InitProfile.getWorkspace());
 			scrollPaneTree.repaint();
 			((DefaultTreeModel)tree.getModel()).reload();
 			//splitPane.repaint()

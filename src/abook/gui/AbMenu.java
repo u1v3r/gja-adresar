@@ -51,10 +51,20 @@ public class AbMenu extends AbActions implements AbIGuiComponent {
         menuShowHome.setMnemonic(AbCard.HOME);
         menuShowHome.addActionListener(actions.getActionShowView());
         
-        // -- Home //
+        // -- Database //
         JMenuItem menuShowDatabase = viewMenu.add("Database");
         menuShowDatabase.setMnemonic(AbCard.DATABASE);
         menuShowDatabase.addActionListener(actions.getActionShowView());
+        
+        // -- Groups //
+        JMenuItem menuShowGroups = viewMenu.add("Groups");
+        menuShowGroups.setMnemonic(AbCard.GROUPS);
+        menuShowGroups.addActionListener(actions.getActionShowView());
+        
+        // -- Events //
+        JMenuItem menuShowEvents = viewMenu.add("Events");
+        menuShowEvents.setMnemonic(AbCard.EVENTS);
+        menuShowEvents.addActionListener(actions.getActionShowView());
         
         menuBar.add(viewMenu);
 

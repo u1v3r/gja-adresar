@@ -1,26 +1,25 @@
 <abook.profile.AbProfile>
   <id>1</id>
-  <user>pokus.xml</user>
-  <workspace>./workspace</workspace>
+  <user>jirka</user>
   <listOfAbPersons>
     <abook.profile.AbPerson>
       <id>1</id>
-      <name>Karel</name>
-      <surname>Novák</surname>
+      <firstName>Karel</firstName>
+      <lastName>Novák</lastName>
+      <city>Praha</city>
       <listOfGroupIndex>
         <int>0</int>
       </listOfGroupIndex>
-      <city>Praha</city>
     </abook.profile.AbPerson>
     <abook.profile.AbPerson>
       <id>2</id>
-      <name>Laco</name>
-      <surname>Lakatoš</surname>
+      <firstName>Laco</firstName>
+      <lastName>Lakatoš</lastName>
+      <city>Košice</city>
       <listOfGroupIndex>
         <int>0</int>
         <int>1</int>
       </listOfGroupIndex>
-      <city>Košice</city>
     </abook.profile.AbPerson>
   </listOfAbPersons>
   <listOfAbCards>

@@ -1,14 +1,16 @@
 package abook.profile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
 
-import abook.gui.dialogs.AbReports;
+import abook.gui.dialogs.AbDialogs;
 import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
 import abook.listeners.InitListenerCore;
@@ -19,19 +21,47 @@ import com.thoughtworks.xstream.XStream;
 public class InitProfile {
 	
 	protected static AbProfile profile;
+	protected static String workspace;
+	protected static File workspaceFile;
+	protected static File userFile;
+	protected static File userFileDir;
 	
 	public void createProfile() {
-		// TODO ... get information from user //
+		// TODO ... get workspace information from user //
 		
-		// create default new profile
-		createNewProfile();
-		// TODO open existing profile
+		// 1. workspace //
+		workspace = new String("./workspace-aBook");
+		
+		workspaceFile = new File(workspace);
+		if(!workspaceFile.exists()) {
+			boolean result = workspaceFile.mkdir();
+			System.out.println("Workspace: " + result);
+		}
+		
+		// 2. user //
+		String user = AbDialogs.input("Type user:");
+		if(user == null || user.isEmpty()) {
+			user = "default";
+			userFile = new File(workspace + "/user.xml");
+			userFileDir = new File(workspace + "/user");
+		} else {
+			userFile = new File(workspace + "/" + user + ".xml");
+		}
+		
+		if(!userFile.exists()) {
+			// create new profile
+			createNewProfile(user);
+			saveProfile();
+		} else {
+			// open existing profile
+			openProfile(userFile);
+		}
     }
 	
-	private void createNewProfile() {
+	private void createNewProfile(String user) {
 		
 		// create new instance of core profile //
-		profile = new AbProfile("default");
+		profile = new AbProfile(user);
 		
 		// set default variables //
 		profile.addSpecialCard(AbCard.HOME);
@@ -57,23 +87,67 @@ public class InitProfile {
 		
 	}
 	
+	public void openProfile(File file) {
+
+        XStream xstream = new XStream();
+        byte[] buffer = new byte[(int) file.length()];
+        FileInputStream f;
+        try {
+            f = new FileInputStream(file);
+            try {
+                f.read(buffer);
+            } catch (IOException ex) {
+                AbDialogs.hlaseni("Unable to read file" + file.getName() + ".");
+            }
+        } catch (FileNotFoundException ex) {
+            AbDialogs.hlaseni("Unable to open file" + file.getName() + "!");
+        }
+
+        String a = new String(buffer);
+        profile = (AbProfile) xstream.fromXML(a);
+	}
+	
 	public static AbProfile getProfile() {
 		return profile;
 	}
 	
-	
+	/**
+	 * 
+	 * @return
+	 */
+	public static String getWorkspace() {
+		return workspace;
+	}
+
 	/**
      * Methods save the file
      */
     public static void saveProfile() {
+    	
+    	XStream xstream = new XStream();
+    	String a = xstream.toXML(profile);
+    	//System.out.print(a);
+    	try {
+    		PrintStream tisk = new PrintStream(userFile);
+    		tisk.print(a);
+    	} catch (FileNotFoundException ex) {
+    		AbDialogs.hlaseni("Soubor se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
+    	}
 
-        File selFile;
+    	InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.WORKSPACE_CHANGED);
+    }
+    
+    /**
+     * Methods save the file
+     */
+    public static void exportProfile() {
+    	File selFile;
 
         // show file chooser //
         JFrame frame = new JFrame();
         frame.setBounds(200, 200, 500, 350);
         JFileChooser fc = new JFileChooser();
-        fc.setCurrentDirectory(new File(profile.getWorkspace()));
+        fc.setCurrentDirectory(workspaceFile);
         fc.setFileFilter(new FileFilter() {
 			
 			@Override
@@ -100,11 +174,8 @@ public class InitProfile {
             PrintStream tisk = new PrintStream(selFile);
             tisk.print(a);
         } catch (FileNotFoundException ex) {
-            AbReports.hlaseni("Soubor se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
+            AbDialogs.hlaseni("Soubor se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
         }
-        
-        InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.WORKSPACE_CHANGED);
-        
     }
 
 }

@@ -3,7 +3,7 @@ package abook.gui.dialogs;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class AbReports {
+public class AbDialogs {
 	
 	// TODO translate to english
 	
@@ -83,7 +83,7 @@ public class AbReports {
         String result = new String();
         result = (String) JOptionPane.showInputDialog(frame, question,
                 "Input", JOptionPane.QUESTION_MESSAGE,
-        null, options, "Titan");
+        null, options, "Home");
         
         if(result != null) {
         	for(int i = 0; i < options.length; i++) {
@@ -92,6 +92,20 @@ public class AbReports {
         }
 
         return -1;
+   }
+   
+   /**
+    * 
+    * @param question
+    * @return
+    */
+   public static String input(String question) {
+        JFrame frame = new JFrame();
+
+        String result;
+        result = (String) JOptionPane.showInputDialog(frame, question, "Input", JOptionPane.QUESTION_MESSAGE);
+
+        return result;
    }
 
 }

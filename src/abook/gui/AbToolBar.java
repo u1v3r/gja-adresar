@@ -42,7 +42,7 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
         addButton("Home", "/icons/Home.png", actions.getActionShowView(), AbCard.HOME);
         addButton("Database", "/icons/Database.png", actions.getActionShowView(), AbCard.DATABASE);
         addButton("Groups", "/icons/User group.png", actions.getActionShowView(), AbCard.GROUPS);
-        addButton("Birthday", "/icons/Gift.png", actions.getActionShowView(), AbCard.BIRTHDAY);
+        addButton("Birthday", "/icons/Gift.png", actions.getActionShowView(), AbCard.EVENTS);
         
         // SEPARATOR //
         bar.addSeparator();

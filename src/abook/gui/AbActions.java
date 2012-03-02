@@ -144,7 +144,15 @@ public class AbActions {
 	class ActionSaveProfile extends AbstractAction
     {
         public void actionPerformed(ActionEvent e) {
-            InitProfile.saveProfile();
+        	if(e.getSource() instanceof AbstractButton) {
+        		int mnemonic = ((AbstractButton) e.getSource()).getMnemonic();
+        		
+        		if(mnemonic == 0) {
+        			InitProfile.saveProfile();
+        		} else if(mnemonic == 1) {
+        			InitProfile.exportProfile();
+        		}
+        	}
         }
     }
     

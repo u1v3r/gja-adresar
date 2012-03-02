@@ -2,13 +2,9 @@ package abook.gui.tabs;
 
 import javax.swing.JComponent;
 
-public interface AbIGuiTabComponent {
+public interface AbITabComponent {
 	
 	public JComponent getWidget();
-	
-	public boolean isOpen();
-	
-	public void setOpen(boolean open);
 	
 	public String getName();
 	

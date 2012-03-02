@@ -3,16 +3,14 @@ package abook.gui.tabs;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
-
-public class AbTabHome implements AbITabComponent {
+public class AbTabGroups implements AbITabComponent {
 	
 	protected JScrollPane panel;
-	protected final String name = "Home";
-	protected final String tooltip = "Home card";
+	protected final String name = "Groups";
+	protected final String tooltip = "Contact groups card";
 	
-	public AbTabHome() {
-		
-		this.panel = new JScrollPane();	
+	public AbTabGroups() {
+		this.panel = new JScrollPane();
 	}
 
 	@Override
@@ -29,7 +27,5 @@ public class AbTabHome implements AbITabComponent {
 	public String getTooltip() {
 		return tooltip;
 	}
-	
-	
 
 }

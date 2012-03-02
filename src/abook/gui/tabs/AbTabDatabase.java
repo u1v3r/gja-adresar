@@ -10,9 +10,8 @@ import javax.swing.table.DefaultTableModel;
 import abook.profile.AbPerson;
 import abook.profile.InitProfile;
 
-public class AbTabDatabase implements AbIGuiTabComponent {
+public class AbTabDatabase implements AbITabComponent {
 	
-	protected boolean open;
 	protected JScrollPane panel;
 	protected final String name = "Database";
 	protected final String tooltip = "Table of all contacts";
@@ -20,8 +19,6 @@ public class AbTabDatabase implements AbIGuiTabComponent {
 	protected DefaultTableModel tableModel;
 	
 	public AbTabDatabase() {
-		
-		this.open = false;
 		
 		createTable();
 		
@@ -64,16 +61,6 @@ public class AbTabDatabase implements AbIGuiTabComponent {
 	@Override
 	public JComponent getWidget() {
 		return panel;
-	}
-
-	@Override
-	public boolean isOpen() {
-		return open;
-	}
-	
-	@Override
-	public void setOpen(boolean open) {
-		this.open = open;
 	}
 
 	@Override

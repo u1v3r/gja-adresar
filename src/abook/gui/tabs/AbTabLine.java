@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import abook.gui.AbIGuiComponent;
-import abook.gui.dialogs.AbReports;
+import abook.gui.dialogs.AbDialogs;
 import abook.profile.AbCard;
 import abook.profile.InitProfile;
 
@@ -29,10 +29,12 @@ public class AbTabLine implements AbIGuiComponent {
 	protected JPanel tabAdd;
 	protected AbTabHome tabHome;
 	protected AbTabDatabase tabDatabase;
+	protected AbTabGroups tabGroups;
+	protected AbTabEvents tabEvents;
 	protected Color tabBackgroud;
 	protected ImageIcon iconClose;
 	protected int tabCounter;
-	protected final String[] views = { "Home", "Database" };
+	protected final String[] views = { "Home", "Database", "Groups", "Events" };
 	
 	/**
 	 * Creates list of cards
@@ -45,14 +47,17 @@ public class AbTabLine implements AbIGuiComponent {
 		// crate main widget - root for tabs //
 		tabbedPane = new JTabbedPane();
 		
-		// create special tabs specified by profile //
+		// create all views //
 		createTabs();
+		
+		// creates add tab //
+		createAddTab();
 		
 		// open tabs //
 		initTabs();
 		
 	}
-	
+
 	/**
 	 * Method initializes local variables.
 	 */
@@ -70,6 +75,11 @@ public class AbTabLine implements AbIGuiComponent {
 		// special views //
 		tabHome = new AbTabHome();
 		tabDatabase = new AbTabDatabase();
+		tabGroups = new AbTabGroups();
+		tabEvents = new AbTabEvents();
+	}
+	
+	private void createAddTab() {
 		
 		// tab which adds new tab //
 		tabAdd = new JPanel();
@@ -88,7 +98,7 @@ public class AbTabLine implements AbIGuiComponent {
 		
 		for(AbCard card : list) {
 			
-			AbIGuiTabComponent component = this.getTab(card.getType());
+			AbITabComponent component = this.getTab(card.getType());
 			this.addTabToLine(component, index);
 			index++;
 		}
@@ -100,9 +110,9 @@ public class AbTabLine implements AbIGuiComponent {
 	 * @param type
 	 * @return tab
 	 */
-	protected AbIGuiTabComponent getTab(int type) {
+	private AbITabComponent getTab(int type) {
 		
-		AbIGuiTabComponent component;
+		AbITabComponent component;
 		
 		switch (type) {
 			case AbCard.HOME:
@@ -114,9 +124,18 @@ public class AbTabLine implements AbIGuiComponent {
 			
 				component = tabDatabase;
 				break;
+				
+			case AbCard.GROUPS:
+				
+				component = tabGroups;
+				break;
+				
+			case AbCard.EVENTS:
+				
+				component = tabEvents;
+				break;
 
 			default:
-				// TODO creates new tab component
 				component = null;
 				break;
 		}
@@ -130,7 +149,7 @@ public class AbTabLine implements AbIGuiComponent {
 	 * @param component
 	 * @param index
 	 */
-	public void addTabToLine(AbIGuiTabComponent component, int index) {
+	public void addTabToLine(AbITabComponent component, int index) {
 		
 		tabbedPane.insertTab(component.getName(), null, 
                 component.getWidget(), component.getTooltip(), index);
@@ -140,7 +159,7 @@ public class AbTabLine implements AbIGuiComponent {
 		tabCounter++;
 	}
 	
-	public void addTabToLine(AbIGuiTabComponent component) {
+	public void addTabToLine(AbITabComponent component) {
 		addTabToLine(component, tabbedPane.getTabCount()-1);
 	}
 	
@@ -178,11 +197,23 @@ public class AbTabLine implements AbIGuiComponent {
 		
 		if(index == -1) {
 			InitProfile.getProfile().addSpecialCard(type);
-			AbIGuiTabComponent component = getTab(type);
+			AbITabComponent component = getTab(type);
 			this.addTabToLine(component);
 		} else {
 			tabbedPane.setSelectedIndex(index);
 		}
+	}
+	
+	/**
+	 * Restore tabs to default
+	 */
+	public void restoreTabs() {
+		
+		// create new tabs //
+		createTabs();
+		
+		// initialize tabs //
+		initTabs();
 	}
 	
 	/**
@@ -266,7 +297,7 @@ public class AbTabLine implements AbIGuiComponent {
         	if(tabbedPane.getSelectedComponent() == tabAdd) {
         		if(e.getClickCount() == 1) {
         			
-            		int type = AbReports.select(views, "Zvolte pohled");
+            		int type = AbDialogs.select(views, "Zvolte pohled");
             		if(type < 0) {
             			
             		} else {
