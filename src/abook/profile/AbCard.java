@@ -8,6 +8,7 @@ public class AbCard {
 	public final static int DATABASE = 1;
 	public final static int GROUPS = 2;
 	public final static int EVENTS = 3;
+	public static final int DETAILS = 4;
 	
 	public AbCard(int type) {
 		

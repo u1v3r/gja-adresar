@@ -34,7 +34,8 @@ public class AbTabLine implements AbIGuiComponent {
 	protected Color tabBackgroud;
 	protected ImageIcon iconClose;
 	protected int tabCounter;
-	protected final String[] views = { "Home", "Database", "Groups", "Events" };
+	protected final String[] views = { "Home", "Database", "Groups", "Events","Details" };
+	private AbTabContactDetails tabDetails;
 	
 	/**
 	 * Creates list of cards
@@ -77,6 +78,7 @@ public class AbTabLine implements AbIGuiComponent {
 		tabDatabase = new AbTabDatabase();
 		tabGroups = new AbTabGroups();
 		tabEvents = new AbTabEvents();
+		tabDetails = new AbTabContactDetails();
 	}
 	
 	private void createAddTab() {
@@ -134,7 +136,10 @@ public class AbTabLine implements AbIGuiComponent {
 				
 				component = tabEvents;
 				break;
-
+			case AbCard.DETAILS:
+				
+				component = tabDetails;
+				break;
 			default:
 				component = null;
 				break;

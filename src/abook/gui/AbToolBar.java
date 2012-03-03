@@ -6,6 +6,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
 
+import com.thoughtworks.xstream.converters.basic.AbstractBasicConverter;
+
 import abook.profile.AbCard;
 
 public class AbToolBar extends AbActions implements AbIGuiComponent {
@@ -20,6 +22,7 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
     protected JButton buttonGroup;
     protected JButton buttonBirthday;
     protected JButton buttonDatabase;
+    protected JButton buttonContactDetail;
     protected JButton buttonAdd;
     protected JButton buttonRemove;
 
@@ -43,6 +46,7 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
         addButton("Database", "/icons/Database.png", actions.getActionShowView(), AbCard.DATABASE);
         addButton("Groups", "/icons/User group.png", actions.getActionShowView(), AbCard.GROUPS);
         addButton("Birthday", "/icons/Gift.png", actions.getActionShowView(), AbCard.EVENTS);
+        addButton("Details", "/icons/Gift.png", actions.getActionShowView(), AbCard.DETAILS);
         
         // SEPARATOR //
         bar.addSeparator();
