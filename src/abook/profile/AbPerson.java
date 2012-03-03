@@ -244,5 +244,10 @@ public class AbPerson {
 				+ icq + ", jabber=" + jabber + ", gtalk=" + gtalk
 				+ ", userImage=" + userImage + ", note=" + note + ", birthday="
 				+ birthday + ", listOfGroupIndex=" + listOfGroupIndex + "]";
+	}
+
+	public String getFullname() {
+		return this.firstName + " " 
+				+ this.lastName;
 	}	
 }
