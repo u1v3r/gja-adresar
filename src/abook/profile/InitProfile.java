@@ -10,6 +10,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
 
+import abook.gui.ViewGui;
 import abook.gui.dialogs.AbDialogs;
 import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
@@ -121,6 +122,10 @@ public class InitProfile {
         String user = profile.getUserName();        
         userFile = new File(workspace + "/" + user + ".xml");
 		userFileDir = new File(workspace + "/" + user);
+		
+		if(ViewGui.isGuiCreated()) {
+			InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.NEW_PROFILE_OPENED);
+		}
         
 	}
 	
@@ -170,8 +175,6 @@ public class InitProfile {
     	} catch (FileNotFoundException ex) {
     		AbDialogs.report("Soubor se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
     	}
-
-    	InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.WORKSPACE_CHANGED);
     }
     
     /**
@@ -213,6 +216,8 @@ public class InitProfile {
         } catch (FileNotFoundException ex) {
             AbDialogs.report("Soubor se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
         }
+        
+        InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.WORKSPACE_CHANGED);
     }
 
 }

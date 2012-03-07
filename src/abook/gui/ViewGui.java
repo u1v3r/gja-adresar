@@ -21,6 +21,7 @@ public class ViewGui {
 	protected AbStatus statebar;
 	protected static AbTabLine tabbedArea;
 	protected JSplitPane mainField;
+	protected static boolean guiCreated;
 	
 	public void launchAppliacation() {
 		
@@ -63,6 +64,8 @@ public class ViewGui {
         // ... //
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        
+        guiCreated = true;
 	}
 	
 	public static AbTabLine getAbTabLine() {
@@ -73,5 +76,9 @@ public class ViewGui {
 	public static AbActions getActions() {
 		return actions;
 	}
+
+	public static boolean isGuiCreated() {
+    	return guiCreated;
+    }
 
 }

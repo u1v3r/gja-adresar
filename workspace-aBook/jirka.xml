@@ -36,4 +36,5 @@
     <string>friends</string>
     <string>school</string>
   </listOfGroups>
+  <listOfSelectedGroups/>
 </abook.profile.AbProfile>

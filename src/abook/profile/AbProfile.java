@@ -12,6 +12,7 @@ public class AbProfile {
 	protected List<AbPerson> listOfAbPersons;
 	protected List<AbCard> listOfAbCards;
 	protected List<String> listOfGroups;
+	protected List<Integer> listOfSelectedGroups;
 	
 	/**
 	 * Creates new profile
@@ -23,6 +24,7 @@ public class AbProfile {
 		this.listOfAbPersons = new ArrayList<AbPerson>();
 		this.listOfAbCards = new ArrayList<AbCard>();
 		this.listOfGroups = new ArrayList<String>();
+		this.listOfSelectedGroups = new ArrayList<Integer>();
 	}
 
 	/**
@@ -174,5 +176,13 @@ public class AbProfile {
      */
     public List<String> getListOfGroups() {
     	return listOfGroups;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public List<Integer> getListOfSelectedGroups() {
+    	return listOfSelectedGroups;
     }
 }

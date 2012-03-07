@@ -3,9 +3,13 @@ package abook.gui;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
@@ -25,19 +29,27 @@ import abook.gui.dialogs.AbDialogs;
 import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
 import abook.listeners.InitListenerCore;
+import abook.profile.AbProfile;
 import abook.profile.InitProfile;
 
-public class AbSideBar implements AbIGuiComponent, AbListener {
+/**
+ * 
+ * @author jurij
+ *
+ */
+public class AbSideBar implements AbIGuiComponent, AbListener, ActionListener {
 	
 	protected JPanel panel;
 	protected JSplitPane splitPane;
 	protected JScrollPane scrollPaneTree;
 	protected JScrollPane scrollPaneList;
+	protected JPanel panelForTree;
 	protected JPanel panelForCheckBox;
 	protected JPanel panelForSearch;
 	protected JTree tree;
 	protected JList list;
 	protected JTextField textField;
+	protected List<JCheckBox> listOfCheckBox;
 	
 	/**
 	 * Constructor creates side-bar panel with tree.
@@ -48,35 +60,40 @@ public class AbSideBar implements AbIGuiComponent, AbListener {
 		InitListenerCore.getListenerCore().addListener(this);
 		
 		String workspace = InitProfile.getWorkspace();
-
-        createTree(workspace);
-        
-        panelForCheckBox = new JPanel() {
-            public Insets getInsets()
-            { return new Insets(5,5,5,5); }
-        };
-        panelForCheckBox.setLayout(new BoxLayout(panelForCheckBox, BoxLayout.Y_AXIS));
-        panelForCheckBox.setOpaque(false);
-        
-        for(String group : InitProfile.getProfile().getListOfGroups()) {
-        	JCheckBox checkBox = new JCheckBox(group);
-        	checkBox.setOpaque(false);
-        	panelForCheckBox.add(checkBox);
-        }        
-        
-        // create scroll panes //
-        scrollPaneTree = new JScrollPane(tree);
-        scrollPaneList = new JScrollPane(panelForCheckBox);
-        
-        // create main panel //
+		
+		// create TREE panel //
+		tree = new JTree() {
+			 public Insets getInsets()
+			 { return new Insets(5,5,5,5); }
+		};
+        tree.addMouseListener(new DoubleClick());
+        tree.setOpaque(false);
+		fillTree(workspace);
+		
+		// create CHECK BOX panel //
+		panelForCheckBox = new JPanel() {
+			 public Insets getInsets()
+			 { return new Insets(5,5,5,5); }
+		};
+		panelForCheckBox.setLayout(new BoxLayout(panelForCheckBox, BoxLayout.Y_AXIS));
+		panelForCheckBox.setOpaque(false);
+		
+		listOfCheckBox = new ArrayList<JCheckBox>();		
+		fillCheckBox();
+		
+		// create scroll panes //
+		scrollPaneTree = new JScrollPane(tree);
+		scrollPaneList = new JScrollPane(panelForCheckBox);
+		
+		// create main panel //
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, scrollPaneTree, scrollPaneList);
 		splitPane.setDividerLocation(250);
-		//panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
+		// create search //
 		textField = new JTextField() {
-            public Insets getInsets()
-            { return new Insets(5,5,5,5); }
-        };
+			public Insets getInsets()
+			{ return new Insets(5,5,5,5); }
+		};
 		panelForSearch = new JPanel(new GridLayout());
 		panelForSearch.add(textField);
 		
@@ -85,29 +102,48 @@ public class AbSideBar implements AbIGuiComponent, AbListener {
 		panel.add(panelForSearch, BorderLayout.SOUTH);
 	}
 	
-	@SuppressWarnings("serial")
-	private void createTree(String workspace) {
+	/**
+	 * 
+	 */
+    private void fillCheckBox() {
+		
+		AbProfile profile = InitProfile.getProfile();
+		//System.out.println(profile.getListOfSelectedGroups());
+		listOfCheckBox.clear();
+		panelForCheckBox.removeAll();
+		
+		int i = 0;
+		for(String group : InitProfile.getProfile().getListOfGroups()) {
+			JCheckBox checkBox = new JCheckBox(group);
+			checkBox.setOpaque(false);
+			checkBox.setSelected(profile.getListOfSelectedGroups().contains(i));
+			checkBox.addActionListener(this);
+			panelForCheckBox.add(checkBox);
+			listOfCheckBox.add(checkBox);
+			i++;
+		}
+		
+		panelForCheckBox.repaint();
+	}
+	
+	/**
+	 * 
+	 * @param workspace
+	 */
+	private void fillTree(String workspace) {
 		
 		// set root nodes and his child nodes //
         DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(workspace);
         try {
             createNodes(rootNode, new File(workspace));
-            tree = new JTree(rootNode){
-                public Insets getInsets()
-                { return new Insets(5,5,5,5); }
-            };
         } catch (NullPointerException npe) {
             //IjaTasks.hlaseni("Neni slozka examples");
-            DefaultMutableTreeNode rootNode2 = new DefaultMutableTreeNode("ROOT");
-            createNodes(rootNode2, new File("."));
-            tree = new JTree(rootNode2){
-                public Insets getInsets()
-                { return new Insets(5,5,5,5); }
-            };
+            rootNode = new DefaultMutableTreeNode("ROOT");
+            createNodes(rootNode, new File("."));
         }
         
-        DoubleClick ml = new DoubleClick();
-        tree.addMouseListener(ml);
+        tree.setModel(new DefaultTreeModel(rootNode));
+        tree.repaint();
 	}
 
 	/** Creates nodes. (recursive function)
@@ -166,6 +202,8 @@ public class AbSideBar implements AbIGuiComponent, AbListener {
             			   
             			   ViewGui.getAbTabLine().closeAllTabs();
             			   
+            			   System.out.println("open");
+            			   
             			   InitProfile.openProfile(file);
             			   ViewGui.getAbTabLine().restoreTabs();
             		   }
@@ -189,16 +227,30 @@ public class AbSideBar implements AbIGuiComponent, AbListener {
 		
 		if(type == AbListener.WORKSPACE_CHANGED) {
 			
-			//TODO
-			
-			System.out.println("ahoj");
-			createTree(InitProfile.getWorkspace());
-			scrollPaneTree.repaint();
-			((DefaultTreeModel)tree.getModel()).reload();
-			//splitPane.repaint()
+			fillTree(InitProfile.getWorkspace());
 
+		} else if(type == AbListener.NEW_PROFILE_OPENED) {
+			
+			fillCheckBox();
 		}
 		
 	}
+
+	@Override
+    public void actionPerformed(ActionEvent e) {
+		
+		List<Integer> listOfSelectedGroups = InitProfile.getProfile().getListOfSelectedGroups();
+		listOfSelectedGroups.clear();
+		
+		int i = 0;
+		for(JCheckBox box : listOfCheckBox) {
+			if(box.isSelected()) {
+				listOfSelectedGroups.add(i);
+			}
+			i++;
+		}
+		
+		InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.GROUP_SELECTION_CHANGED);
+    }
 
 }
