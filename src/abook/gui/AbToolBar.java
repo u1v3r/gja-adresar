@@ -6,8 +6,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
 
-import com.thoughtworks.xstream.converters.basic.AbstractBasicConverter;
-
 import abook.profile.AbCard;
 
 public class AbToolBar extends AbActions implements AbIGuiComponent {

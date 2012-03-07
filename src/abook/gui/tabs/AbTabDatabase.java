@@ -6,6 +6,7 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import abook.profile.AbPerson;
 import abook.profile.InitProfile;
@@ -36,6 +37,9 @@ public class AbTabDatabase implements AbITabComponent {
 		tableModel.addColumn("Groups");
 		
 		table = new JTable(tableModel);
+		
+		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(tableModel);
+		table.setRowSorter(sorter);
 		
 		actualizeTab();
 		
