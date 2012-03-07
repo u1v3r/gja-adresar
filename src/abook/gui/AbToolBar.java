@@ -36,7 +36,12 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
         addButton("New profile", "/icons/Document.png", actions.getActionNewProfile(), 0);
         addButton("Open profile", "/icons/Open file.png", actions.getActionOpenProfile(), 0);
         addButton("Save", "/icons/Save.png", actions.getActionSaveProfile(), 0);
-        addButton("Save as", "/icons/Save as.png", actions.getActionSaveProfile(), 1);
+        
+        // SEPARATOR //
+        bar.addSeparator();
+        
+        addButton("Import", "/icons/flash1.png", actions.getActionSaveProfile(), 1);
+        addButton("Export", "/icons/flash2.png", actions.getActionSaveProfile(), 1);
         
         // SEPARATOR //
         bar.addSeparator();
@@ -44,9 +49,9 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
         // VIEWS //
         addButton("Home", "/icons/Home.png", actions.getActionShowView(), AbCard.HOME);
         addButton("Database", "/icons/Database.png", actions.getActionShowView(), AbCard.DATABASE);
+        addButton("Details", "/icons/Clien list.png", actions.getActionShowView(), AbCard.DETAILS);
         addButton("Groups", "/icons/User group.png", actions.getActionShowView(), AbCard.GROUPS);
         addButton("Birthday", "/icons/Gift.png", actions.getActionShowView(), AbCard.EVENTS);
-        addButton("Details", "/icons/Gift.png", actions.getActionShowView(), AbCard.DETAILS);
         
         // SEPARATOR //
         bar.addSeparator();
