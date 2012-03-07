@@ -31,6 +31,10 @@
       <type>1</type>
       <position>0</position>
     </abook.profile.AbCard>
+    <abook.profile.AbCard>
+      <type>3</type>
+      <position>0</position>
+    </abook.profile.AbCard>
   </listOfAbCards>
   <listOfGroups>
     <string>friends</string>
