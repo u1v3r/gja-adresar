@@ -28,4 +28,10 @@ public class AbTabEvents implements AbITabComponent {
 		return tooltip;
 	}
 
+	@Override
+    public void actualizeTab() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }

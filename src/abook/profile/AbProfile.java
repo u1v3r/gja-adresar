@@ -13,6 +13,7 @@ public class AbProfile {
 	protected List<AbCard> listOfAbCards;
 	protected List<String> listOfGroups;
 	protected List<Integer> listOfSelectedGroups;
+	protected int openedTab;
 	
 	/**
 	 * Creates new profile
@@ -25,6 +26,7 @@ public class AbProfile {
 		this.listOfAbCards = new ArrayList<AbCard>();
 		this.listOfGroups = new ArrayList<String>();
 		this.listOfSelectedGroups = new ArrayList<Integer>();
+		this.openedTab = 0;
 	}
 
 	/**
@@ -185,4 +187,22 @@ public class AbProfile {
     public List<Integer> getListOfSelectedGroups() {
     	return listOfSelectedGroups;
     }
+
+    /**
+     * 
+     * @return
+     */
+	public int getOpenedTab() {
+    	return openedTab;
+    }
+
+	/**
+	 * 
+	 * @param openedTab
+	 */
+	public void setOpenedTab(int openedTab) {
+    	this.openedTab = openedTab;
+    }
+    
+    
 }

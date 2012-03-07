@@ -7,13 +7,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import abook.listeners.AbEvent;
-import abook.listeners.AbListener;
-import abook.listeners.InitListenerCore;
 import abook.profile.AbPerson;
 import abook.profile.InitProfile;
 
-public class AbTabDatabase implements AbITabComponent, AbListener {
+public class AbTabDatabase implements AbITabComponent {
 	
 	protected JScrollPane panel;
 	protected final String name = "Database";
@@ -25,9 +22,7 @@ public class AbTabDatabase implements AbITabComponent, AbListener {
 		
 		createTable();
 		
-		this.panel = new JScrollPane(table);
-		
-		InitListenerCore.getListenerCore().addListener(this);
+		this.panel = new JScrollPane(table);;
 	}
 
 	private void createTable() {
@@ -42,11 +37,12 @@ public class AbTabDatabase implements AbITabComponent, AbListener {
 		
 		table = new JTable(tableModel);
 		
-		actualizeTable();
+		actualizeTab();
 		
 	}
 	
-	private void actualizeTable() {
+	@Override
+	public void actualizeTab() {
 		
 		// clear table //
 		int rowCount = tableModel.getRowCount();
@@ -103,16 +99,5 @@ public class AbTabDatabase implements AbITabComponent, AbListener {
 	public String getTooltip() {
 		return tooltip;
 	}
-
-	@Override
-    public void myEventOccurred(AbEvent evt, int type) {
-	    
-		if(type == GROUP_SELECTION_CHANGED) {
-			
-			System.out.println("actualize");
-			
-			actualizeTable();
-		}
-    }
 
 }

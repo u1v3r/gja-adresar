@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -20,10 +21,13 @@ import javax.swing.JTabbedPane;
 
 import abook.gui.AbIGuiComponent;
 import abook.gui.dialogs.AbDialogs;
+import abook.listeners.AbEvent;
+import abook.listeners.AbListener;
+import abook.listeners.InitListenerCore;
 import abook.profile.AbCard;
 import abook.profile.InitProfile;
 
-public class AbTabLine implements AbIGuiComponent {
+public class AbTabLine implements AbIGuiComponent, AbListener {
 	
 	protected JTabbedPane tabbedPane;
 	protected JPanel tabAdd;
@@ -31,16 +35,19 @@ public class AbTabLine implements AbIGuiComponent {
 	protected AbTabDatabase tabDatabase;
 	protected AbTabGroups tabGroups;
 	protected AbTabEvents tabEvents;
+	protected AbTabContactDetails tabDetails;
+	protected List<AbITabComponent> listOfTabs;
 	protected Color tabBackgroud;
 	protected ImageIcon iconClose;
 	protected int tabCounter;
 	protected final String[] views = { "Home", "Database", "Groups", "Events","Details" };
-	private AbTabContactDetails tabDetails;
 	
 	/**
 	 * Creates list of cards
 	 */
 	public AbTabLine() {
+		
+		InitListenerCore.getListenerCore().addListener(this);
 		
 		// initialization of local variables //
 		inicializeVariables();
@@ -73,6 +80,8 @@ public class AbTabLine implements AbIGuiComponent {
 	 */
 	private void createTabs() {
 		
+		listOfTabs = new ArrayList<AbITabComponent>();
+		
 		// special views //
 		tabHome = new AbTabHome();
 		tabDatabase = new AbTabDatabase();
@@ -104,6 +113,8 @@ public class AbTabLine implements AbIGuiComponent {
 			this.addTabToLine(component, index);
 			index++;
 		}
+		
+		tabbedPane.setSelectedIndex(InitProfile.getProfile().getOpenedTab());
 	}
 	
 	/**
@@ -181,6 +192,7 @@ public class AbTabLine implements AbIGuiComponent {
 		if(index < count && index >= 0) {
 			if(index == count-2) {
 				tabbedPane.setSelectedIndex(index-1);
+				InitProfile.getProfile().setOpenedTab(index-1);
 			}
 			tabbedPane.remove(index);
 		}
@@ -206,6 +218,7 @@ public class AbTabLine implements AbIGuiComponent {
 			this.addTabToLine(component);
 		} else {
 			tabbedPane.setSelectedIndex(index);
+			InitProfile.getProfile().setOpenedTab(index);
 		}
 	}
 	
@@ -317,9 +330,26 @@ public class AbTabLine implements AbIGuiComponent {
             			openTab(type);
             		}
             	}
+        	} else {
+        		int selectedIndex = tabbedPane.getSelectedIndex();
+        		if(InitProfile.getProfile().getOpenedTab() != selectedIndex) {
+        			InitProfile.getProfile().setOpenedTab(selectedIndex);
+        			getTab(InitProfile.getProfile().getListOfAbCards().get(selectedIndex).getType()).actualizeTab();
+        			//System.out.println("actualize!");
+        		}
         	}
 
         }
+    }
+
+	@Override
+    public void myEventOccurred(AbEvent evt, int type) {
+		if(type == GROUP_SELECTION_CHANGED) {
+			
+			//System.out.println("actualize");
+			
+			getTab(InitProfile.getProfile().getListOfAbCards().get(tabbedPane.getSelectedIndex()).getType()).actualizeTab();
+	    }
     }
 
 }

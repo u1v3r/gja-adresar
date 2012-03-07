@@ -10,4 +10,6 @@ public interface AbITabComponent {
 	
 	public String getTooltip();
 
+	void actualizeTab();
+
 }

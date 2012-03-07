@@ -386,4 +386,10 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent,AbLis
 		
 	}
 
+	@Override
+    public void actualizeTab() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }

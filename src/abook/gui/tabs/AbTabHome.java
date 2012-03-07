@@ -29,6 +29,12 @@ public class AbTabHome implements AbITabComponent {
 	public String getTooltip() {
 		return tooltip;
 	}
+
+	@Override
+    public void actualizeTab() {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
 	
 

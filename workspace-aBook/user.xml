@@ -31,16 +31,14 @@
       <type>1</type>
       <position>0</position>
     </abook.profile.AbCard>
-    <abook.profile.AbCard>
-      <type>3</type>
-      <position>0</position>
-    </abook.profile.AbCard>
   </listOfAbCards>
   <listOfGroups>
     <string>friends</string>
     <string>school</string>
   </listOfGroups>
   <listOfSelectedGroups>
+    <int>0</int>
     <int>1</int>
   </listOfSelectedGroups>
+  <openedTab>1</openedTab>
 </abook.profile.AbProfile>
