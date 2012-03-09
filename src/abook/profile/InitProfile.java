@@ -10,13 +10,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
 
+import com.thoughtworks.xstream.XStream;
+
 import abook.gui.ViewGui;
 import abook.gui.dialogs.AbDialogs;
 import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
 import abook.listeners.InitListenerCore;
-
-import com.thoughtworks.xstream.XStream;
 
 /**
  * 
