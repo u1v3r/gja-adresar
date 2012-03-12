@@ -61,6 +61,13 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
         // SEPARATOR //
         bar.addSeparator();
         
+        // ADD/REMOVE GROUP //
+        addButton("Add group", "/icons/Add.png", actions.getActionAddGroup(), 0);
+        addButton("Delete group", "/icons/Delete.png", actions.getActionDeleteGroup(), 0);
+        
+        // SEPARATOR //
+        bar.addSeparator();
+        
         // SYSTEM //
         addButton("Help", "/icons/Info.png", actions.getActionHelp(), 0);
     }

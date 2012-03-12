@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import abook.gui.dialogs.AbDialogAddContact;
+import abook.gui.dialogs.AbDialogAddGroup;
 import abook.gui.dialogs.AbDialogs;
 import abook.gui.dialogs.AbHelp;
 
@@ -28,6 +29,8 @@ public class AbActions {
 	protected ActionExitProgram actionExitProgram;
 	protected ActionAddContact actionAddContact;
 	protected ActionDeleteContact actionDeleteContact;
+	protected ActionAddGroup actionAddGroup;
+	protected ActionDeleteGroup actionDeleteGroup;
 	protected ActionShowView actionShowView;
 	protected ActionHelp actionHelp;
 	
@@ -43,6 +46,8 @@ public class AbActions {
 		actionDeleteContact = new ActionDeleteContact();
 		actionShowView = new ActionShowView();
 		actionHelp = new ActionHelp();
+		actionAddGroup = new ActionAddGroup();
+		actionDeleteGroup = new ActionDeleteGroup();
 	}
 	
 	/**
@@ -99,6 +104,22 @@ public class AbActions {
 	 */
 	public ActionShowView getActionShowView() {
 		return actionShowView;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ActionAddGroup getActionAddGroup() {
+		return actionAddGroup;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public ActionDeleteGroup getActionDeleteGroup() {
+		return actionDeleteGroup;
 	}
 
 	/**
@@ -278,6 +299,22 @@ public class AbActions {
             new AbHelp();
         }
 
+    }
+    
+    @SuppressWarnings("serial")
+	class ActionAddGroup extends AbstractAction
+    {
+        public void actionPerformed(ActionEvent e) {
+        	new AbDialogAddGroup();
+        }
+    }
+    
+    @SuppressWarnings("serial")
+	class ActionDeleteGroup extends AbstractAction
+    {
+        public void actionPerformed(ActionEvent e) {
+            // TODO
+        }
     }
 
 }
