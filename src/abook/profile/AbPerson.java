@@ -37,13 +37,16 @@ public class AbPerson {
 	
 	private static int counter = 1;
 	
+	public AbPerson(){
+		this.id = counter;
+		counter++;
+	}
 	
 	public AbPerson(String firstName, String lastName) {
-		this.id = counter;
+		this();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.listOfGroupIndex = new ArrayList<Integer>();		
-		counter++;
 	}
 	
 	public AbPerson(String namePrefix, String firstName, String lastName){
