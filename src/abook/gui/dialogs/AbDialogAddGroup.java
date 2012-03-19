@@ -16,9 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import abook.gui.AbIGuiComponent;
 import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
+import abook.listeners.InitListenerCore;
 import abook.profile.AbProfile;
 import abook.profile.InitProfile;
 
@@ -76,7 +76,6 @@ public class AbDialogAddGroup extends JFrame{
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				// TODO Auto-generated method stub
-
 			}
 			
 			@Override
@@ -88,7 +87,6 @@ public class AbDialogAddGroup extends JFrame{
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 		});
         
@@ -105,10 +103,11 @@ public class AbDialogAddGroup extends JFrame{
         
         okeyButton = new JButton("    Add    ");
         okeyButton.setEnabled(false);
+        okeyButton.setActionCommand("OK");
         okeyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO save group
 				SaveNewGroup();
+				setVisible(false);
 			}
 		});
         
@@ -136,24 +135,33 @@ public class AbDialogAddGroup extends JFrame{
 	 * @param key = key pressed
 	 */
 	private void HandleAddButtonEnabled(KeyEvent key)
-	{		
-		String text = groupNameTextField.getText();
+	{	
 		
-		if(! existingGroups.contains(text) && text.length()!= 0)
-			okeyButton.setEnabled(true);
-		else 
-			okeyButton.setEnabled(false);
+		if(key.getKeyCode() == KeyEvent.VK_ENTER && okeyButton.isEnabled())
+		{
+			okeyButton.doClick();
+		}else
+		{			
+			String text = groupNameTextField.getText();
+			
+			if(! existingGroups.contains(text) && text.length()!= 0)
+				okeyButton.setEnabled(true);
+			else 
+				okeyButton.setEnabled(false);
+		}		
+			
 	}
 	
 	/** Saves new user group to profile
 	 * 
 	 */
 	protected void SaveNewGroup() {
-		// TODO save new group
-		//profile.addGroup(groupNameTextField.getText());
-		//profile.n_addGroup(groupNameTextField.getText());
 		
+		//TODO remove old style adding group below
+		profile.addGroup(groupNameTextField.getText());
 		
+		profile.n_addGroup(groupNameTextField.getText());
+		InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.GROUPS_CHANGED);	
 	}
 
 
