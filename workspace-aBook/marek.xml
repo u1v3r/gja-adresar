@@ -38,4 +38,14 @@
   </listOfGroups>
   <listOfSelectedGroups/>
   <openedTab>0</openedTab>
+  <n__listOfGroups>
+    <abook.profile.AbGroup>
+      <name>friends</name>
+      <selected>false</selected>
+    </abook.profile.AbGroup>
+    <abook.profile.AbGroup>
+      <name>school</name>
+      <selected>false</selected>
+    </abook.profile.AbGroup>
+  </n__listOfGroups>
 </abook.profile.AbProfile>

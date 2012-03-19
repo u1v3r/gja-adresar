@@ -80,6 +80,8 @@ public class InitProfile {
 		// create default groups //
 		profile.addGroup("friends");
 		profile.addGroup("school");
+		profile.n_addGroup("friends");
+		profile.n_addGroup("school");
 		
 		// create default contacts //
 		AbPerson person1 = new AbPerson("Karel", "Novák");

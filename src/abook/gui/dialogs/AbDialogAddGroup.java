@@ -16,6 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import abook.gui.AbIGuiComponent;
+import abook.listeners.AbEvent;
+import abook.listeners.AbListener;
 import abook.profile.AbProfile;
 import abook.profile.InitProfile;
 
@@ -48,7 +51,7 @@ public class AbDialogAddGroup extends JFrame{
 	public AbDialogAddGroup() {
 
 		profile = InitProfile.getProfile();
-		existingGroups = profile.getListOfGroups();
+		existingGroups = profile.n_getListOfGroupNames();
 		
 		// ---Layout handling--- 
 		setLayout(new BorderLayout());
@@ -115,7 +118,6 @@ public class AbDialogAddGroup extends JFrame{
 				setVisible(false);
 			}
 		});
-		
 		cancelButton.setActionCommand("Cancel");
         
         buttonPanel.add(okeyButton, BorderLayout.WEST);
@@ -135,7 +137,8 @@ public class AbDialogAddGroup extends JFrame{
 	 */
 	private void HandleAddButtonEnabled(KeyEvent key)
 	{		
-		String text = groupNameTextField.getText();		
+		String text = groupNameTextField.getText();
+		
 		if(! existingGroups.contains(text) && text.length()!= 0)
 			okeyButton.setEnabled(true);
 		else 
@@ -147,6 +150,10 @@ public class AbDialogAddGroup extends JFrame{
 	 */
 	protected void SaveNewGroup() {
 		// TODO save new group
+		//profile.addGroup(groupNameTextField.getText());
+		//profile.n_addGroup(groupNameTextField.getText());
+		
+		
 	}
 
 

@@ -15,6 +15,8 @@ public class AbProfile {
 	protected List<Integer> listOfSelectedGroups;
 	protected int openedTab;
 	
+	protected List<AbGroup> n_listOfGroups;
+	
 	/**
 	 * Creates new profile
 	 */
@@ -27,6 +29,8 @@ public class AbProfile {
 		this.listOfGroups = new ArrayList<String>();
 		this.listOfSelectedGroups = new ArrayList<Integer>();
 		this.openedTab = 0;
+		
+		this.n_listOfGroups = new ArrayList<AbGroup>();
 	}
 
 	/**
@@ -170,7 +174,7 @@ public class AbProfile {
     			return;
     		}
     	}
-    }
+    }   
     
     /**
      * 
@@ -202,6 +206,56 @@ public class AbProfile {
 	 */
 	public void setOpenedTab(int openedTab) {
     	this.openedTab = openedTab;
+    }
+	
+    /// NEW GROUPS ///
+    public void n_addGroup(String newGroup)
+    {
+    	for(AbGroup gr : n_listOfGroups)
+    	{
+    		if(gr.getGroupName().compareTo(newGroup) == 0)
+    			return;
+    	}
+    	
+    	n_listOfGroups.add(new AbGroup (newGroup));
+    }
+    public void n_removeGroup(String GroupName)
+    {
+    	for(AbGroup gr : n_listOfGroups)
+    	{
+    		if(gr.getGroupName().compareTo(GroupName) == 0)
+    		{
+    			n_listOfGroups.remove(gr);
+    			return;
+    		}
+    	}
+    }
+    
+    public List<AbGroup> n_getListOfGroups()
+    {
+    	return n_listOfGroups;
+    }
+    public List<String> n_getListOfGroupNames()
+    {
+    	List<String> ret = new ArrayList<String>();
+
+    	for(AbGroup gr : n_listOfGroups)
+    	{
+    		ret.add(gr.getGroupName());
+    	}
+    	return ret;
+    }
+
+    public List<String> n_getListOfSelectedGroups()
+    {
+    	List<String> ret = new ArrayList<String>();
+
+    	for(AbGroup gr : n_listOfGroups)
+    	{
+    		if(gr.isSelected())
+    			ret.add(gr.getGroupName());
+    	}
+    	return ret;
     }
     
     
