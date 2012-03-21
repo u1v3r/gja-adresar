@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
 import abook.listeners.InitListenerCore;
+import abook.profile.AbCard;
 import abook.profile.AbProfile;
 import abook.profile.InitProfile;
 
@@ -105,6 +106,7 @@ public class AbDialogAddGroup extends JFrame{
         okeyButton.setEnabled(false);
         okeyButton.setActionCommand("OK");
         okeyButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				SaveNewGroup();
 				setVisible(false);
@@ -113,6 +115,7 @@ public class AbDialogAddGroup extends JFrame{
         
         cancelButton  = new JButton(" Cancel ");
 		cancelButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 			}
@@ -160,7 +163,7 @@ public class AbDialogAddGroup extends JFrame{
 		//TODO remove old style adding group below
 		profile.addGroup(groupNameTextField.getText());
 		
-		profile.n_addGroup(groupNameTextField.getText());
+		profile.n_addGroup(groupNameTextField.getText());		
 		InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.GROUPS_CHANGED);	
 	}
 
