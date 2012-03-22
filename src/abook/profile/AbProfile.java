@@ -230,6 +230,20 @@ public class AbProfile {
     		}
     	}
     }
+    public boolean n_updateGroupName(String oldName, String newName)
+    {
+    	if(newName != "" && oldName != ""){
+	    	for(AbGroup gr : n_listOfGroups)
+	    	{
+	    		if(gr.getGroupName().compareTo(oldName)==0)
+	    		{
+	    			gr.setGroupName(newName);
+	    			return true;
+	    		}
+	    	}
+    	}
+    	return false;
+    }    
     
     public List<AbGroup> n_getListOfGroups()
     {
