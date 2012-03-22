@@ -44,6 +44,7 @@ public class AbTabGroups implements AbITabComponent, AbListener {
 		//tableModel.addColumn("Delete");
 		
 		table = new JTable(tableModel);
+		table.setSelectionMode(0); // only one row can be selected at the same time
 		
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(tableModel);
 		table.setRowSorter(sorter);
@@ -94,10 +95,37 @@ public class AbTabGroups implements AbITabComponent, AbListener {
 	public void myEventOccurred(AbEvent evt, int type) {
 		
 		// Refresh table when groups changed in AddGroupDialog
-		if(type == 4)
+		switch (type) {
+		case 4:
 		{
 			actualizeTab();
+			break;
 		}
+		case 5:
+		{
+			if(getSelectedGroup() != null )
+			{
+				InitProfile.getProfile().n_removeGroup(getSelectedGroup());
+				InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.GROUPS_CHANGED);	
+			}
+			break;
+		}
+		default:
+			break;
+		}
+	}
+	
+	/**
+	 * Gets name of group currently selected in table. 
+	 * @return String of group name; null if no row is selected.
+	 */
+	public String getSelectedGroup()
+	{
+		int rowIndex = table.getSelectedRow();
+		if(rowIndex != -1)
+		{
+			return (String) table.getValueAt(rowIndex, 0);
+		}else return null;
 	}
 
 }
