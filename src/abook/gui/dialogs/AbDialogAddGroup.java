@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,7 +18,6 @@ import javax.swing.JTextField;
 import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
 import abook.listeners.InitListenerCore;
-import abook.profile.AbCard;
 import abook.profile.AbProfile;
 import abook.profile.InitProfile;
 
@@ -30,10 +28,10 @@ import abook.profile.InitProfile;
  *
  */
 
+@SuppressWarnings("serial")
 public class AbDialogAddGroup extends JFrame{
 	
 	private AbProfile profile;
-	private List<String> existingGroups;
 	
     protected JPanel textPanel;
     protected JLabel label;
@@ -52,7 +50,6 @@ public class AbDialogAddGroup extends JFrame{
 	public AbDialogAddGroup() {
 
 		profile = InitProfile.getProfile();
-		existingGroups = profile.n_getListOfGroupNames();
 		
 		// ---Layout handling--- 
 		setLayout(new BorderLayout());
@@ -147,7 +144,7 @@ public class AbDialogAddGroup extends JFrame{
 		{			
 			String text = groupNameTextField.getText();
 			
-			if(! existingGroups.contains(text) && text.length()!= 0)
+			if(! profile.containsGroup(text) && text.length()!= 0)
 				okeyButton.setEnabled(true);
 			else 
 				okeyButton.setEnabled(false);
@@ -163,7 +160,7 @@ public class AbDialogAddGroup extends JFrame{
 		//TODO remove old style adding group below
 		profile.addGroup(groupNameTextField.getText());
 		
-		profile.n_addGroup(groupNameTextField.getText());		
+		profile.addGroup(groupNameTextField.getText());		
 		InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.GROUPS_CHANGED);	
 	}
 

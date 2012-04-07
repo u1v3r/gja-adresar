@@ -4,7 +4,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.BoxLayout;
 import javax.swing.ListSelectionModel;
 
 import java.awt.BorderLayout;
@@ -12,15 +11,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import java.awt.Dimension;
 import javax.swing.JButton;
-import javax.swing.border.LineBorder;
-import javax.swing.UIManager;
-import javax.swing.border.MatteBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.text.DateFormatter;
 
 import java.awt.Color;
-import java.awt.GridLayout;
 import javax.swing.JLabel;
 
 import abook.listeners.AbEvent;
@@ -28,12 +22,9 @@ import abook.listeners.AbListener;
 import abook.profile.AbPerson;
 import abook.profile.InitProfile;
 
-import com.google.gdata.data.contacts.ContactLink;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Font;
 import javax.swing.SwingConstants;
-import java.awt.SystemColor;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -42,6 +33,7 @@ import java.util.List;
  * @author Radovan Dvorský
  *
  */
+@SuppressWarnings("serial")
 public class AbTabContactDetails extends JPanel implements AbITabComponent,AbListener{
 
 	private final class ContactDetailsListener implements ListSelectionListener {

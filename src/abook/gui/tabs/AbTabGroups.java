@@ -54,7 +54,7 @@ public class AbTabGroups implements TableModelListener, AbITabComponent, AbListe
 		
 		// make column titles //
 		tableModel.addColumn("Name");
-		//tableModel.addColumn("Delete");
+		tableModel.addColumn("Description");
 		
 		table = new JTable(tableModel);
 		table.setSelectionMode(0); // only one row can be selected at the same time
@@ -89,6 +89,7 @@ public class AbTabGroups implements TableModelListener, AbITabComponent, AbListe
 
 	@Override
     public void actualizeTab() {	    
+		
 		// clear table //
 		int rowCount = tableModel.getRowCount();
 		for(int i = 0; i < rowCount; i++) {
@@ -96,11 +97,12 @@ public class AbTabGroups implements TableModelListener, AbITabComponent, AbListe
 		}
 		
 		// add new rows //
-		List<AbGroup> listOfGroups = InitProfile.getProfile().n_getListOfGroups();
+		List<AbGroup> listOfGroups = InitProfile.getProfile().getListOfGroups();
 
 		for(AbGroup gr : listOfGroups){	
-			Object[] row = new Object[1];
+			Object[] row = new Object[3];
 			row[0] = gr.getGroupName();
+			row[1] = gr.getDescription();
 			//row[1] = true;
 			
 			tableModel.addRow(row);
@@ -124,7 +126,7 @@ public class AbTabGroups implements TableModelListener, AbITabComponent, AbListe
 		{
 			if(getSelectedGroupName() != null )
 			{
-				InitProfile.getProfile().n_removeGroup(getSelectedGroupName());
+				InitProfile.getProfile().removeGroup(getSelectedGroupName());
 				InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.GROUPS_CHANGED);	
 			}
 			break;
@@ -153,7 +155,7 @@ public class AbTabGroups implements TableModelListener, AbITabComponent, AbListe
 		if(e.getType() == TableModelEvent.UPDATE)
 		{
 			// update profile group
-			InitProfile.getProfile().n_updateGroupName(savedCellValue, (String) table.getValueAt(e.getFirstRow(), e.getColumn()));
+			InitProfile.getProfile().updateGroupName(savedCellValue, (String) table.getValueAt(e.getFirstRow(), e.getColumn()));
 			
 			// fire event to global listener
 			InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.GROUPS_CHANGED);
@@ -162,7 +164,8 @@ public class AbTabGroups implements TableModelListener, AbITabComponent, AbListe
 
 	
 	// Custom table editor class for validating edit of group names
-	public class CustomTableCellEditor extends AbstractCellEditor implements TableCellEditor {
+	@SuppressWarnings("serial")
+    public class CustomTableCellEditor extends AbstractCellEditor implements TableCellEditor {
 	    // This is the component that will handle the editing of the cell value
 	    JComponent component = new JTextField();
 
@@ -233,7 +236,7 @@ public class AbTabGroups implements TableModelListener, AbITabComponent, AbListe
 	    {
 	    	if(s.compareTo(savedCellValue)!=0)
 	    	{
-		    	List<String> listOfGroups = InitProfile.getProfile().n_getListOfGroupNames();
+		    	List<String> listOfGroups = InitProfile.getProfile().getListOfGroupNames();
 		    	
 		    	if(s.length()!=0 && !listOfGroups.contains(s))
 		    		return true;

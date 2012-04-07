@@ -4,11 +4,12 @@ package abook.profile;
 public class AbGroup {
 
 	protected String name;
-	protected boolean selected;
+	//protected boolean selected;
+	protected String description;
 	
 	public AbGroup(String name) {
 			this.name = name;
-			this.selected = false;
+			//this.selected = false;
 	}
 	
 	public String getGroupName()
@@ -21,7 +22,7 @@ public class AbGroup {
 		this.name = newName;
 	}
 	
-	public boolean isSelected()
+	/*public boolean isSelected()
 	{
 		return selected;
 	}
@@ -29,5 +30,15 @@ public class AbGroup {
 	public void setSelected(boolean value)
 	{
 		this.selected = value;
-	}
+	}*/
+
+	public String getDescription() {
+    	return description;
+    }
+
+	public void setDescription(String description) {
+    	this.description = description;
+    }
+	
+	
 }

@@ -31,6 +31,7 @@ import javax.swing.filechooser.FileFilter;
 import org.apache.commons.validator.GenericValidator;
 
 import abook.others.AddContactFormFocusTravel;
+import abook.profile.AbGroup;
 import abook.profile.AbPerson;
 import abook.profile.AbProfile;
 import abook.profile.InitProfile;
@@ -46,6 +47,7 @@ import com.toedter.calendar.JDateChooser;
  * @author Radovan Dvorský
  *
  */
+@SuppressWarnings("serial")
 public class AbDialogAddContact extends JDialog {
 	
 	
@@ -490,8 +492,8 @@ public class AbDialogAddContact extends JDialog {
 		
 		groupsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
-		for (String groupName : profile.getListOfGroups()) {
-			groupListModel.addElement(groupName);
+		for (AbGroup group : profile.getListOfGroups()) {
+			groupListModel.addElement(group.getGroupName());
 		}		
 		
 		groupsList.setModel(groupListModel);
@@ -525,9 +527,10 @@ public class AbDialogAddContact extends JDialog {
 			contact.setGtalk(gtalkTextField.getText());			
 			contact.setBirthday(birthdayDateChooser.getDate());
 			
-			for (Integer groups : this.groupsList.getSelectedIndices()) {
+			//TODO se to zkomplikovalo ... uz se nevede seznam integeru (indexu) vybranych skupin, ale primo seznam stringu (jmen skupin)
+			/*for (Integer groups : this.groupsList.getSelectedIndices()) {
 				contact.addGroup(groups);
-			}
+			}*/
 			contact.setBirthday(birthdayDateChooser.getDate());
 			contact.setNote(noteTextArea.getText());
 			contact.setUserImage(userImage);

@@ -11,11 +11,12 @@ public class AbProfile {
 	protected String user;
 	protected List<AbPerson> listOfAbPersons;
 	protected List<AbCard> listOfAbCards;
-	protected List<String> listOfGroups;
-	protected List<Integer> listOfSelectedGroups;
+	//protected List<String> listOfGroups;
+	//protected List<Integer> listOfSelectedGroups;
 	protected int openedTab;
-	
-	protected List<AbGroup> n_listOfGroups;
+	protected String searchText;
+	protected List<AbGroup> listOfGroups;
+	protected List<String> listOfSelectedGroups;
 	
 	/**
 	 * Creates new profile
@@ -26,11 +27,11 @@ public class AbProfile {
 		this.user = user;
 		this.listOfAbPersons = new ArrayList<AbPerson>();
 		this.listOfAbCards = new ArrayList<AbCard>();
-		this.listOfGroups = new ArrayList<String>();
-		this.listOfSelectedGroups = new ArrayList<Integer>();
+		//this.listOfGroups = new ArrayList<String>();
+		this.listOfSelectedGroups = new ArrayList<String>();
 		this.openedTab = 0;
-		
-		this.n_listOfGroups = new ArrayList<AbGroup>();
+		this.listOfGroups = new ArrayList<AbGroup>();
+		this.searchText = new String();
 	}
 
 	/**
@@ -153,20 +154,20 @@ public class AbProfile {
      * 
      * @param newGroup
      */
-    public void addGroup(String newGroup) {
+    /*public void addGroup(String newGroup) {
     	
     	for(String group : listOfGroups) {
     		if(newGroup.equals(group)) return;
     	}
     	
     	listOfGroups.add(newGroup);
-    }
+    }*/
     
     /**
      * 
      * @param newGroup
      */
-    public void removeGroup(String newGroup) {
+    /*public void removeGroup(String newGroup) {
     	
     	for(String group : listOfGroups) {
     		if(newGroup.equals(group)) {
@@ -174,23 +175,23 @@ public class AbProfile {
     			return;
     		}
     	}
-    }   
+    } */  
     
     /**
      * 
      * @return
      */
-    public List<String> getListOfGroups() {
+    /*public List<String> getListOfGroups() {
     	return listOfGroups;
-    }
+    }*/
     
     /**
      * 
      * @return
      */
-    public List<Integer> getListOfSelectedGroups() {
+    /*public List<Integer> getListOfSelectedGroups() {
     	return listOfSelectedGroups;
-    }
+    }*/
 
     /**
      * 
@@ -208,68 +209,167 @@ public class AbProfile {
     	this.openedTab = openedTab;
     }
 	
-    /// NEW GROUPS ///
-    public void n_addGroup(String newGroup)
-    {
-    	for(AbGroup gr : n_listOfGroups)
-    	{
-    		if(gr.getGroupName().compareTo(newGroup) == 0)
-    			return;
+    /**
+     * Method adds new group.
+     * 
+     * @param newGroup
+     */
+    public void addGroup(String newGroup) {
+    	
+    	// check if group with selected name exists //
+    	for(AbGroup gr : listOfGroups) {
+    		if(gr.getGroupName().equals(newGroup)) return;
     	}
     	
-    	n_listOfGroups.add(new AbGroup (newGroup));
+    	// create new group and add to list //
+    	listOfGroups.add(new AbGroup (newGroup));
     }
-    public void n_removeGroup(String GroupName)
-    {
-    	for(AbGroup gr : n_listOfGroups)
-    	{
-    		if(gr.getGroupName().compareTo(GroupName) == 0)
-    		{
-    			n_listOfGroups.remove(gr);
+    
+    /**
+     * Method removes group with selected name.
+     * 
+     * @param GroupName
+     */
+    public void removeGroup(String groupName) {
+    	
+    	// find group with selected name and remove it. //
+    	for(AbGroup gr : listOfGroups) {
+    		if(gr.getGroupName().equals(groupName)) {
+    			listOfGroups.remove(gr);
     			return;
     		}
     	}
+    	
+    	// update all persons //
+    	for(AbPerson person : listOfAbPersons) {
+    		person.removeGroup(groupName);
+    	}
     }
-    public boolean n_updateGroupName(String oldName, String newName)
-    {
-    	if(newName != "" && oldName != ""){
-	    	for(AbGroup gr : n_listOfGroups)
-	    	{
-	    		if(gr.getGroupName().compareTo(oldName)==0)
-	    		{
+    
+    /**
+     * Method changes name of group. 
+     * 
+     * @param oldName
+     * @param newName
+     * @return nameChanged
+     */
+    public boolean updateGroupName(String oldName, String newName) {
+    	
+    	// if selected names empty, return //
+    	if(newName != "" && oldName != "") {
+    		// find group with old name //
+	    	for(AbGroup gr : listOfGroups) {
+	    		// and rename it //
+	    		if(gr.getGroupName().equals(oldName)) {
 	    			gr.setGroupName(newName);
 	    			return true;
 	    		}
 	    	}
     	}
+    	
     	return false;
     }    
     
-    public List<AbGroup> n_getListOfGroups()
-    {
-    	return n_listOfGroups;
+    /**
+     * Method returns list of groups.
+     * 
+     * @return listOfGroups
+     */
+    public List<AbGroup> getListOfGroups() {
+    	return listOfGroups;
     }
-    public List<String> n_getListOfGroupNames()
+    
+    /**
+     * Method returns list of group names.
+     * 
+     * @return listOfGroupsName
+     */
+    public List<String> getListOfGroupNames()
     {
     	List<String> ret = new ArrayList<String>();
 
-    	for(AbGroup gr : n_listOfGroups)
-    	{
+    	for(AbGroup gr : listOfGroups) {
     		ret.add(gr.getGroupName());
     	}
     	return ret;
     }
-
-    public List<String> n_getListOfSelectedGroups()
-    {
-    	List<String> ret = new ArrayList<String>();
-
-    	for(AbGroup gr : n_listOfGroups)
-    	{
-    		if(gr.isSelected())
-    			ret.add(gr.getGroupName());
+    
+    /**
+     * Method adds group to list of selected groups.
+     * 
+     * @param newGroup
+     */
+    public void addSelectedGroup(String newGroup) {
+    	
+    	for(String group : listOfSelectedGroups) {
+    		if(newGroup.equals(group)) return;
     	}
-    	return ret;
+    	
+    	listOfSelectedGroups.add(newGroup);
+    }
+    
+    public void removeSelectedGroup(String oldGroup) {
+    	
+    	for(String group : listOfSelectedGroups) {
+    		if(oldGroup.equals(group)) listOfSelectedGroups.remove(group);
+    	}
+    	
+    	return;
+    }
+
+    /**
+     * Method returns list of selected groups.
+     * 
+     * @return listOfSelectedGroups
+     */
+    public List<String> getListOfSelectedGroups()
+    {
+    	return listOfSelectedGroups;
+    }
+    
+    /**
+     * Method returns boolean value if selected groups exists.
+     * 
+     * @return containsGroup
+     */
+    public boolean containsGroup(String group)
+    {
+    	// check if group with selected name exists //
+    	for(AbGroup gr : listOfGroups) {
+    		if(gr.getGroupName().equals(group)) return true;
+    	}
+    	
+    	return false;
+    }
+    
+    /**
+     * Method returns boolean value if selected groups exists.
+     * 
+     * @return containsGroup
+     */
+    public boolean containsSelectedGroup(String group)
+    {
+    	// check if group with selected name exists //
+    	
+    	return listOfSelectedGroups.contains(group);
+    }
+
+    /**
+     * Method returns actual searching pattern.
+     * 
+     * @return searchText
+     */
+	public String getSearchText() {
+    	return searchText;
+    }
+
+	/**
+	 * Method actualizes searching pattern.
+	 * 
+	 * @param searchText
+	 */
+	public void setSearchText(String searchText) {
+    	this.searchText = searchText;
     }
     
     
