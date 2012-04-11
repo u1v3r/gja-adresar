@@ -21,6 +21,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -29,10 +31,11 @@ import abook.gui.dialogs.AbDialogs;
 import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
 import abook.listeners.InitListenerCore;
-import abook.profile.AbProfile;
+import abook.profile.AbGroup;
 import abook.profile.InitProfile;
 
 /**
+ * Left side bar which contains tree of files, list of groups and search text field.
  * 
  * @author jurij
  *
@@ -94,6 +97,23 @@ public class AbSideBar implements AbIGuiComponent, AbListener, ActionListener {
 			public Insets getInsets()
 			{ return new Insets(5,5,5,5); }
 		};
+		textField.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				find();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				find();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				// do nothing //
+			}
+		});
 		panelForSearch = new JPanel(new GridLayout());
 		panelForSearch.add(textField);
 		
@@ -103,20 +123,19 @@ public class AbSideBar implements AbIGuiComponent, AbListener, ActionListener {
 	}
 	
 	/**
-	 * 
+	 * Method fills check box panel with check buttons of groups from profile.
 	 */
     private void fillCheckBox() {
 		
-		AbProfile profile = InitProfile.getProfile();
-		//System.out.println(profile.getListOfSelectedGroups());
 		listOfCheckBox.clear();
 		panelForCheckBox.removeAll();
+		List<String> listOfSelectedGroups = InitProfile.getProfile().getListOfSelectedGroups();
 		
 		int i = 0;
-		for(String group : InitProfile.getProfile().getListOfGroups()) {
-			JCheckBox checkBox = new JCheckBox(group);
+		for(AbGroup group : InitProfile.getProfile().getListOfGroups()) {
+			JCheckBox checkBox = new JCheckBox(group.getGroupName());
 			checkBox.setOpaque(false);
-			checkBox.setSelected(profile.getListOfSelectedGroups().contains(i));
+			checkBox.setSelected(listOfSelectedGroups.contains(group.getGroupName()));
 			checkBox.addActionListener(this);
 			panelForCheckBox.add(checkBox);
 			listOfCheckBox.add(checkBox);
@@ -127,6 +146,7 @@ public class AbSideBar implements AbIGuiComponent, AbListener, ActionListener {
 	}
 	
 	/**
+	 * Method fills tree with nodes of profiles from profile.
 	 * 
 	 * @param workspace
 	 */
@@ -146,11 +166,12 @@ public class AbSideBar implements AbIGuiComponent, AbListener, ActionListener {
         tree.repaint();
 	}
 
-	/** Creates nodes. (recursive function)
-    *
-    * @param korenovyUzel
-    * @param korenovySoubor
-    */
+	/**
+	 * Creates nodes. (recursive function)
+	 *
+	 * @param korenovyUzel
+	 * @param korenovySoubor
+	 */
 	private void createNodes(DefaultMutableTreeNode korenovyUzel, File korenovySoubor) {
 		File[] soubory = korenovySoubor.listFiles();
 		
@@ -167,52 +188,60 @@ public class AbSideBar implements AbIGuiComponent, AbListener, ActionListener {
 			}
 		}
 	}
+	
+	/**
+	 * Inner class opens selected node (by double click)
+	 */
+	class DoubleClick extends MouseAdapter {
 
-   /**
-    * Inner class which open selected node (by double click)
-    */
-   class DoubleClick extends MouseAdapter {
-
-       public DoubleClick() {
-           super();
-       }
-
-       public void mousePressed(MouseEvent e) {
-           int selRow = tree.getRowForLocation(e.getX(), e.getY());
-           if(selRow != -1) {
-               if(e.getClickCount() == 2) {
-            	   //System.out.println(tree.getSelectionPath());
-            	   TreePath selection = tree.getSelectionPath();
-            	   if(selection.getPathCount() == 2) {
-            		   String selectedComponent = selection.getLastPathComponent().toString();
-            		   if(selectedComponent.endsWith(".xml")) {
-            			   
-            			   // save actual profile //
-            			   int result = AbDialogs.YesNoCancel("Do you want to save actual project?");
-            			   
-            			   if(result == JOptionPane.CANCEL_OPTION) {
-            	        		return;
-            	           }
-            			   
-            			   if(result == JOptionPane.OK_OPTION) {
-            				   InitProfile.saveProfile();
-            			   }
-            			   
-            			   File file = new File(InitProfile.getWorkspace() + "/" + selectedComponent);
-            			   
-            			   ViewGui.getAbTabLine().closeAllTabs();
-            			   
-            			   System.out.println("open");
-            			   
-            			   InitProfile.openProfile(file);
-            			   ViewGui.getAbTabLine().restoreTabs();
-            		   }
-            	   }
-               }
-           }
-       }
-   }
-   
+		public DoubleClick() {
+			super();
+		}
+		
+		public void mousePressed(MouseEvent e) {
+			int selRow = tree.getRowForLocation(e.getX(), e.getY());
+			if(selRow != -1) {
+				if(e.getClickCount() == 2) {
+					//System.out.println(tree.getSelectionPath());
+					TreePath selection = tree.getSelectionPath();
+					if(selection.getPathCount() == 2) {
+						String selectedComponent = selection.getLastPathComponent().toString();
+						if(selectedComponent.endsWith(".xml")) {
+							
+							// save actual profile //
+							int result = AbDialogs.YesNoCancel("Do you want to save actual project?");
+							
+							if(result == JOptionPane.CANCEL_OPTION) {
+								return;
+							}
+							
+							if(result == JOptionPane.OK_OPTION) {
+								InitProfile.saveProfile();
+							}
+							
+							File file = new File(InitProfile.getWorkspace() + "/" + selectedComponent);
+							
+							ViewGui.getAbTabLine().closeAllTabs();
+							
+							System.out.println("open");
+							
+							InitProfile.openProfile(file);
+							ViewGui.getAbTabLine().restoreTabs();
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Method change text and invokes listener.
+	 */
+	private void find() {
+		InitProfile.getProfile().setSearchText(textField.getText());
+		
+		InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.SEARCH_CHANGED);
+	}
 
 	/** Return widget with tree
 	 * 
@@ -225,13 +254,14 @@ public class AbSideBar implements AbIGuiComponent, AbListener, ActionListener {
 	@Override
 	public void myEventOccurred(AbEvent evt, int type) {
 		
-		if(type == AbListener.WORKSPACE_CHANGED) {
+		if(type == AbListener.WORKSPACE_STRUCT_CHANGED) {
 			
 			fillTree(InitProfile.getWorkspace());
 
-		} else if(type == AbListener.NEW_PROFILE_OPENED) {
+		} else if(type == AbListener.PROFILE_CHANGED || type == AbListener.GROUPS_CHANGED) {
 			
 			fillCheckBox();
+			splitPane.setDividerLocation(splitPane.getDividerLocation()); // repaint() didn't work, but this works fine
 		}
 		
 	}
@@ -239,18 +269,17 @@ public class AbSideBar implements AbIGuiComponent, AbListener, ActionListener {
 	@Override
     public void actionPerformed(ActionEvent e) {
 		
-		List<Integer> listOfSelectedGroups = InitProfile.getProfile().getListOfSelectedGroups();
+		List<String> listOfSelectedGroups = InitProfile.getProfile().getListOfSelectedGroups();
 		listOfSelectedGroups.clear();
-		
+			
 		int i = 0;
 		for(JCheckBox box : listOfCheckBox) {
 			if(box.isSelected()) {
-				listOfSelectedGroups.add(i);
+				listOfSelectedGroups.add(box.getText());
 			}
 			i++;
 		}
 		
 		InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.GROUP_SELECTION_CHANGED);
     }
-
 }

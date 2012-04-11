@@ -27,6 +27,11 @@ import abook.listeners.InitListenerCore;
 import abook.profile.AbCard;
 import abook.profile.InitProfile;
 
+/**
+ * 
+ * @author jurij
+ *
+ */
 public class AbTabLine implements AbIGuiComponent, AbListener {
 	
 	protected JTabbedPane tabbedPane;
@@ -344,7 +349,7 @@ public class AbTabLine implements AbIGuiComponent, AbListener {
 
 	@Override
     public void myEventOccurred(AbEvent evt, int type) {
-		if(type == GROUP_SELECTION_CHANGED) {
+		if(type == GROUP_SELECTION_CHANGED || type == SEARCH_CHANGED) {
 			
 			//System.out.println("actualize");
 			

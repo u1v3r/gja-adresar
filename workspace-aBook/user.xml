@@ -4,18 +4,48 @@
   <listOfAbPersons>
     <abook.profile.AbPerson>
       <id>1</id>
+      <namePrefix></namePrefix>
       <firstName>Karel</firstName>
       <lastName>Novák</lastName>
+      <nameSuffix></nameSuffix>
+      <street></street>
       <city>Praha</city>
+      <psc></psc>
+      <country></country>
+      <phoneWork></phoneWork>
+      <phoneHome></phoneHome>
+      <cellPhone></cellPhone>
+      <emailWork></emailWork>
+      <emailHome></emailHome>
+      <skype></skype>
+      <icq></icq>
+      <jabber></jabber>
+      <gtalk></gtalk>
+      <note></note>
       <listOfGroupIndex>
         <int>0</int>
       </listOfGroupIndex>
     </abook.profile.AbPerson>
     <abook.profile.AbPerson>
       <id>2</id>
+      <namePrefix></namePrefix>
       <firstName>Laco</firstName>
       <lastName>Lakatoš</lastName>
+      <nameSuffix></nameSuffix>
+      <street></street>
       <city>Košice</city>
+      <psc></psc>
+      <country></country>
+      <phoneWork></phoneWork>
+      <phoneHome></phoneHome>
+      <cellPhone></cellPhone>
+      <emailWork></emailWork>
+      <emailHome></emailHome>
+      <skype></skype>
+      <icq></icq>
+      <jabber></jabber>
+      <gtalk></gtalk>
+      <note></note>
       <listOfGroupIndex>
         <int>0</int>
         <int>1</int>
@@ -31,26 +61,11 @@
       <type>1</type>
       <position>0</position>
     </abook.profile.AbCard>
-    <abook.profile.AbCard>
-      <type>4</type>
-      <position>0</position>
-    </abook.profile.AbCard>
-    <abook.profile.AbCard>
-      <type>2</type>
-      <position>0</position>
-    </abook.profile.AbCard>
-    <abook.profile.AbCard>
-      <type>3</type>
-      <position>0</position>
-    </abook.profile.AbCard>
   </listOfAbCards>
   <listOfGroups>
     <string>friends</string>
     <string>school</string>
   </listOfGroups>
-  <listOfSelectedGroups>
-    <int>0</int>
-    <int>1</int>
-  </listOfSelectedGroups>
-  <openedTab>1</openedTab>
+  <listOfSelectedGroups/>
+  <openedTab>0</openedTab>
 </abook.profile.AbProfile>

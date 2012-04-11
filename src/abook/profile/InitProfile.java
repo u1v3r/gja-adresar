@@ -84,14 +84,14 @@ public class InitProfile {
 		// create default contacts //
 		AbPerson person1 = new AbPerson("Karel", "Novák");
 		person1.setCity("Praha");
-		person1.addGroup(0);
+		person1.addGroup("friends");
 		profile.addPerson(person1);
 		
 		// create default contacts //
 		AbPerson person2 = new AbPerson("Laco", "Lakatoš");
 		person2.setCity("Košice");
-		person2.addGroup(0);
-		person2.addGroup(1);
+		person2.addGroup("friends");
+		person2.addGroup("school");
 		profile.addPerson(person2);
 		
 		
@@ -124,7 +124,7 @@ public class InitProfile {
 		userFileDir = new File(workspace + "/" + user);
 		
 		if(ViewGui.isGuiCreated()) {
-			InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.NEW_PROFILE_OPENED);
+			InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.PROFILE_CHANGED);
 		}
         
 	}
@@ -217,7 +217,7 @@ public class InitProfile {
             AbDialogs.report("Soubor se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
         }
         
-        InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.WORKSPACE_CHANGED);
+        InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.WORKSPACE_STRUCT_CHANGED);
     }
 
 }

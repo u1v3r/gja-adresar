@@ -10,7 +10,12 @@ import javax.swing.JSplitPane;
 
 import abook.gui.tabs.AbTabLine;
 
-
+/**
+ * Main GUI class. It creates all static GUI parts.
+ * 
+ * @author jurij
+ *
+ */
 public class ViewGui {
 	
 	protected static AbActions actions;
@@ -68,15 +73,39 @@ public class ViewGui {
         guiCreated = true;
 	}
 	
+	/**
+	 * Returns static instance of line with tabs.
+	 * 
+	 * @return tabbedArea
+	 */
 	public static AbTabLine getAbTabLine() {
 		
 		return tabbedArea;
 	}
 	
+	/**
+	 * Returns static instance with basic action instances.
+	 * 
+	 * @return actions
+	 */
 	public static AbActions getActions() {
 		return actions;
 	}
+	
+	/**
+	 * Returns main frame.
+	 * 
+	 * @return frame
+	 */
+	public static JFrame getFrame() {
+		return frame;
+	}
 
+	/**
+	 * Returns true if GUI has been created.
+	 * 
+	 * @return guiCreated
+	 */
 	public static boolean isGuiCreated() {
     	return guiCreated;
     }

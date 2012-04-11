@@ -7,6 +7,12 @@ import javax.swing.JMenuItem;
 
 import abook.profile.AbCard;
 
+/**
+ * Menu with action buttons.
+ * 
+ * @author jurij
+ *
+ */
 public class AbMenu extends AbActions implements AbIGuiComponent {
 
 	private JMenuBar menuBar;
@@ -79,6 +85,7 @@ public class AbMenu extends AbActions implements AbIGuiComponent {
         // TODO ... 
     }
 
+    @Override
     public JComponent getWidget() {
         return menuBar;
     }

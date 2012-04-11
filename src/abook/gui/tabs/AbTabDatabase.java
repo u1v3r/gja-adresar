@@ -56,14 +56,17 @@ public class AbTabDatabase implements AbITabComponent {
 		
 		// add new rows //
 		List<AbPerson> listOfPersons = InitProfile.getProfile().getListOfAbPersons();
-		List<String> listOfGroups = InitProfile.getProfile().getListOfGroups();
-		List<Integer> listOfSelectedGroups = InitProfile.getProfile().getListOfSelectedGroups();
+		List<String> listOfSelectedGroups = InitProfile.getProfile().getListOfSelectedGroups();
+		String pattern = InitProfile.getProfile().getSearchText();
 		boolean selected;
 		for(AbPerson person : listOfPersons) {
 			
+			// search filter //
+			if(new String(person.getFirstName() + " " + person.getLastName()).toLowerCase().indexOf(pattern) < 0) continue;
+			
 			// group filter //
 			selected = false;
-			for(Integer group : person.getListOfGroupIndex()) {
+			for(String group : person.getListOfGroups()) {
 				if(listOfSelectedGroups.contains(group)) {
 					selected = true;
 					break;
@@ -78,9 +81,9 @@ public class AbTabDatabase implements AbITabComponent {
 			row[2] = person.getCity();
 			row[3] = "";
 			
-			for(Integer group : person.getListOfGroupIndex()) {
+			for(String group : person.getListOfGroups()) {
 				if(!row[3].isEmpty()) row[3] += ", ";
-				row[3] += listOfGroups.get(group);
+				row[3] += group;
 			}
 			
 			tableModel.addRow(row);
