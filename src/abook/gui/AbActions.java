@@ -9,8 +9,10 @@ import javax.swing.AbstractButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import abook.gui.AbActions.ActionSyncContacts;
 import abook.gui.dialogs.AbDialogAddContact;
 import abook.gui.dialogs.AbDialogAddGroup;
+import abook.gui.dialogs.AbDialogGoogleSync;
 import abook.gui.dialogs.AbDialogs;
 import abook.gui.dialogs.AbHelp;
 
@@ -34,6 +36,7 @@ public class AbActions {
 	protected ActionDeleteGroup actionDeleteGroup;
 	protected ActionShowView actionShowView;
 	protected ActionHelp actionHelp;
+	protected ActionSyncContacts actionSyncContacts;
 	
 	/**
 	 * Constructor which creates instances of all actions.
@@ -49,6 +52,7 @@ public class AbActions {
 		actionHelp = new ActionHelp();
 		actionAddGroup = new ActionAddGroup();
 		actionDeleteGroup = new ActionDeleteGroup();
+		actionSyncContacts = new ActionSyncContacts();
 	}
 	
 	/**
@@ -139,6 +143,14 @@ public class AbActions {
 	 */
 	public ActionHelp getActionHelp() {
 		return actionHelp;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ActionSyncContacts getActionSyncContacts(){
+		return actionSyncContacts;
 	}
 	
 	// ---------------------------------------------------------------------- //
@@ -362,6 +374,24 @@ public class AbActions {
         public void actionPerformed(ActionEvent e) {
             // TODO
         	//InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.TRY_DELETE_GROUP);
+        }
+    }
+    
+    /**
+     * Action which sync contats.
+     * 
+     * @author Radovan Dvorsky
+     *
+     */
+    @SuppressWarnings("serial")
+	class ActionSyncContacts extends AbstractAction
+    {
+    	
+		public void actionPerformed(ActionEvent e) {
+			
+			if(e.getSource() instanceof AbstractButton) {
+				new AbDialogGoogleSync().setVisible(true);
+			}
         }
     }
 
