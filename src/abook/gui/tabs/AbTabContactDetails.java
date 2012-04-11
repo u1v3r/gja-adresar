@@ -1,66 +1,58 @@
 package abook.gui.tabs;
 
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.ListSelectionModel;
-
 import java.awt.BorderLayout;
-import javax.swing.JScrollPane;
-import javax.swing.JList;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.border.LineBorder;
-import javax.swing.UIManager;
-import javax.swing.border.MatteBorder;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.text.DateFormatter;
 
-import java.awt.Color;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-
+import net.miginfocom.swing.MigLayout;
 import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
+import abook.others.SortedListModel;
 import abook.profile.AbPerson;
 import abook.profile.InitProfile;
 
-import com.google.gdata.data.contacts.ContactLink;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
-import net.miginfocom.swing.MigLayout;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import java.awt.SystemColor;
-import java.text.SimpleDateFormat;
-import java.util.List;
 
 /**
  * 
  * @author Radovan Dvorský
  *
  */
+@SuppressWarnings("serial")
 public class AbTabContactDetails extends JPanel implements AbITabComponent,AbListener{
+
 
 	private final class ContactDetailsListener implements ListSelectionListener {
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 				
-			// pri kliknuti su vyvylane dva eventy, treba zachytit len jeden
+			// pri kliknuti su vyslane dva eventy, treba zachytit len jeden
 			if(e.getValueIsAdjusting()){
 				return;
 			}
 			
-			fillContactDetails(contactsList.get(usersList.getSelectedIndex()));			
+			if(usersList.getSelectedIndex() != -1){
+				fillContactDetails(contactsList.get(usersList.getSelectedIndex()));
+			}
 		}
 
 	}
 
-	private static final String DATE_FORMAT = "d.M.yyyy";
-	
 	private JButton userImagebutton;
 	private JLabel birthdayLabel;
 	private JLabel countryLabel;
@@ -80,27 +72,25 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent,AbLis
 	private JLabel gtalkLabel;
 	private JList usersList;
 	
-	private DefaultListModel usersListModel;
+	private SortedListModel usersListModel;
 	private List<AbPerson> contactsList;
 
-	
-		
+			
 	/**
 	 * Create the panel.
 	 */
 	public AbTabContactDetails() {
 		setPreferredSize(new Dimension(750, 600));		
-		
-		usersListModel = new DefaultListModel();
-		contactsList = InitProfile.getProfile().getListOfAbPersons();
-		
+			
 		setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.WEST);
 		
 		usersList = new JList();
-		usersList.setPreferredSize(new Dimension(200, 0));
+		usersList.setFixedCellWidth(210);
+		usersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		usersList.addListSelectionListener(new ContactDetailsListener());
 		scrollPane.setViewportView(usersList);
 		
 		JPanel panel = new JPanel();
@@ -123,7 +113,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent,AbLis
 		panel_3.setLayout(new MigLayout("", "[]", "[][][]"));
 		
 		contactNameHeadLabel = new JLabel("");
-		contactNameHeadLabel.setFont(new Font("Bitstream Vera Sans", contactNameHeadLabel.getFont().getStyle() | Font.BOLD, 20));
+		contactNameHeadLabel.setFont(new Font("DejaVu Sans", contactNameHeadLabel.getFont().getStyle() | Font.BOLD, 20));
 		panel_3.add(contactNameHeadLabel, "cell 0 1");
 		
 		emailHeadLabel = new JLabel("");
@@ -319,7 +309,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent,AbLis
 		panel_8.add(birthdayLabel, "cell 1 1");
 		
 		
-		initUsersListModel();
+		actualizeTab();
 	}
 
 	public void fillContactDetails(AbPerson person) {
@@ -344,25 +334,9 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent,AbLis
 		countryLabel.setText(person.getCountry());		
 		
 		if(person.getBirthday() != null){
-			SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
+			SimpleDateFormat format = new SimpleDateFormat(AbPerson.DATE_FORMAT);
 			birthdayLabel.setText(format.format(person.getBirthday()));
 		}		
-	}
-
-	private void initUsersListModel() {
-		
-			
-		for (AbPerson person : contactsList) {
-			usersListModel.addElement(person.getFullname());
-			System.out.println(person.getFullname());
-		}		
-		
-		usersList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		usersList.addListSelectionListener(new ContactDetailsListener());
-	
-		
-		usersList.setModel(usersListModel);
-		
 	}
 
 	@Override
@@ -381,15 +355,26 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent,AbLis
 	}
 
 	@Override
+    public void actualizeTab() {
+		
+		usersListModel = new SortedListModel();		
+		
+		contactsList = InitProfile.getProfile().getListOfAbPersons();
+		contactsList.clear();
+		for (AbPerson person : contactsList) {
+			if(person.getFullname() != null){
+				usersListModel.addElement(person.getFullname());	
+			}
+		}
+			
+		usersList.setModel(usersListModel);		
+		
+		usersList.repaint();
+    }
+
+	@Override
 	public void myEventOccurred(AbEvent evt, int type) {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-    public void actualizeTab() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
 }

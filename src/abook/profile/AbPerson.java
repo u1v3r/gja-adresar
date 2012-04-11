@@ -12,41 +12,43 @@ import java.util.List;
  */
 public class AbPerson {	
 
+	public static final String DATE_FORMAT = "d.M.yyyy";
+	
 	protected int id;
-	protected String namePrefix;
-	protected String firstName;
-	protected String lastName;
-	protected String nameSuffix;
-	protected String street;
-	protected String city;
-	protected String psc;
-	protected String country;
-	protected String phoneWork;
-	protected String phoneHome;
-	protected String cellPhone;
-	protected String emailWork;
-	protected String emailHome;
-	protected String skype;
-	protected String icq;
-	protected String jabber;
-	protected String gtalk;	
+	protected String namePrefix = "";
+	protected String firstName = "";
+	protected String lastName = "";
+	protected String nameSuffix = "";
+	protected String street = "";
+	protected String city = "";
+	protected String psc = "";
+	protected String country = "";
+	protected String phoneWork = "";
+	protected String phoneHome = "";
+	protected String cellPhone = "";
+	protected String emailWork = "";
+	protected String emailHome = "";
+	protected String skype = "";
+	protected String icq = "";
+	protected String jabber = "";
+	protected String gtalk = "";	
 	protected Image userImage;
-	protected String note;
+	protected String note = "";
 	protected Date birthday;
-	protected List<Integer> listOfGroupIndex;
+	protected List<String> listOfGroups;
 	
 	private static int counter = 1;
 	
 	public AbPerson(){
 		this.id = counter;
 		counter++;
+		this.listOfGroups = new ArrayList<String>();
 	}
 	
 	public AbPerson(String firstName, String lastName) {
 		this();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.listOfGroupIndex = new ArrayList<Integer>();		
 	}
 	
 	public AbPerson(String namePrefix, String firstName, String lastName){
@@ -223,16 +225,21 @@ public class AbPerson {
 		this.birthday = date;
 	}
 	
-	public void addGroup(Integer group) {
-		this.listOfGroupIndex.add(group);
+	public void addGroup(String group) {
+		if(!InitProfile.getProfile().containsGroup(group)) {
+			InitProfile.getProfile().addGroup(group);
+		}
+		this.listOfGroups.add(group);
 	}
 	
 	public void removeGroup(String group) {
-		this.listOfGroupIndex.remove(group);
+		if(listOfGroups.contains(group)) {
+			this.listOfGroups.remove(group);
+		}
 	}
 	
-	public List<Integer> getListOfGroupIndex() {
-		return this.listOfGroupIndex;
+	public List<String> getListOfGroups() {
+		return this.listOfGroups;
 	}
 
 	@Override
@@ -246,7 +253,7 @@ public class AbPerson {
 				+ ", emailHome=" + emailHome + ", skype=" + skype + ", icq="
 				+ icq + ", jabber=" + jabber + ", gtalk=" + gtalk
 				+ ", userImage=" + userImage + ", note=" + note + ", birthday="
-				+ birthday + ", listOfGroupIndex=" + listOfGroupIndex + "]";
+				+ birthday + ", listOfGroups=" + listOfGroups + "]";
 	}
 
 	public String getFullname() {
