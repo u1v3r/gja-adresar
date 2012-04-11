@@ -33,7 +33,7 @@ import abook.profile.InitProfile;
  *
  */
 @SuppressWarnings("serial")
-public class AbTabContactDetails extends JPanel implements AbITabComponent,AbListener{
+public class AbTabContactDetails extends JPanel implements AbITabComponent{
 
 
 	private final class ContactDetailsListener implements ListSelectionListener {
@@ -371,10 +371,4 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent,AbLis
 		
 		usersList.repaint();
     }
-
-	@Override
-	public void myEventOccurred(AbEvent evt, int type) {
-		// TODO Auto-generated method stub
-		
-	}
 }

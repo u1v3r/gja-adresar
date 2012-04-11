@@ -3,4 +3,4 @@ libs/gdata
 .project
 *.class
 workspace-aBook/
-
+bin/

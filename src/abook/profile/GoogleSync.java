@@ -48,6 +48,7 @@ public class GoogleSync {
 	private static final String REL_GOOGLE_TALK = "GOOGLE_TALK";
 	private static final String REL_SKYPE = "SKYPE";
 	private static final String REL_ICQ = "ICQ";
+	private static final String ANDROID_FAVORITE="Starred in Android";
 
 	private String login;
 	private String pwd;
@@ -59,6 +60,7 @@ public class GoogleSync {
 		
 		this.login = login;
 		this.pwd = pwd;
+		
 		this.profile = InitProfile.getProfile();		
 					
 		try {
@@ -66,7 +68,7 @@ public class GoogleSync {
 			if(!GenericValidator.isEmail(login)){
 				this.login = this.login + GOOGLE_SUFFIX;
 			}
-			
+						
 			this.feedUrl = new URL(
 					"https://www.google.com/m8/feeds/contacts/" + this.login + "/full");
 			this.groupFeedUrl = new URL(
@@ -97,13 +99,20 @@ public class GoogleSync {
 			// skupiny
 			ContactGroupFeed groupFeed = myService.getFeed(groupFeedUrl, ContactGroupFeed.class);					
 			
+			profile.addGroup(ANDROID_FAVORITE);
+			
 			for (ContactGroupEntry groupEntry : groupFeed.getEntries()) {
 				if(groupEntry.hasSystemGroup()){
-					String groupName = parseGroupName(groupEntry.getTitle().getPlainText());					
-					//profile.addGroup(groupName);
-					System.out.println(groupName);
+					String groupName;
+					try {
+						groupName = parseGroupName(groupEntry.getTitle().getPlainText());
+						profile.addGroup(groupName);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}					
 				}
-			}	
+			}			
 			
 			// kontakty
 			ContactFeed contactFeed = myService.getFeed(myQuery , ContactFeed.class);
@@ -177,7 +186,7 @@ public class GoogleSync {
 				
 				//narodeniny
 				if(entry.hasBirthday()){
-					System.out.println(entry.getBirthday().getWhen());
+					
 					try {						
 						SimpleDateFormat format = new SimpleDateFormat(AbPerson.DATE_FORMAT);					
 						person.setBirthday(format.parse(entry.getBirthday().getWhen()));
@@ -211,22 +220,23 @@ public class GoogleSync {
 				//priradenie do skupin
 				if(entry.hasGroupMembershipInfos()){
 					for (GroupMembershipInfo group : entry.getGroupMembershipInfos()) {
-						System.out.println("prirad:" + group.getHref());
-						
-						//person.addGroup(profile.getListOfGroups().indexOf(
-						//		parseGroupName()));						
+						try {
+							ContactGroupEntry groupEntry = myService.getEntry(new URL(group.getHref()), ContactGroupEntry.class);
+							person.addGroup(parseGroupName(groupEntry.getTitle().getPlainText()));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+												
 					}
-				}
-				
-				//person.addGroup(0);
-				
+				}			
 				persons.add(person);
 			}
 						
 		
 			InitListenerCore.getListenerCore().fireListeners(
 					new AbEvent(this), AbListener.GROUPS_CHANGED);
-			
+			InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.PROFILE_CHANGED);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -235,8 +245,7 @@ public class GoogleSync {
 			e.printStackTrace();
 		}
 		
-		//ZAMENIT ZA PERSONS
-		return new ArrayList<AbPerson>();		
+		return persons;		
 	}
 
 	/**
@@ -244,18 +253,18 @@ public class GoogleSync {
 	 * 
 	 * @param plainText
 	 * @return String group name
+	 * @throws Exception 
 	 */
-	private String parseGroupName(String plainText) {		
+	private String parseGroupName(String plainText) throws Exception {		
 		
-		if(plainText == null) return "";
-		
-		
+		if(plainText == null) throw new Exception("NULL plainText");
+				
 		if(plainText.contains(":")){
 			return (String) plainText.subSequence(plainText.indexOf(":") + 2, plainText.length());
 		}
-		
-		return "";
-		
+		else{
+			return ANDROID_FAVORITE;
+		}		
 	}
 	
 	/**

@@ -29,19 +29,6 @@ public class AbDialogGoogleSync extends JDialog {
 	private JPasswordField pwdTextField;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			AbDialogGoogleSync dialog = new AbDialogGoogleSync();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public AbDialogGoogleSync() {
@@ -110,9 +97,9 @@ public class AbDialogGoogleSync extends JDialog {
 	private void syncContacts() {
 		
 		String login = loginTextField.getText();
-		String pwd = pwdTextField.getPassword().toString();
+		String pwd = new String(pwdTextField.getPassword());
 		
-		
+				
 		if(login.isEmpty()){
 			return;
 		}
