@@ -22,9 +22,9 @@
       <jabber></jabber>
       <gtalk></gtalk>
       <note></note>
-      <listOfGroupIndex>
-        <int>0</int>
-      </listOfGroupIndex>
+      <listOfGroups>
+        <string>friends</string>
+      </listOfGroups>
     </abook.profile.AbPerson>
     <abook.profile.AbPerson>
       <id>2</id>
@@ -46,10 +46,10 @@
       <jabber></jabber>
       <gtalk></gtalk>
       <note></note>
-      <listOfGroupIndex>
-        <int>0</int>
-        <int>1</int>
-      </listOfGroupIndex>
+      <listOfGroups>
+        <string>friends</string>
+        <string>school</string>
+      </listOfGroups>
     </abook.profile.AbPerson>
   </listOfAbPersons>
   <listOfAbCards>
@@ -62,10 +62,15 @@
       <position>0</position>
     </abook.profile.AbCard>
   </listOfAbCards>
+  <openedTab>0</openedTab>
+  <searchText></searchText>
   <listOfGroups>
-    <string>friends</string>
-    <string>school</string>
+    <abook.profile.AbGroup>
+      <name>friends</name>
+    </abook.profile.AbGroup>
+    <abook.profile.AbGroup>
+      <name>school</name>
+    </abook.profile.AbGroup>
   </listOfGroups>
   <listOfSelectedGroups/>
-  <openedTab>0</openedTab>
 </abook.profile.AbProfile>

@@ -1,3 +1,6 @@
 libs/gdata
 .classpath
 .project
+*.class
+workspace-aBook/
+
