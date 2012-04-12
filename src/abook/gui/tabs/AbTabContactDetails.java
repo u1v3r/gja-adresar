@@ -23,8 +23,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.miginfocom.swing.MigLayout;
+import abook.gui.dialogs.AbDialogAddContact;
 import abook.profile.AbPerson;
 import abook.profile.InitProfile;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 /**
@@ -110,11 +113,22 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		
 		JPanel panel_3 = new JPanel();
 		panel_1.add(panel_3, BorderLayout.CENTER);
-		panel_3.setLayout(new MigLayout("", "[]", "[][][]"));
+		panel_3.setLayout(new MigLayout("", "[grow][]", "[][][]"));
 		
 		contactNameHeadLabel = new JLabel("");
 		contactNameHeadLabel.setFont(new Font("DejaVu Sans", contactNameHeadLabel.getFont().getStyle() | Font.BOLD, 20));
 		panel_3.add(contactNameHeadLabel, "cell 0 1");
+		
+		JButton btnEdit = new JButton(TabsMessages.getString("AbTabContactDetails.btnEdit.text")); //$NON-NLS-1$
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(usersList.getSelectedIndex() < 0) return;
+				
+				new AbDialogAddContact(contactsListFiltered.get(usersList.getSelectedIndex())).setVisible(true);
+			}
+		});
+		panel_3.add(btnEdit, "cell 1 1");
 		
 		emailHeadLabel = new JLabel("");
 		panel_3.add(emailHeadLabel, "cell 0 2");
@@ -132,11 +146,11 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		panel_4.add(panel_5, "cell 0 0,grow");
 		panel_5.setLayout(new MigLayout("", "[][]", "[][][][]"));
 		
-		JLabel label_4 = new JLabel("Tel. čísla");
+		JLabel label_4 = new JLabel(TabsMessages.getString("AbTabContactDetails.label_4.text")); //$NON-NLS-1$
 		label_4.setForeground(new Color(0, 0, 0));
 		panel_5.add(label_4, "cell 0 0");
 		
-		JLabel label_5 = new JLabel("Domov:");
+		JLabel label_5 = new JLabel(TabsMessages.getString("AbTabContactDetails.label_5.text")); //$NON-NLS-1$
 		label_5.setForeground(new Color(0, 0, 0));
 		label_5.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_5.add(label_5, "cell 0 1");
@@ -146,7 +160,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		phoneHomeLabel.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_5.add(phoneHomeLabel, "cell 1 1");
 		
-		JLabel label_6 = new JLabel("Práca:");
+		JLabel label_6 = new JLabel(TabsMessages.getString("AbTabContactDetails.label_6.text")); //$NON-NLS-1$
 		label_6.setForeground(new Color(0, 0, 0));
 		label_6.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_5.add(label_6, "cell 0 2");
@@ -156,7 +170,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		phoneWorkLabel.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_5.add(phoneWorkLabel, "cell 1 2");
 		
-		JLabel label_1 = new JLabel("Mobil:");
+		JLabel label_1 = new JLabel(TabsMessages.getString("AbTabContactDetails.label_1.text")); //$NON-NLS-1$
 		label_1.setForeground(new Color(0, 0, 0));
 		label_1.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_5.add(label_1, "cell 0 3");
@@ -171,11 +185,11 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		panel_4.add(panel_6, "cell 0 1,grow");
 		panel_6.setLayout(new MigLayout("", "[][140.00][][][]", "[][][][][]"));
 		
-		JLabel lblInternet = new JLabel("Internet");
+		JLabel lblInternet = new JLabel(TabsMessages.getString("AbTabContactDetails.lblInternet.text")); //$NON-NLS-1$
 		lblInternet.setForeground(new Color(0, 0, 0));
 		panel_6.add(lblInternet, "cell 0 0");
 		
-		JLabel lblEmailDomov = new JLabel("E-Mail domov:");
+		JLabel lblEmailDomov = new JLabel(TabsMessages.getString("AbTabContactDetails.lblEmailDomov.text")); //$NON-NLS-1$
 		lblEmailDomov.setForeground(new Color(0, 0, 0));
 		lblEmailDomov.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_6.add(lblEmailDomov, "cell 0 1");
@@ -185,7 +199,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		emailHomeLabel.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_6.add(emailHomeLabel, "cell 1 1");
 		
-		JLabel lblIcq = new JLabel("ICQ");
+		JLabel lblIcq = new JLabel(TabsMessages.getString("AbTabContactDetails.lblIcq.text")); //$NON-NLS-1$
 		lblIcq.setForeground(Color.BLACK);
 		lblIcq.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_6.add(lblIcq, "cell 3 1");
@@ -195,7 +209,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		icqLabel.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_6.add(icqLabel, "cell 4 1");
 		
-		JLabel lblEmailPrca = new JLabel("E-Mail práca:");
+		JLabel lblEmailPrca = new JLabel(TabsMessages.getString("AbTabContactDetails.lblEmailPrca.text")); //$NON-NLS-1$
 		lblEmailPrca.setForeground(new Color(0, 0, 0));
 		lblEmailPrca.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_6.add(lblEmailPrca, "cell 0 2");
@@ -205,7 +219,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		emailWorkLabel.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_6.add(emailWorkLabel, "cell 1 2");
 		
-		JLabel lblSkype = new JLabel("Skype");
+		JLabel lblSkype = new JLabel(TabsMessages.getString("AbTabContactDetails.lblSkype.text")); //$NON-NLS-1$
 		lblSkype.setForeground(Color.BLACK);
 		lblSkype.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_6.add(lblSkype, "cell 3 2");
@@ -218,7 +232,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		JLabel imLabel = new JLabel("");
 		panel_6.add(imLabel, "cell 1 3");
 		
-		JLabel lblJabber = new JLabel("Jabber");
+		JLabel lblJabber = new JLabel(TabsMessages.getString("AbTabContactDetails.lblJabber.text")); //$NON-NLS-1$
 		lblJabber.setForeground(Color.BLACK);
 		lblJabber.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_6.add(lblJabber, "cell 3 3");
@@ -228,7 +242,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		jabberLabel.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_6.add(jabberLabel, "cell 4 3");
 		
-		JLabel lblGtalk = new JLabel("Gtalk");
+		JLabel lblGtalk = new JLabel(TabsMessages.getString("AbTabContactDetails.lblGtalk.text")); //$NON-NLS-1$
 		lblGtalk.setForeground(Color.BLACK);
 		lblGtalk.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_6.add(lblGtalk, "cell 3 4");
@@ -243,11 +257,11 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		panel_4.add(panel_7, "cell 0 2,grow");
 		panel_7.setLayout(new MigLayout("", "[][]", "[][][][][]"));
 		
-		JLabel lblAdresa = new JLabel("Adresa");
+		JLabel lblAdresa = new JLabel(TabsMessages.getString("AbTabContactDetails.lblAdresa.text")); //$NON-NLS-1$
 		lblAdresa.setForeground(new Color(0, 0, 0));
 		panel_7.add(lblAdresa, "cell 0 0");
 		
-		JLabel lblUlica = new JLabel("Ulica:");
+		JLabel lblUlica = new JLabel(TabsMessages.getString("AbTabContactDetails.lblUlica.text")); //$NON-NLS-1$
 		lblUlica.setForeground(new Color(0, 0, 0));
 		lblUlica.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_7.add(lblUlica, "cell 0 1");
@@ -257,7 +271,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		streetLabel.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_7.add(streetLabel, "cell 1 1");
 		
-		JLabel lblMesto = new JLabel("Mesto:");
+		JLabel lblMesto = new JLabel(TabsMessages.getString("AbTabContactDetails.lblMesto.text")); //$NON-NLS-1$
 		lblMesto.setForeground(new Color(0, 0, 0));
 		lblMesto.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_7.add(lblMesto, "cell 0 2");
@@ -268,7 +282,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		cityLabel.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_7.add(cityLabel, "cell 1 2");
 		
-		JLabel lblPs = new JLabel("PSČ:");
+		JLabel lblPs = new JLabel(TabsMessages.getString("AbTabContactDetails.lblPs.text")); //$NON-NLS-1$
 		lblPs.setForeground(new Color(0, 0, 0));
 		lblPs.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_7.add(lblPs, "cell 0 3");
@@ -279,7 +293,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		pscLabel.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_7.add(pscLabel, "cell 1 3");
 		
-		JLabel lblKrajina = new JLabel("Krajina:");
+		JLabel lblKrajina = new JLabel(TabsMessages.getString("AbTabContactDetails.lblKrajina.text")); //$NON-NLS-1$
 		lblKrajina.setForeground(new Color(0, 0, 0));
 		lblKrajina.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_7.add(lblKrajina, "cell 0 4");
@@ -294,11 +308,11 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		panel_4.add(panel_8, "cell 0 3,grow");
 		panel_8.setLayout(new MigLayout("", "[][]", "[][]"));
 		
-		JLabel lblOsobn = new JLabel("Osobné");
+		JLabel lblOsobn = new JLabel(TabsMessages.getString("AbTabContactDetails.lblOsobn.text")); //$NON-NLS-1$
 		lblOsobn.setForeground(new Color(0, 0, 0));
 		panel_8.add(lblOsobn, "cell 0 0");
 		
-		JLabel lblNarodeniny = new JLabel("Narodeniny:");
+		JLabel lblNarodeniny = new JLabel(TabsMessages.getString("AbTabContactDetails.lblNarodeniny.text")); //$NON-NLS-1$
 		lblNarodeniny.setForeground(new Color(0, 0, 0));
 		lblNarodeniny.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_8.add(lblNarodeniny, "cell 0 1");
@@ -331,7 +345,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		gtalkLabel.setText(person.getGtalk());
 		streetLabel.setText(person.getStreet());
 		cityLabel.setText(person.getCity());
-		pscLabel.setText(person.getPsc());
+		pscLabel.setText(person.getZipCode());
 		countryLabel.setText(person.getCountry());		
 		
 		if(person.getBirthday() != null){
@@ -385,7 +399,6 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		}
 			
 		usersList.setModel(usersListModel);		
-		
 		usersList.repaint();
     }
 }

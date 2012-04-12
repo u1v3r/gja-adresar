@@ -114,7 +114,7 @@ public class AbPerson implements Comparable<AbPerson>{
 		this.city = city;
 	}
 
-	public String getPsc() {
+	public String getZipCode() {
 		return psc;
 	}
 

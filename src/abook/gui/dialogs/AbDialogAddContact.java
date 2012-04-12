@@ -10,6 +10,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -89,10 +91,10 @@ public class AbDialogAddContact extends JDialog {
 	private JTextField namePrefixTextField;
 	private JTextField firstNameTextField;
 	private JTextField lastnameTextField;
-	private JTextField textField_3;
+	private JTextField nameSuffixTextField;
 	private JTextField streetTextField;
 	private JTextField cityTextField;
-	private JTextField pscTextField;
+	private JTextField zipCodeTextField;
 	private JTextField countryTextField;
 	private JTextField phoneHomeTextField;
 	private JTextField phoneWorkTextField;
@@ -107,6 +109,8 @@ public class AbDialogAddContact extends JDialog {
 	private JTextArea noteTextArea;
 	private JButton btnUserImage;
 	private JList groupsList;
+	
+	private AbPerson editedContact;
 	
 	/**
 	 * Create empty dialog.
@@ -199,9 +203,9 @@ public class AbDialogAddContact extends JDialog {
 					panel_1.add(label, "2, 10, right, default");
 				}
 				{
-					textField_3 = new JTextField();
-					textField_3.setColumns(10);
-					panel_1.add(textField_3, "4, 10, fill, default");
+					nameSuffixTextField = new JTextField();
+					nameSuffixTextField.setColumns(10);
+					panel_1.add(nameSuffixTextField, "4, 10, fill, default");
 				}
 			}
 			{
@@ -251,9 +255,9 @@ public class AbDialogAddContact extends JDialog {
 					panel_1.add(label, "2, 8, right, default");
 				}
 				{
-					pscTextField = new JTextField();
-					pscTextField.setColumns(10);
-					panel_1.add(pscTextField, "4, 8");
+					zipCodeTextField = new JTextField();
+					zipCodeTextField.setColumns(10);
+					panel_1.add(zipCodeTextField, "4, 8");
 				}
 				{
 					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_8")); //$NON-NLS-1$
@@ -537,7 +541,62 @@ public class AbDialogAddContact extends JDialog {
 	
 	
 	/**
-	 * Initialize groupList
+	 * Open dialog with provided {@link AbPerson}
+	 * 
+	 * @param person {@link AbPerson}
+	 */
+	public AbDialogAddContact(AbPerson person){
+		this();
+		this.editedContact = person;
+		fillFormular(person);
+	}
+	
+	
+	/**
+	 * Fill fomular with provided data
+	 * 
+	 * @param person {@link AbPerson}
+	 */
+	private void fillFormular(AbPerson person) {
+		
+		namePrefixTextField.setText(person.getNamePrefix());
+		nameSuffixTextField.setText(person.getNameSuffix());
+		firstNameTextField.setText(person.getFirstName());
+		lastnameTextField.setText(person.getLastName());
+		streetTextField.setText(person.getStreet());
+		cityTextField.setText(person.getCity());
+		zipCodeTextField.setText(person.getZipCode());
+		countryTextField.setText(person.getCountry());
+		emailHomeTextField.setText(person.getEmailHome());
+		emailWorkTextField.setText(person.getEmailWork());
+		phoneHomeTextField.setText(person.getPhoneHome());
+		phoneWorkTextField.setText(person.getPhoneWork());
+		cellPhoneTextField.setText(person.getCellPhone());
+		icqTextField.setText(person.getIcq());
+		skypeTextField.setText(person.getSkype());
+		gtalkTextField.setText(person.getGtalk());
+		jabberTextField.setText(person.getJabber());
+		if(person.getBirthday() != null) birthdayDateChooser.setDate(person.getBirthday());
+		
+		
+		List<Integer> selected = new ArrayList<Integer>();
+		
+		for (String group : person.getListOfGroups()) {
+			selected.add(groupListModel.indexOf(group));		
+			
+		}
+		
+		if(selected.size() > 0){						
+			groupsList.setSelectedIndices(castIntegers(selected));
+		}
+		
+		
+		noteTextArea.setText(person.getNote());
+	}
+
+
+	/**
+	 * Initialize groupsList
 	 */
 	private void initGroupList() {
 		
@@ -555,15 +614,29 @@ public class AbDialogAddContact extends JDialog {
 	private void save() {
 		
 		if(validateForm()){
-						
-			AbPerson contact = new AbPerson(firstNameTextField.getText(), 
-					lastnameTextField.getText());
 			
+			AbPerson contact;
+			
+			// ak edituje tak vloz editovany inak novy
+			if(this.editedContact != null){
+				// odstranenie priradenia do starych skupin				
+				this.editedContact.getListOfGroups().clear();
+								
+				//treba odstranit stary zaznam				
+				this.profile.getListOfAbPersons().remove(this.editedContact);
+				
+				contact = this.editedContact;
+			}else {
+				contact = new AbPerson();
+			}
+			
+			contact.setFirstName(firstNameTextField.getText());
+			contact.setLastName(lastnameTextField.getText());
 			contact.setNamePrefix(namePrefixTextField.getText());
-			contact.setNameSuffix(firstNameTextField.getText());
+			contact.setNameSuffix(nameSuffixTextField.getText());
 			contact.setStreet(streetTextField.getText());
 			contact.setCity(cityTextField.getText());
-			contact.setPsc(pscTextField.getText());
+			contact.setPsc(zipCodeTextField.getText());
 			contact.setCountry(countryTextField.getText());
 			contact.setPhoneHome(phoneHomeTextField.getText());
 			contact.setPhoneWork(phoneWorkTextField.getText());
@@ -613,34 +686,29 @@ public class AbDialogAddContact extends JDialog {
 		}
 		
 		// ak je nastavene psc, tak musi byt číslo
-		if(!pscTextField.getText().isEmpty()){
+		if(!zipCodeTextField.getText().isEmpty()){
 			// je cislo a je 5 znakov dlhe
-			if(!GenericValidator.isInt(pscTextField.getText())){
-				pscTextField.setBackground(VALIDATE_ERROR_COLOR);
+			if(!GenericValidator.isInt(zipCodeTextField.getText())){
+				zipCodeTextField.setBackground(VALIDATE_ERROR_COLOR);				
 				return false;
 			}
 		}
 		
 		// ak su nastavene telefonne cisla, tak musia byt cisla
-		if(!phoneHomeTextField.getText().isEmpty()){
-			if(!GenericValidator.isInt(phoneHomeTextField.getText())){
-				phoneHomeTextField.setBackground(VALIDATE_ERROR_COLOR);
-				return false;
-			}
+		if(!validatePhone(phoneHomeTextField.getText())){
+			phoneHomeTextField.setBackground(VALIDATE_ERROR_COLOR);
+			return false;						
 		}
 		
-		if(!phoneWorkTextField.getText().isEmpty()){
-			if(!GenericValidator.isInt(phoneWorkTextField.getText())){
-				phoneWorkTextField.setBackground(VALIDATE_ERROR_COLOR);
-				return false;
-			}
+		if(!validatePhone(phoneWorkTextField.getText())){
+			phoneWorkTextField.setBackground(VALIDATE_ERROR_COLOR);
+			return false;
 		}
 		
-		if(!cellPhoneTextField.getText().isEmpty()){
-			if(!GenericValidator.isInt(cellPhoneTextField.getText())){
-				cellPhoneTextField.setBackground(VALIDATE_ERROR_COLOR);
-				return false;
-			}
+		if(!validatePhone(cellPhoneTextField.getText())){
+			cellPhoneTextField.setBackground(VALIDATE_ERROR_COLOR);
+			return false;
+			
 		}
 		
 		// ak je nastaveny mail, tak musi mat spravny format
@@ -701,7 +769,7 @@ public class AbDialogAddContact extends JDialog {
 	}
 	
 	/**
-	 * User image dialog
+	 * User image choose dialog
 	 */
 	private void chooseUserImage(){
 
@@ -710,13 +778,70 @@ public class AbDialogAddContact extends JDialog {
 
 		if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
 			// ziskame obrazok z dialogu
-			ImageIcon userImageIcon = new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath());			
-			Image img = userImageIcon.getImage();
-			// zmensime resp. zvascime na pozadovanu velkost
-			userImage = img.getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH);
-			// nastavime upraveny obrazok do btn
-			btnUserImage.setIcon(new ImageIcon(userImage));
-			btnUserImage.repaint();
+			setUserImage(new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath()));
 		}	
+	}
+	
+	/**
+	 * Set image to btnUserImage
+	 * 
+	 * @param icon {@link ImageIcon}
+	 */
+	private void setUserImage(ImageIcon icon){					
+		Image img = icon.getImage();
+		// zmensime resp. zvascime na pozadovanu velkost
+		userImage = img.getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH);
+		// nastavime upraveny obrazok do btn
+		btnUserImage.setIcon(new ImageIcon(userImage));
+		btnUserImage.repaint();
+	}
+	
+	/**
+	 * Cast {@link Integer} to int[]
+	 * 
+	 * @param integers[] {@link Integer}
+	 * 
+	 * @return int[]
+	 */
+	public int[] castIntegers(List<Integer> integers){
+		
+	    int[] ret = new int[integers.size()];
+	    for (int i=0; i < ret.length; i++)
+	    {
+	        ret[i] = integers.get(i).intValue();
+	    }
+	    
+	    return ret;
+	}
+	
+	/**
+	 * Validate phone number
+	 * 
+	 * @param phoneNumber {@link String}
+	 * 
+	 * @return boolean
+	 */
+	private boolean validatePhone(String phoneNumber){
+				
+		if(!phoneNumber.isEmpty()){			
+			if(phoneNumber.indexOf("+") == 0){
+				String number = phoneNumber.substring(phoneNumber.indexOf("+")+1);				
+				try{
+					Long.parseLong(number,10);
+					return true;
+				} catch (NumberFormatException e){					
+					return false;				
+				}
+			}else{
+				if(GenericValidator.isInt(phoneNumber)){				
+					return true;
+				}
+			}
+		}
+		else{
+			return true;
+		}
+		
+		return false;
 	}
 }
