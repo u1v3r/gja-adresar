@@ -1,6 +1,7 @@
 package abook.gui.dialogs;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -28,6 +29,9 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.validator.GenericValidator;
 
+import abook.listeners.AbEvent;
+import abook.listeners.AbListener;
+import abook.listeners.InitListenerCore;
 import abook.profile.AbGroup;
 import abook.profile.AbPerson;
 import abook.profile.AbProfile;
@@ -51,6 +55,7 @@ public class AbDialogAddContact extends JDialog {
 	
 	private static final int IMAGE_WIDTH = 100;
 	private static final int IMAGE_HEIGHT = 100;
+	private static final Color VALIDATE_ERROR_COLOR = Color.RED;
 	
 	/**
 	 * File dialog filter
@@ -538,7 +543,6 @@ public class AbDialogAddContact extends JDialog {
 		
 		for (AbGroup group : profile.getListOfGroups()) {
 			groupListModel.addElement(group.getGroupName());
-			System.out.println(group.getGroupName());
 		}
 		
 		groupsList.setModel(groupListModel);
@@ -571,11 +575,11 @@ public class AbDialogAddContact extends JDialog {
 			contact.setJabber(jabberTextField.getText());
 			contact.setGtalk(gtalkTextField.getText());			
 			contact.setBirthday(birthdayDateChooser.getDate());
+									
+			for (Object group : this.groupsList.getSelectedValues()) {
+				contact.addGroup(group.toString());
+			}
 			
-			//TODO se to zkomplikovalo ... uz se nevede seznam integeru (indexu) vybranych skupin, ale primo seznam stringu (jmen skupin)
-			/*for (Integer groups : this.groupsList.getSelectedIndices()) {
-				contact.addGroup(groups);
-			}*/
 			contact.setBirthday(birthdayDateChooser.getDate());
 			contact.setNote(noteTextArea.getText());
 			contact.setUserImage(userImage);
@@ -584,6 +588,9 @@ public class AbDialogAddContact extends JDialog {
 			
 			// zatvor dialog
 			setVisible(false);
+			
+			InitListenerCore.getListenerCore().fireListeners(
+					new AbEvent(this), AbListener.PROFILE_CHANGED);
 		}		
 	}
 
@@ -596,15 +603,20 @@ public class AbDialogAddContact extends JDialog {
 	private boolean validateForm() {
 		
 		// kontorla mena
-		if(firstNameTextField.getText().isEmpty() || lastnameTextField.getText().isEmpty()){
+		if(firstNameTextField.getText().isEmpty()){
+			firstNameTextField.setBackground(VALIDATE_ERROR_COLOR);
+			return false;		
+		}
+		if(lastnameTextField.getText().isEmpty()){
+			lastnameTextField.setBackground(VALIDATE_ERROR_COLOR);
 			return false;
 		}
 		
 		// ak je nastavene psc, tak musi byt číslo
 		if(!pscTextField.getText().isEmpty()){
 			// je cislo a je 5 znakov dlhe
-			if(!GenericValidator.isInt(pscTextField.getText()) ||
-					!GenericValidator.isInRange(Integer.valueOf(pscTextField.getText()), 5, 5)){
+			if(!GenericValidator.isInt(pscTextField.getText())){
+				pscTextField.setBackground(VALIDATE_ERROR_COLOR);
 				return false;
 			}
 		}
@@ -612,18 +624,21 @@ public class AbDialogAddContact extends JDialog {
 		// ak su nastavene telefonne cisla, tak musia byt cisla
 		if(!phoneHomeTextField.getText().isEmpty()){
 			if(!GenericValidator.isInt(phoneHomeTextField.getText())){
+				phoneHomeTextField.setBackground(VALIDATE_ERROR_COLOR);
 				return false;
 			}
 		}
 		
 		if(!phoneWorkTextField.getText().isEmpty()){
 			if(!GenericValidator.isInt(phoneWorkTextField.getText())){
+				phoneWorkTextField.setBackground(VALIDATE_ERROR_COLOR);
 				return false;
 			}
 		}
 		
 		if(!cellPhoneTextField.getText().isEmpty()){
 			if(!GenericValidator.isInt(cellPhoneTextField.getText())){
+				cellPhoneTextField.setBackground(VALIDATE_ERROR_COLOR);
 				return false;
 			}
 		}
@@ -631,12 +646,14 @@ public class AbDialogAddContact extends JDialog {
 		// ak je nastaveny mail, tak musi mat spravny format
 		if(!emailHomeTextField.getText().isEmpty()){
 			if(GenericValidator.isEmail(emailHomeTextField.getText())){
+				emailHomeTextField.setBackground(VALIDATE_ERROR_COLOR);
 				return true;
 			}
 		}
 		
 		if(!emailWorkTextField.getText().isEmpty()){
 			if(GenericValidator.isEmail(emailWorkTextField.getText())){
+				emailWorkTextField.setBackground(VALIDATE_ERROR_COLOR);
 				return true;
 			}
 		}
@@ -644,6 +661,7 @@ public class AbDialogAddContact extends JDialog {
 		// gtalk a jabber ma format emailu
 		if(!gtalkTextField.getText().isEmpty()){
 			if(!GenericValidator.isEmail(gtalkTextField.getText())){
+				gtalkTextField.setBackground(VALIDATE_ERROR_COLOR);
 				return false;
 			}
 		}
@@ -651,6 +669,7 @@ public class AbDialogAddContact extends JDialog {
 		
 		if(!jabberTextField.getText().isEmpty()){
 			if(!GenericValidator.isEmail(jabberTextField.getText())){
+				jabberTextField.setBackground(VALIDATE_ERROR_COLOR);
 				return false;
 			}
 		}
@@ -659,17 +678,24 @@ public class AbDialogAddContact extends JDialog {
 		// icq musi byt cislo
 		if(!icqTextField.getText().isEmpty()){
 			if(!GenericValidator.isInt(icqTextField.getText())){
+				icqTextField.setBackground(VALIDATE_ERROR_COLOR);
 				return false;
 			}
 		}
 		
+		// musi byt vybrana aspon jedna skupina
+		if(groupsList.getSelectedIndices().length < 1){
+			groupsList.setBackground(VALIDATE_ERROR_COLOR);
+			return false;
+		}
+		
 		// kontrola datumu
-		if(birthdayDateChooser.getDate() != null){
+		/*if(birthdayDateChooser.getDate() != null){
 			if(!GenericValidator.isDate(birthdayDateChooser.getDateFormatString(), 
 					getLocale())){
 				return false;
 			}
-		}
+		}*/
 		
 		return true;
 	}

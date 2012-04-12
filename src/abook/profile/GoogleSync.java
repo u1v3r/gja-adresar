@@ -34,6 +34,7 @@ import com.google.gdata.util.ServiceException;
 import com.jtattoo.plaf.BaseTabbedPaneUI.MyTabComponentListener;
 
 /**
+ * Import contacts from google account
  * 
  * @author Radovan Dvorsky
  *
