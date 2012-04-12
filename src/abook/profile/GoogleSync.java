@@ -222,10 +222,12 @@ public class GoogleSync {
 				if(entry.hasGroupMembershipInfos()){
 					for (GroupMembershipInfo group : entry.getGroupMembershipInfos()) {
 						try {
+							/*
+							 * TODO treba vymysliet nieco rychlejsie
+							 */
 							ContactGroupEntry groupEntry = myService.getEntry(new URL(group.getHref()), ContactGroupEntry.class);
 							person.addGroup(parseGroupName(groupEntry.getTitle().getPlainText()));
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 												
@@ -239,10 +241,8 @@ public class GoogleSync {
 					new AbEvent(this), AbListener.GROUPS_CHANGED);
 			InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.PROFILE_CHANGED);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
