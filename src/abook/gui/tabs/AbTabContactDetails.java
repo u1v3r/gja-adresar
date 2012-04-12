@@ -5,8 +5,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -20,9 +23,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.miginfocom.swing.MigLayout;
-import abook.listeners.AbEvent;
-import abook.listeners.AbListener;
-import abook.others.SortedListModel;
 import abook.profile.AbPerson;
 import abook.profile.InitProfile;
 
@@ -47,7 +47,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 			}
 			
 			if(usersList.getSelectedIndex() != -1){
-				fillContactDetails(contactsList.get(usersList.getSelectedIndex()));
+				fillContactDetails(contactsListFiltered.get(usersList.getSelectedIndex()));
 			}
 		}
 
@@ -72,9 +72,9 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 	private JLabel gtalkLabel;
 	private JList usersList;
 	
-	private SortedListModel usersListModel;
+	private DefaultListModel usersListModel;
 	private List<AbPerson> contactsList;
-
+	private List<AbPerson> contactsListFiltered;
 			
 	/**
 	 * Create the panel.
@@ -327,7 +327,8 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		emailWorkLabel.setText(person.getEmailWork());
 		icqLabel.setText(person.getIcq());
 		skypeLabel.setText(person.getSkype());
-		jabberLabel.setText(person.getGtalk());
+		jabberLabel.setText(person.getJabber());
+		gtalkLabel.setText(person.getGtalk());
 		streetLabel.setText(person.getStreet());
 		cityLabel.setText(person.getCity());
 		pscLabel.setText(person.getPsc());
@@ -357,14 +358,30 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 	@Override
     public void actualizeTab() {
 		
-		usersListModel = new SortedListModel();		
-		
+		usersListModel = new DefaultListModel();		
 		contactsList = InitProfile.getProfile().getListOfAbPersons();
-		contactsList.clear();
+		contactsListFiltered = new ArrayList<AbPerson>();
+
+		//zoradi podla priezviska
+		Collections.sort(contactsList);
+		
+		List<String> selectedGroups = InitProfile.getProfile().getListOfSelectedGroups();
+		String pattern = InitProfile.getProfile().getSearchText();
+		
 		for (AbPerson person : contactsList) {
-			if(person.getFullname() != null){
-				usersListModel.addElement(person.getFullname());	
-			}
+			
+			// search filter
+			if(new String(person.getFirstName() + " " + person.getLastName()).toLowerCase().indexOf(pattern) < 0) continue;			
+			
+			// groups filter
+			for(String group : person.getListOfGroups()){
+				if(selectedGroups.contains(group)) {
+					if(person.getFullname() != null && !contactsListFiltered.contains(person)){					
+						usersListModel.addElement(person.getFullname());
+						contactsListFiltered.add(person);
+					}					
+				}
+			}			
 		}
 			
 		usersList.setModel(usersListModel);		

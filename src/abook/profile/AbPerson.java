@@ -6,11 +6,12 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * Contact
  * 
  * @author Radovan Dvorsky
  *
  */
-public class AbPerson {	
+public class AbPerson implements Comparable<AbPerson>{	
 
 	public static final String DATE_FORMAT = "d.M.yyyy";
 	
@@ -259,5 +260,10 @@ public class AbPerson {
 	public String getFullname() {
 		return this.firstName + " " 
 				+ this.lastName;
+	}
+
+	@Override
+	public int compareTo(AbPerson o) {
+		return this.lastName.compareTo(o.lastName);
 	}	
 }

@@ -109,7 +109,7 @@ public class AbDialogAddContact extends JDialog {
 	private JList groupsList;
 	
 	/**
-	 * Create the dialog.
+	 * Create empty dialog.
 	 */
 	public AbDialogAddContact() {
 		
