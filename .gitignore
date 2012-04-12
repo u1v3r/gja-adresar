@@ -4,3 +4,4 @@ libs/gdata
 *.class
 workspace-aBook/
 bin/
+*.old

@@ -75,7 +75,7 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
         
         // SEPARATOR //
         bar.addSeparator();
-        addButton("Sync contacts", "/icons/Add.png", actions.getActionSyncContacts(), 0);
+        addButton("Import google contacts", "/icons/Google-icon.png", actions.getActionSyncContacts(), 0);
         
         // SEPARATOR //
         bar.addSeparator();
