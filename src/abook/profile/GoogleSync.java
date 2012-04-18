@@ -3,12 +3,9 @@ package abook.profile;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.validator.GenericValidator;
@@ -28,10 +25,8 @@ import com.google.gdata.data.extensions.Email;
 import com.google.gdata.data.extensions.Im;
 import com.google.gdata.data.extensions.Name;
 import com.google.gdata.data.extensions.PhoneNumber;
-import com.google.gdata.data.extensions.PostalAddress;
 import com.google.gdata.data.extensions.StructuredPostalAddress;
 import com.google.gdata.util.ServiceException;
-import com.jtattoo.plaf.BaseTabbedPaneUI.MyTabComponentListener;
 
 /**
  * Import contacts from google account

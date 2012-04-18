@@ -24,6 +24,12 @@ import abook.listeners.InitListenerCore;
 import abook.profile.AbGroup;
 import abook.profile.InitProfile;
 
+/**
+ * Tab for groups.
+ * 
+ * @author Marek Mesar
+ *
+ */
 public class AbTabGroups implements TableModelListener, AbITabComponent, AbListener {
 	
 	protected JScrollPane panel;
@@ -35,7 +41,9 @@ public class AbTabGroups implements TableModelListener, AbITabComponent, AbListe
 	
 	protected String savedCellValue = "";
 	
-
+	/**
+	 * Creates new tab for groups.
+	 */
 	public AbTabGroups() {
 		
 		InitListenerCore.getListenerCore().addListener(this);
@@ -46,7 +54,7 @@ public class AbTabGroups implements TableModelListener, AbITabComponent, AbListe
 	}
 
 	/**
-	 * creates table model and table
+	 * Creates table model and table.
 	 */
 	private void createTable() {
 		
@@ -148,7 +156,6 @@ public class AbTabGroups implements TableModelListener, AbITabComponent, AbListe
 			return (String) table.getValueAt(rowIndex, 0);
 		}else return null;
 	}
-
 	
 	@Override
 	public void tableChanged(TableModelEvent e) {
@@ -161,9 +168,13 @@ public class AbTabGroups implements TableModelListener, AbITabComponent, AbListe
 			InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.GROUPS_CHANGED);
 		}
 	}
-
 	
-	// Custom table editor class for validating edit of group names
+	/**
+	 * Custom table editor class for validating edit of group names
+	 * 
+	 * @author Marek Mesar
+	 *
+	 */
 	@SuppressWarnings("serial")
     public class CustomTableCellEditor extends AbstractCellEditor implements TableCellEditor {
 	    // This is the component that will handle the editing of the cell value

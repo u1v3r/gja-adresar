@@ -194,10 +194,14 @@ public class AbSideBar implements AbIGuiComponent, AbListener, ActionListener {
 	 */
 	class DoubleClick extends MouseAdapter {
 
+		/**
+		 * Constructor creates new action.
+		 */
 		public DoubleClick() {
 			super();
 		}
 		
+		@Override
 		public void mousePressed(MouseEvent e) {
 			int selRow = tree.getRowForLocation(e.getX(), e.getY());
 			if(selRow != -1) {

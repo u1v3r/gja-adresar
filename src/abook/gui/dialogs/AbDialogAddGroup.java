@@ -24,7 +24,7 @@ import abook.profile.InitProfile;
 
 /**
  * 
- * @author Marek Mešár
+ * @author Marek Mesar
  *
  */
 
@@ -73,7 +73,7 @@ public class AbDialogAddGroup extends JFrame{
 			
 			@Override
 			public void keyTyped(KeyEvent arg0) {
-				// TODO Auto-generated method stub
+				// do nothing //
 			}
 			
 			@Override
@@ -84,7 +84,7 @@ public class AbDialogAddGroup extends JFrame{
 			
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				// TODO Auto-generated method stub
+				// do nothing //
 			}
 		});
         

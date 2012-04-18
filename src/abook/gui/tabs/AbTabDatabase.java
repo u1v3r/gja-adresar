@@ -11,6 +11,12 @@ import javax.swing.table.TableRowSorter;
 import abook.profile.AbPerson;
 import abook.profile.InitProfile;
 
+/**
+ * Tab with table of database.
+ * 
+ * @author xjanda17
+ *
+ */
 public class AbTabDatabase implements AbITabComponent {
 	
 	protected JScrollPane panel;
@@ -19,6 +25,9 @@ public class AbTabDatabase implements AbITabComponent {
 	protected JTable table;
 	protected DefaultTableModel tableModel;
 	
+	/**
+	 * Creates new tab.
+	 */
 	public AbTabDatabase() {
 		
 		createTable();
@@ -26,6 +35,9 @@ public class AbTabDatabase implements AbITabComponent {
 		this.panel = new JScrollPane(table);;
 	}
 
+	/**
+	 * Creates new table with database.
+	 */
 	private void createTable() {
 		
 		tableModel = new DefaultTableModel();

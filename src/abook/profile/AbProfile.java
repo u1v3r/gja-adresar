@@ -3,7 +3,12 @@ package abook.profile;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Main profile class.
+ * 
+ * @author jurij
+ *
+ */
 public class AbProfile {
 	
 	protected static int counter = 1;
@@ -11,15 +16,13 @@ public class AbProfile {
 	protected String user;
 	protected List<AbPerson> listOfAbPersons;
 	protected List<AbCard> listOfAbCards;
-	//protected List<String> listOfGroups;
-	//protected List<Integer> listOfSelectedGroups;
 	protected int openedTab;
 	protected String searchText;
 	protected List<AbGroup> listOfGroups;
 	protected List<String> listOfSelectedGroups;
 	
 	/**
-	 * Creates new profile
+	 * Creates new profile.
 	 */
 	public AbProfile(String user) {
 		
@@ -35,14 +38,16 @@ public class AbProfile {
 	}
 
 	/**
+	 * Returns user name.
 	 * 
-	 * @return
+	 * @return user
 	 */
 	public String getUserName() {
 		return user;
 	}
 
 	/**
+	 * Set user name.
 	 * 
 	 * @param user
 	 */
@@ -51,6 +56,7 @@ public class AbProfile {
 	}
 	
 	/**
+	 * Adds new contact.
 	 * 
 	 * @param person
 	 */
@@ -59,10 +65,11 @@ public class AbProfile {
 	}
 	
 	/**
+	 * Returns contact with selected name and surname.
 	 * 
 	 * @param name
 	 * @param surname
-	 * @return
+	 * @return person
 	 */
 	public AbPerson addPerson(String name, String surname) {
 		
@@ -73,17 +80,19 @@ public class AbProfile {
 	}
 	
 	/**
+	 * Removes person from contact list.
 	 * 
 	 * @param person
 	 */
-	public void getPerson(AbPerson person) {
+	public void removePerson(AbPerson person) {
 		listOfAbPersons.remove(person);
 	}
 	
 	/**
+	 * Adds new special card.
 	 * 
 	 * @param type
-	 * @return
+	 * @return cpecialCard
 	 */
 	public AbCard addSpecialCard(int type) {
 		
@@ -94,17 +103,19 @@ public class AbProfile {
 	}
 	
 	/**
+	 * Returns list of cards (tabs).
 	 * 
-	 * @return
+	 * @return listOfAbCars
 	 */
 	public List<AbCard> getListOfAbCards() {
 		return listOfAbCards;
 	}
 	
 	/**
+	 * Returns actual index of card with selected type.
 	 * 
 	 * @param type
-	 * @return
+	 * @return index
 	 */
 	public int getIndexOfCard(int type) {
 		
@@ -122,9 +133,10 @@ public class AbProfile {
 	}
 	
 	/**
+	 * Removes card (tab) on selected index.
 	 * 
 	 * @param index
-	 * @return
+	 * @return AbCard
 	 */
 	public AbCard removeAbICard(int index) {
 		
@@ -133,8 +145,9 @@ public class AbProfile {
 	}
 	
 	/**
+	 * Removes last card (tab).
 	 * 
-	 * @return
+	 * @return AbCard
 	 */
     public AbCard removeAbICard() {
 		
@@ -143,65 +156,25 @@ public class AbProfile {
 	}
     
     /**
+     * Returns list of all contacts.
      * 
-     * @return
+     * @return listOfAbPersons
      */
     public List<AbPerson> getListOfAbPersons() {
     	return listOfAbPersons;
     }
     
     /**
+     * Returns index of tab which is actually shown.
      * 
-     * @param newGroup
-     */
-    /*public void addGroup(String newGroup) {
-    	
-    	for(String group : listOfGroups) {
-    		if(newGroup.equals(group)) return;
-    	}
-    	
-    	listOfGroups.add(newGroup);
-    }*/
-    
-    /**
-     * 
-     * @param newGroup
-     */
-    /*public void removeGroup(String newGroup) {
-    	
-    	for(String group : listOfGroups) {
-    		if(newGroup.equals(group)) {
-    			listOfGroups.remove(group);
-    			return;
-    		}
-    	}
-    } */  
-    
-    /**
-     * 
-     * @return
-     */
-    /*public List<String> getListOfGroups() {
-    	return listOfGroups;
-    }*/
-    
-    /**
-     * 
-     * @return
-     */
-    /*public List<Integer> getListOfSelectedGroups() {
-    	return listOfSelectedGroups;
-    }*/
-
-    /**
-     * 
-     * @return
+     * @return openedTab
      */
 	public int getOpenedTab() {
     	return openedTab;
     }
 
 	/**
+	 * Actualizes index of tab which is actually shown.
 	 * 
 	 * @param openedTab
 	 */
@@ -308,6 +281,11 @@ public class AbProfile {
     	listOfSelectedGroups.add(newGroup);
     }
     
+    /**
+     * Removes group with selected name.
+     * 
+     * @param oldGroup
+     */
     public void removeSelectedGroup(String oldGroup) {
     	
     	for(String group : listOfSelectedGroups) {
@@ -372,5 +350,48 @@ public class AbProfile {
     	this.searchText = searchText;
     }
     
+	/**
+     * 
+     * @param newGroup
+     */
+    /*public void addGroup(String newGroup) {
+    	
+    	for(String group : listOfGroups) {
+    		if(newGroup.equals(group)) return;
+    	}
+    	
+    	listOfGroups.add(newGroup);
+    }*/
+    
+    /**
+     * 
+     * @param newGroup
+     */
+    /*public void removeGroup(String newGroup) {
+    	
+    	for(String group : listOfGroups) {
+    		if(newGroup.equals(group)) {
+    			listOfGroups.remove(group);
+    			return;
+    		}
+    	}
+    } */  
+    
+    /**
+     * 
+     * @return
+     */
+    /*public List<String> getListOfGroups() {
+    	return listOfGroups;
+    }*/
+    
+    /**
+     * 
+     * @return
+     */
+    /*public List<Integer> getListOfSelectedGroups() {
+    	return listOfSelectedGroups;
+    }*/
+
     
 }

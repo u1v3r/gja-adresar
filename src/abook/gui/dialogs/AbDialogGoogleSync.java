@@ -11,8 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import com.sun.org.apache.xml.internal.security.Init;
-
 import abook.profile.AbPerson;
 import abook.profile.AbProfile;
 import abook.profile.GoogleSync;
@@ -26,11 +24,12 @@ import java.awt.Font;
 import java.awt.Color;
 
 /**
- * Google contacts import dialog
+ * Google contacts import dialog.
  * 
  * @author Radovan Dvorsky
  *
  */
+@SuppressWarnings("serial")
 public class AbDialogGoogleSync extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();

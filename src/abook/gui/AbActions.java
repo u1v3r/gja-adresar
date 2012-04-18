@@ -9,7 +9,6 @@ import javax.swing.AbstractButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
-import abook.gui.AbActions.ActionSyncContacts;
 import abook.gui.dialogs.AbDialogAddContact;
 import abook.gui.dialogs.AbDialogAddGroup;
 import abook.gui.dialogs.AbDialogGoogleSync;

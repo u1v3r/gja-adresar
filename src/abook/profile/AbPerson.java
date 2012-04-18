@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Contact
+ * Contact attributes.
  * 
  * @author Radovan Dvorsky
  *
@@ -40,192 +40,426 @@ public class AbPerson implements Comparable<AbPerson>{
 	
 	private static int counter = 1;
 	
+	/**
+	 * Creates new contact.
+	 */
 	public AbPerson(){
 		this.id = counter;
 		counter++;
 		this.listOfGroups = new ArrayList<String>();
 	}
 	
+	/**
+	 * Creates new contact
+	 * 
+	 * @param firstName
+	 * @param lastName
+	 */
 	public AbPerson(String firstName, String lastName) {
 		this();
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
 	
+	/**
+	 * Creates new contact.
+	 * 
+	 * @param namePrefix
+	 * @param firstName
+	 * @param lastName
+	 */
 	public AbPerson(String namePrefix, String firstName, String lastName){
 		this(firstName,lastName);
 		this.namePrefix = namePrefix;		
 	}
 	
+	/**
+	 * Creates new contact.
+	 * 
+	 * @param namePrefix
+	 * @param firstName
+	 * @param lastName
+	 * @param nameSuffix
+	 */
 	public AbPerson(String namePrefix, String firstName, String lastName, String nameSuffix){
 		this(namePrefix,firstName,lastName);
 		this.nameSuffix = nameSuffix;
 	}
 	
+	/**
+	 * Returns id of contact.
+	 * 
+	 * @return id
+	 */
 	public int getId(){
 		return this.id;
 	}
 	
+	/**
+	 * Returns name prefix.
+	 * 
+	 * @return namePrefix
+	 */
 	public String getNamePrefix() {
 		return namePrefix;
 	}
 
+	/**
+	 * Sets name prefix.
+	 * 
+	 * @param namePrefix
+	 */
 	public void setNamePrefix(String namePrefix) {
 		this.namePrefix = namePrefix;
 	}
 
+	/**
+	 * Returns first name.
+	 * 
+	 * @return firstName
+	 */
 	public String getFirstName() {
 		return firstName;
 	}
 
+	/**
+	 * Sets first name.
+	 * 
+	 * @param firstName
+	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
+	/**
+	 * Returns last name.
+	 * 
+	 * @return lastName
+	 */
 	public String getLastName() {
 		return lastName;
 	}
 
+	/**
+	 * Sets last name.
+	 * 
+	 * @param lastName
+	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
+	/**
+	 * Returns name suffix.
+	 * 
+	 * @return nameSuffix
+	 */
 	public String getNameSuffix() {
 		return nameSuffix;
 	}
 
+	/**
+	 * Sets name suffix.
+	 * 
+	 * @param nameSuffix
+	 */
 	public void setNameSuffix(String nameSuffix) {
 		this.nameSuffix = nameSuffix;
 	}
 
+	/**
+	 * Returns street.
+	 * 
+	 * @return street
+	 */
 	public String getStreet() {
 		return street;
 	}
 
+	/**
+	 * Sets street.
+	 * 
+	 * @param street
+	 */
 	public void setStreet(String street) {
 		this.street = street;
 	}
 
+	/**
+	 * Returns city.
+	 * 
+	 * @return city
+	 */
 	public String getCity() {
 		return city;
 	}
 
+	/**
+	 * Sets city.
+	 * 
+	 * @param city
+	 */
 	public void setCity(String city) {
 		this.city = city;
 	}
 
+	/**
+	 * Returns PSC.
+	 * 
+	 * @return PSC
+	 */
 	public String getZipCode() {
 		return psc;
 	}
 
+	/**
+	 * Sets PSC.
+	 * 
+	 * @param psc
+	 */
 	public void setPsc(String psc) {
 		this.psc = psc;
 	}
 
+	/**
+	 * Returns country.
+	 * 
+	 * @return country
+	 */
 	public String getCountry() {
 		return country;
 	}
 
+	/**
+	 * Sets country.
+	 * 
+	 * @param country
+	 */
 	public void setCountry(String country) {
 		this.country = country;
 	}
 
+	/**
+	 * Returns phone number to work.
+	 * 
+	 * @return phoneWork
+	 */
 	public String getPhoneWork() {
 		return phoneWork;
 	}
 
+	/**
+	 * Sets phone number to work.
+	 * 
+	 * @param phoneWork
+	 */
 	public void setPhoneWork(String phoneWork) {
 		this.phoneWork = phoneWork;
 	}
 
+	/**
+	 * Returns phone number to home.
+	 * 
+	 * @return phoneHome
+	 */
 	public String getPhoneHome() {
 		return phoneHome;
 	}
 
+	/**
+	 * Sets phone number to home.
+	 * 
+	 * @param phoneHome
+	 */
 	public void setPhoneHome(String phoneHome) {
 		this.phoneHome = phoneHome;
 	}
 
+	/**
+	 * Returns cell phone number.
+	 * 
+	 * @return cellPhone
+	 */
 	public String getCellPhone() {
 		return cellPhone;
 	}
 
+	/**
+	 * Sets cell phone number.
+	 * 
+	 * @param cellPhone
+	 */
 	public void setCellPhone(String cellPhone) {
 		this.cellPhone = cellPhone;
 	}
 
+	/**
+	 * Returns email to work.
+	 * 
+	 * @return emailWork
+	 */
 	public String getEmailWork() {
 		return emailWork;
 	}
 
+	/**
+	 * Sets email to work.
+	 * 
+	 * @param emailWork
+	 */
 	public void setEmailWork(String emailWork) {
 		this.emailWork = emailWork;
 	}
 
+	/**
+	 * Returns email to home.
+	 * 
+	 * @return emailHome
+	 */
 	public String getEmailHome() {
 		return emailHome;
 	}
 
+	/**
+	 * Sets email to home.
+	 * 
+	 * @param emailHome
+	 */
 	public void setEmailHome(String emailHome) {
 		this.emailHome = emailHome;
 	}
 
+	/**
+	 * Returns skype ID.
+	 * 
+	 * @return skype
+	 */
 	public String getSkype() {
 		return skype;
 	}
 
+	/**
+	 * Sets skype ID.
+	 * 
+	 * @param skype
+	 */
 	public void setSkype(String skype) {
 		this.skype = skype;
 	}
 
+	/**
+	 * Returns ICQ number.
+	 * 
+	 * @return icq
+	 */
 	public String getIcq() {
 		return icq;
 	}
 
+	/**
+	 * Sets ICQ number.
+	 * 
+	 * @param icq
+	 */
 	public void setIcq(String icq) {
 		this.icq = icq;
 	}
 
+	/**
+	 * Returns jabber ID.
+	 * 
+	 * @return jabber
+	 */
 	public String getJabber() {
 		return jabber;
 	}
 
+	/**
+	 * Sets jabber ID.
+	 * 
+	 * @param jabber
+	 */
 	public void setJabber(String jabber) {
 		this.jabber = jabber;
 	}
 
+	/**
+	 * Returns GTalkt ID.
+	 * 
+	 * @return gtalk
+	 */
 	public String getGtalk() {
 		return gtalk;
 	}
 
+	/**
+	 * Sets GTalk ID.
+	 * 
+	 * @param gtalk
+	 */
 	public void setGtalk(String gtalk) {
 		this.gtalk = gtalk;
 	}
 
+	/**
+	 * Returns user image.
+	 * 
+	 * @return userImage
+	 */
 	public Image getUserImage() {
 		return userImage;
 	}
 
+	/**
+	 * Sets user image.
+	 * 
+	 * @param userImage
+	 */
 	public void setUserImage(Image userImage) {
 		this.userImage = userImage;
 	}
 	
+	/**
+	 * Returns note.
+	 * 
+	 * @return note
+	 */
 	public String getNote(){
 		return this.note;
 	}
 
+	/**
+	 * Sets note.
+	 * 
+	 * @param note
+	 */
 	public void setNote(String note) {
 		this.note = note;		
 	}
 	
+	/**
+	 * Returns birthday.
+	 * 
+	 * @return birthday
+	 */
 	public Date getBirthday(){
 		return this.birthday;
 	}
 
+	/**
+	 * Sets birthday.
+	 * 
+	 * @param date
+	 */
 	public void setBirthday(Date date) {
 		this.birthday = date;
 	}
 	
+	/**
+	 * Joins to group.
+	 * 
+	 * @param group
+	 */
 	public void addGroup(String group) {
 		if(!InitProfile.getProfile().containsGroup(group)) {
 			InitProfile.getProfile().addGroup(group);
@@ -233,14 +467,34 @@ public class AbPerson implements Comparable<AbPerson>{
 		this.listOfGroups.add(group);
 	}
 	
+	/**
+	 * Removes membership of group.
+	 * 
+	 * @param group
+	 */
 	public void removeGroup(String group) {
 		if(listOfGroups.contains(group)) {
 			this.listOfGroups.remove(group);
 		}
 	}
 	
+	/**
+	 * Returns list of groups.
+	 * 
+	 * @return listOfGroups
+	 */
 	public List<String> getListOfGroups() {
 		return this.listOfGroups;
+	}
+	
+	/**
+	 * Returns full name with space separator.
+	 * 
+	 * @return fullName
+	 */
+	public String getFullname() {
+		return this.firstName + " " 
+				+ this.lastName;
 	}
 
 	@Override
@@ -255,11 +509,6 @@ public class AbPerson implements Comparable<AbPerson>{
 				+ icq + ", jabber=" + jabber + ", gtalk=" + gtalk
 				+ ", userImage=" + userImage + ", note=" + note + ", birthday="
 				+ birthday + ", listOfGroups=" + listOfGroups + "]";
-	}
-
-	public String getFullname() {
-		return this.firstName + " " 
-				+ this.lastName;
 	}
 
 	@Override

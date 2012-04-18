@@ -2,6 +2,12 @@ package abook.listeners;
 
 import java.util.EventListener;
 
+/**
+ * Interface for our listener.
+ * 
+ * @author jurij
+ *
+ */
 public interface AbListener extends EventListener {
 	
 	/**

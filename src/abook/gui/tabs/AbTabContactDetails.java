@@ -31,20 +31,27 @@ import java.awt.event.ActionEvent;
 
 
 /**
+ * Tab with contact details.
  * 
- * @author Radovan Dvorský
+ * @author Radovan Dvorsky
  *
  */
 @SuppressWarnings("serial")
 public class AbTabContactDetails extends JPanel implements AbITabComponent{
 
 
+	/**
+	 * Listener for contact selections.
+	 * 
+	 * @author Radovan Dvorsky
+	 *
+	 */
 	private final class ContactDetailsListener implements ListSelectionListener {
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 				
-			// pri kliknuti su vyslane dva eventy, treba zachytit len jeden
+			// when user clicks, two events are invoked - one of them needed to catch 
 			if(e.getValueIsAdjusting()){
 				return;
 			}
@@ -326,6 +333,11 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		actualizeTab();
 	}
 
+	/**
+	 * Fills input text fields with details of selected contact.
+	 * 
+	 * @param person
+	 */
 	public void fillContactDetails(AbPerson person) {
 		
 		if(person.getUserImage() != null){
@@ -376,7 +388,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		contactsList = InitProfile.getProfile().getListOfAbPersons();
 		contactsListFiltered = new ArrayList<AbPerson>();
 
-		//zoradi podla priezviska
+		// sort after surname
 		Collections.sort(contactsList);
 		
 		List<String> selectedGroups = InitProfile.getProfile().getListOfSelectedGroups();

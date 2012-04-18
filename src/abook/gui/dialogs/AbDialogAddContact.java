@@ -48,12 +48,11 @@ import com.toedter.calendar.JDateChooser;
 /**
  * User add dialog
  * 
- * @author Radovan Dvorský
+ * @author Radovan Dvorsky
  *
  */
 @SuppressWarnings("serial")
 public class AbDialogAddContact extends JDialog {
-	
 	
 	private static final int IMAGE_WIDTH = 100;
 	private static final int IMAGE_HEIGHT = 100;

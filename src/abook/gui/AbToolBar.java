@@ -32,6 +32,9 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
     protected JButton buttonRemove;
     protected JButton buttonContactsSync;
 
+    /**
+     * Creates new toolbar.
+     */
     public AbToolBar() {
     	
         bar = new JToolBar();

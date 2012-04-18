@@ -19,6 +19,8 @@ import abook.listeners.AbListener;
 import abook.listeners.InitListenerCore;
 
 /**
+ * Class for initialization of profile.
+ * Class contains static instance of profile.
  * 
  * @author jurij
  *
@@ -31,6 +33,9 @@ public class InitProfile {
 	protected static File userFile;
 	protected static File userFileDir;
 	
+	/**
+	 * Creates new profile. Asks user for profile name.
+	 */
 	public void createProfile() {
 		// TODO ... get workspace information from user //
 		
@@ -65,6 +70,7 @@ public class InitProfile {
     }
 	
 	/**
+	 * Creates new profile with selected name.
 	 * 
 	 * @param user
 	 */
@@ -98,6 +104,7 @@ public class InitProfile {
 	}
 	
 	/**
+	 * Opens profile witch selected file.
 	 * 
 	 * @param file
 	 */
@@ -130,39 +137,43 @@ public class InitProfile {
 	}
 	
 	/**
+	 * Returns static instance of profile.
 	 * 
-	 * @return
+	 * @return profile
 	 */
 	public static AbProfile getProfile() {
 		return profile;
 	}
 	
 	/**
+	 * Returns actual name of workspace.
 	 * 
-	 * @return
+	 * @return workspace
 	 */
 	public static String getWorkspace() {
 		return workspace;
 	}
 
 	/**
+	 * Returns actual workspace file.
 	 * 
-	 * @return
+	 * @return workspaceFile
 	 */
 	public static File getWorkspaceFile() {
 		return workspaceFile;
 	}
 
 	/**
+	 * Returns actual user file directory path.
 	 * 
-	 * @return
+	 * @return userFileDir
 	 */
 	public static File getUserFileDir() {
 		return userFileDir;
 	}
 
 	/**
-     * Methods save the file
+     * Method saves the file.
      */
     public static void saveProfile() {
     	
@@ -178,7 +189,7 @@ public class InitProfile {
     }
     
     /**
-     * Methods save the file
+     * Method saves "as" the file.
      */
     public static void exportProfile() {
     	File selFile;

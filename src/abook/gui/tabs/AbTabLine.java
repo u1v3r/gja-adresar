@@ -28,6 +28,7 @@ import abook.profile.AbCard;
 import abook.profile.InitProfile;
 
 /**
+ * Main panel for all tab lines.
  * 
  * @author jurij
  *
@@ -95,6 +96,9 @@ public class AbTabLine implements AbIGuiComponent, AbListener {
 		tabDetails = new AbTabContactDetails();
 	}
 	
+	/**
+	 * Creates add tab button.
+	 */
 	private void createAddTab() {
 		
 		// tab which adds new tab //
