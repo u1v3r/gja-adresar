@@ -9,6 +9,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -53,13 +54,14 @@ public class GoogleSync {
 	private static final String REL_GOOGLE_TALK = "GOOGLE_TALK";
 	private static final String REL_SKYPE = "SKYPE";
 	private static final String REL_ICQ = "ICQ";
-	private static final String ANDROID_FAVORITE="Starred in Android";
+	private static final String OTHER_GROUP = "Other";
 	
 	private String login;
 	private String pwd;
 	private URL feedUrl;
 	private AbProfile profile;
 	private URL groupFeedUrl;
+	private HashMap<String, String> groupsHashMap;
 	
 	/**
 	 * Class constructor
@@ -99,6 +101,7 @@ public class GoogleSync {
 	public List<AbPerson> fetchContacts() throws InvalidCredentialsException{		
 		
 		List<AbPerson> persons = new ArrayList<AbPerson>();
+		groupsHashMap = new HashMap<String, String>();
 		
 		try {
 			
@@ -108,9 +111,8 @@ public class GoogleSync {
 			myQuery.setMaxResults(999);
 			
 			// skupiny
-			ContactGroupFeed groupFeed = myService.getFeed(groupFeedUrl, ContactGroupFeed.class);					
-			
-			profile.addGroup(ANDROID_FAVORITE);
+			ContactGroupFeed groupFeed = myService.getFeed(groupFeedUrl, ContactGroupFeed.class);			
+			profile.addGroup(OTHER_GROUP);
 			
 			for (ContactGroupEntry groupEntry : groupFeed.getEntries()) {
 				if(groupEntry.hasSystemGroup()){
@@ -118,6 +120,7 @@ public class GoogleSync {
 					try {
 						groupName = parseGroupName(groupEntry.getTitle().getPlainText());
 						profile.addGroup(groupName);
+						groupsHashMap.put(groupEntry.getId(), groupName);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -235,8 +238,14 @@ public class GoogleSync {
 							/*
 							 * TODO treba vymysliet nieco rychlejsie
 							 */
-							ContactGroupEntry groupEntry = myService.getEntry(new URL(group.getHref()), ContactGroupEntry.class);
-							person.addGroup(parseGroupName(groupEntry.getTitle().getPlainText()));
+							//ContactGroupEntry groupEntry = myService.getEntry(new URL(group.getHref()), ContactGroupEntry.class);
+							//person.addGroup(parseGroupName(groupEntry.getTitle().getPlainText()));
+							String groupName = groupsHashMap.get(group.getHref());
+							if(groupName == null){
+								person.addGroup(OTHER_GROUP);
+							}else{
+								person.addGroup(groupName);
+							}
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -293,9 +302,7 @@ public class GoogleSync {
 			e.printStackTrace();
 		} catch (InvalidCredentialsException e){
 			throw new InvalidCredentialsException(e.getMessage());
-		} catch (ServiceException e) {
-			
-		}
+		} catch (ServiceException e) {}
 		
 		return persons;		
 	}
@@ -315,7 +322,7 @@ public class GoogleSync {
 			return (String) plainText.subSequence(plainText.indexOf(":") + 2, plainText.length());
 		}
 		else{
-			return ANDROID_FAVORITE;
+			return OTHER_GROUP;
 		}		
 	}
 	
