@@ -40,6 +40,7 @@ public class AbTabGroups implements TableModelListener, AbITabComponent, AbListe
 		
 		InitListenerCore.getListenerCore().addListener(this);
 		
+
 		createTable();
 		
 		this.panel = new JScrollPane(table);
