@@ -15,7 +15,7 @@ public class AbCard {
 	public final static int HOME = KeyEvent.VK_H;
 	public final static int DATABASE = KeyEvent.VK_D;
 	public final static int GROUPS = KeyEvent.VK_G;
-	public final static int EVENTS = KeyEvent.VK_V;
+	public final static int EVENTS = KeyEvent.VK_E;
 	public static final int DETAILS = KeyEvent.VK_T;
 	
 	/**

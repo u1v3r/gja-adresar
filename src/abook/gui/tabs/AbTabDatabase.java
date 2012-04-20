@@ -1,13 +1,17 @@
 package abook.gui.tabs;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
+import abook.gui.dialogs.AbDialogAddContact;
 import abook.profile.AbPerson;
 import abook.profile.InitProfile;
 
@@ -38,20 +42,42 @@ public class AbTabDatabase implements AbITabComponent {
 	/**
 	 * Creates new table with database.
 	 */
-	private void createTable() {
+	@SuppressWarnings("serial")
+    private void createTable() {
 		
 		tableModel = new DefaultTableModel();
 		
 		// make column titles //
+		tableModel.addColumn("ID");
 		tableModel.addColumn("Name");
 		tableModel.addColumn("Surname");
 		tableModel.addColumn("Location");
 		tableModel.addColumn("Groups");
 		
-		table = new JTable(tableModel);
+		table = new JTable(tableModel) {
+			
+			@Override
+			public boolean isCellEditable(int row,int column) {
+				return false;
+			}
+		};
+		
+		TableColumn col = table.getColumnModel().getColumn(0);
+		col.setPreferredWidth(20);
 		
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(tableModel);
 		table.setRowSorter(sorter);
+		table.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+				if(e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
+					String a = ((String) (table.getModel().getValueAt(table.getSelectedRow(), 0)));
+					new AbDialogAddContact(InitProfile.getProfile().getContact(new Integer(a))).setVisible(true);
+				}
+			}
+		});
 		
 		actualizeTab();
 		
@@ -87,15 +113,16 @@ public class AbTabDatabase implements AbITabComponent {
 			
 			if(!selected) continue;
 			
-			String[] row = new String[4];
-			row[0] = person.getFirstName();
-			row[1] = person.getLastName();
-			row[2] = person.getCity();
-			row[3] = "";
+			String[] row = new String[5];
+			row[0] = Integer.toString(person.getId());
+			row[1] = person.getFirstName();
+			row[2] = person.getLastName();
+			row[3] = person.getCity();
+			row[4] = "";
 			
 			for(String group : person.getListOfGroups()) {
-				if(!row[3].isEmpty()) row[3] += ", ";
-				row[3] += group;
+				if(!row[4].isEmpty()) row[4] += ", ";
+				row[4] += group;
 			}
 			
 			tableModel.addRow(row);

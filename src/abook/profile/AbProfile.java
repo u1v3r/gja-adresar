@@ -370,6 +370,14 @@ public class AbProfile {
     	
     	InitProfile.setSaved(false);
     }
+
+	public AbPerson getContact(int id) {
+	    
+		for(AbPerson person : listOfAbPersons) {
+			if(person.getId() == id) return person;
+		}
+	    return null;
+    }
     
 	/**
      * 
