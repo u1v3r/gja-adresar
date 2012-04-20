@@ -40,7 +40,7 @@ public class InitProfile {
 		// TODO ... get workspace information from user //
 		
 		// 1. workspace //
-		workspace = new String("./workspace-aBook");
+		workspace = new String("." + File.separator + "workspace-aBook");
 		
 		workspaceFile = new File(workspace);
 		if(!workspaceFile.exists()) {
@@ -52,11 +52,11 @@ public class InitProfile {
 		String user = AbDialogs.input("Type user:");
 		if(user == null || user.isEmpty()) {
 			user = "user";
-			userFile = new File(workspace + "/user.xml");
-			userFileDir = new File(workspace + "/user");
+			userFile = new File(workspace + File.separator + "user.xml");
+			userFileDir = new File(workspace + File.separator + "user");
 		} else {
-			userFile = new File(workspace + "/" + user + ".xml");
-			userFileDir = new File(workspace + "/" + user);
+			userFile = new File(workspace + File.separator + user + ".xml");
+			userFileDir = new File(workspace + File.separator + user);
 		}
 		
 		if(!userFile.exists()) {
@@ -127,8 +127,8 @@ public class InitProfile {
         String a = new String(buffer);
         profile = (AbProfile) xstream.fromXML(a);
         String user = profile.getUserName();        
-        userFile = new File(workspace + "/" + user + ".xml");
-		userFileDir = new File(workspace + "/" + user);
+        userFile = new File(workspace + File.separator + user + ".xml");
+		userFileDir = new File(workspace + File.separator  + user);
 		
 		if(ViewGui.isGuiCreated()) {
 			InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.PROFILE_CHANGED);
