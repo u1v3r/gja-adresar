@@ -180,11 +180,35 @@ public class AbActions {
     {
         public void actionPerformed(ActionEvent e) {
         	
-        	int result = AbDialogs.YesNoCancel("Do you want to save actual project?");
+        	if(!InitProfile.isSaved()) {
+        		int result = AbDialogs.YesNoCancel("Do you want to save actual project?");
+            	
+            	System.out.println(result);
+            	
+            	// user cancels dialog //
+            	if(result == JOptionPane.CANCEL_OPTION) {
+            		return;
+            	}
+            	
+            	// user wants to save profile //
+            	if(result == JOptionPane.OK_OPTION) {
+            		InitProfile.saveProfile();
+            	}
+        	}
         	
-        	System.out.println(result);
+        	String user = AbDialogs.input("Type user:");
         	
-            //InitProfile.saveProfile(); TODO
+        	if(user == null || user.isEmpty()) return;
+        	
+        	// close all tabs //
+        	ViewGui.getAbTabLine().closeAllTabs();
+        	
+        	// init new profile //
+            InitProfile profile = new InitProfile();
+            profile.createProfile(user);
+            
+            // restore tabs //
+            ViewGui.getAbTabLine().restoreTabs();
         }
     }
     

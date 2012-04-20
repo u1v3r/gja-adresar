@@ -37,7 +37,7 @@ public class InitProfile {
 	/**
 	 * Creates new profile. Asks user for profile name.
 	 */
-	public void createProfile() {
+	public void createProfile(String user) {
 		// TODO ... get workspace information from user //
 		
 		// 1. workspace //
@@ -50,7 +50,6 @@ public class InitProfile {
 		}
 		
 		// 2. user //
-		String user = AbDialogs.input("Type user:");
 		if(user == null || user.isEmpty()) {
 			user = "user";
 			userFile = new File(workspace + File.separator + "user.xml");
@@ -62,6 +61,7 @@ public class InitProfile {
 		
 		if(!userFile.exists()) {
 			// create new profile
+			System.out.println("new profile");
 			createNewProfile(user);
 			saveProfile();
 		} else {
@@ -104,7 +104,11 @@ public class InitProfile {
 		person2.addGroup("school");
 		profile.addPerson(person2);*/
 		
+		saved = true;
 		
+		if(ViewGui.isGuiCreated()) {
+			InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.PROFILE_CHANGED);
+		}
 	}
 	
 	/**
@@ -138,6 +142,7 @@ public class InitProfile {
 			InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.PROFILE_CHANGED);
 		}
         
+		saved = true;
 	}
 	
 	/**
@@ -190,6 +195,8 @@ public class InitProfile {
     	} catch (FileNotFoundException ex) {
     		AbDialogs.report("Soubor se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
     	}
+    	
+    	setSaved(true);
     }
     
     /**
@@ -240,7 +247,11 @@ public class InitProfile {
     }
 
 	public static void setSaved(boolean saved) {
-    	InitProfile.saved = saved;
+		
+		if(InitProfile.saved != saved) {
+			InitProfile.saved = saved;
+			InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.SAVED_CHANGED);
+		}
     }
 
 }

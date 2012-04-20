@@ -22,6 +22,7 @@ public class AbStatus implements AbIGuiComponent, AbListener {
 	
 	protected JPanel panel;
 	protected JTextField text;
+	protected final String not = "not";
 	
 	/**
      * Constructor makes status panel.
@@ -45,7 +46,11 @@ public class AbStatus implements AbIGuiComponent, AbListener {
      * Method actualizes status text.
      */
     private void actualizeText() {
-    	text.setText("Profile: " + InitProfile.getProfile().getUserName() + ",       Workspace: " + InitProfile.getWorkspace());
+    	String a = "";
+    	if(!InitProfile.isSaved()) a = not;
+    	
+    	text.setText("Profile: " + InitProfile.getProfile().getUserName() + ",       Workspace: " + InitProfile.getWorkspace()
+    			+ ",       profile is " + a + " saved");
     }
 
     @Override
@@ -56,7 +61,7 @@ public class AbStatus implements AbIGuiComponent, AbListener {
 	@Override
     public void myEventOccurred(AbEvent evt, int type) {
 	    
-		if(type == AbListener.PROFILE_CHANGED) {
+		if(type == AbListener.PROFILE_CHANGED || type == AbListener.SAVED_CHANGED) {
 			actualizeText();
 		}
 	    

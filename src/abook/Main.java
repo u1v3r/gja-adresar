@@ -3,6 +3,7 @@ package abook;
 import javax.swing.UIManager;
 
 import abook.gui.ViewGui;
+import abook.gui.dialogs.AbDialogs;
 import abook.listeners.InitListenerCore;
 import abook.profile.InitProfile;
 
@@ -31,8 +32,9 @@ public class Main {
         
         new InitListenerCore();
         
+        String user = AbDialogs.input("Type user:");
         InitProfile newProfile = new InitProfile();
-        newProfile.createProfile();
+        newProfile.createProfile(user);
         
         ViewGui newGui = new ViewGui();
         newGui.launchAppliacation();

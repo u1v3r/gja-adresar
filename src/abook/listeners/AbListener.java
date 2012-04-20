@@ -37,6 +37,11 @@ public interface AbListener extends EventListener {
 	 */
 	public final static int SEARCH_CHANGED = 6;
 	
+	/**
+	 * When profile is modified or saved.
+	 */
+	public final static int SAVED_CHANGED = 7;
+	
 	public void myEventOccurred(AbEvent evt, int type);
 
 }

@@ -53,6 +53,7 @@ public class AbProfile {
 	 */
 	public void setUserName(String user) {
 		this.user = user;
+		InitProfile.setSaved(false);
 	}
 	
 	/**
@@ -62,6 +63,7 @@ public class AbProfile {
 	 */
 	public void addPerson(AbPerson person) {
 		listOfAbPersons.add(person);
+		InitProfile.setSaved(false);
 	}
 	
 	/**
@@ -75,6 +77,7 @@ public class AbProfile {
 		
 		AbPerson person = new AbPerson(name, surname);
 		listOfAbPersons.remove(person);
+		InitProfile.setSaved(false);
 		
 		return person;
 	}
@@ -86,6 +89,7 @@ public class AbProfile {
 	 */
 	public void removePerson(AbPerson person) {
 		listOfAbPersons.remove(person);
+		InitProfile.setSaved(false);
 	}
 	
 	/**
@@ -98,6 +102,7 @@ public class AbProfile {
 		
 		AbCard specialCard = (AbCard) new AbCard(type);
 		listOfAbCards.add(specialCard);
+		InitProfile.setSaved(false);
 		
 		return (AbCard) specialCard;	
 	}
@@ -140,6 +145,8 @@ public class AbProfile {
 	 */
 	public AbCard removeAbICard(int index) {
 		
+		InitProfile.setSaved(false);
+		
 		return (listOfAbCards.remove(index));
 		
 	}
@@ -150,6 +157,8 @@ public class AbProfile {
 	 * @return AbCard
 	 */
     public AbCard removeAbICard() {
+    	
+    	InitProfile.setSaved(false);
 		
 		return removeAbICard(listOfAbCards.size());
 		
@@ -196,6 +205,8 @@ public class AbProfile {
     	
     	// create new group and add to list //
     	listOfGroups.add(new AbGroup (newGroup));
+    	
+    	InitProfile.setSaved(false);
     }
     
     /**
@@ -217,6 +228,8 @@ public class AbProfile {
     	for(AbPerson person : listOfAbPersons) {
     		person.removeGroup(groupName);
     	}
+    	
+    	InitProfile.setSaved(false);
     }
     
     /**
@@ -239,6 +252,8 @@ public class AbProfile {
 	    		}
 	    	}
     	}
+    	
+    	InitProfile.setSaved(false);
     	
     	return false;
     }    
@@ -279,6 +294,8 @@ public class AbProfile {
     	}
     	
     	listOfSelectedGroups.add(newGroup);
+    	
+    	InitProfile.setSaved(false);
     }
     
     /**
@@ -291,6 +308,8 @@ public class AbProfile {
     	for(String group : listOfSelectedGroups) {
     		if(oldGroup.equals(group)) listOfSelectedGroups.remove(group);
     	}
+    	
+    	InitProfile.setSaved(false);
     	
     	return;
     }
@@ -348,6 +367,8 @@ public class AbProfile {
 	 */
 	public void setSearchText(String searchText) {
     	this.searchText = searchText;
+    	
+    	InitProfile.setSaved(false);
     }
     
 	/**

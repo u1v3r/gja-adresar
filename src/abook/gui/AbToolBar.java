@@ -1,6 +1,5 @@
 package abook.gui;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.Action;
@@ -8,7 +7,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
 
 import abook.profile.AbCard;
 
