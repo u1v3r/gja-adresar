@@ -7,14 +7,24 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import abook.listeners.AbEvent;
+import abook.listeners.AbListener;
+import abook.listeners.InitListenerCore;
+import abook.profile.InitProfile;
 
-public class AbStatus implements AbIGuiComponent {
+/**
+ * Bottom panel with status.
+ * 
+ * @author jurij
+ *
+ */
+public class AbStatus implements AbIGuiComponent, AbListener {
 	
 	protected JPanel panel;
 	protected JTextField text;
 	
 	/**
-     * Constructor makes status panel
+     * Constructor makes status panel.
      */
     AbStatus() {
         panel = new JPanel();
@@ -24,17 +34,32 @@ public class AbStatus implements AbIGuiComponent {
         text = new JTextField();
         //stavTabu.setSize(200, 30);
         text.setEditable(false);
-        text.setText("Misto pro vypis stavu: ");
         //stavTabu.setBackground(Color.YELLOW);
         panel.add(text, BorderLayout.CENTER);
+        actualizeText();
+        
+        InitListenerCore.getListenerCore().addListener(this);
+    }
+    
+    /**
+     * Method actualizes status text.
+     */
+    private void actualizeText() {
+    	text.setText("Profile: " + InitProfile.getProfile().getUserName() + ",       Workspace: " + InitProfile.getWorkspace());
     }
 
-    /** Vrati stavovou listu pro dalsi pouziti.
-     *
-     * @return statvovaLista
-     */
+    @Override
     public JComponent getWidget() {
         return panel;
+    }
+
+	@Override
+    public void myEventOccurred(AbEvent evt, int type) {
+	    
+		if(type == AbListener.PROFILE_CHANGED) {
+			actualizeText();
+		}
+	    
     }
 
 }

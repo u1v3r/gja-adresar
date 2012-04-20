@@ -11,15 +11,14 @@ import javax.swing.JOptionPane;
 
 import abook.gui.dialogs.AbDialogAddContact;
 import abook.gui.dialogs.AbDialogAddGroup;
+import abook.gui.dialogs.AbDialogGoogleSync;
 import abook.gui.dialogs.AbDialogs;
 import abook.gui.dialogs.AbHelp;
 
-import abook.listeners.AbEvent;
-import abook.listeners.AbListener;
-import abook.listeners.InitListenerCore;
 import abook.profile.InitProfile;
 
 /**
+ * Class AbActions contains inner classes appointed to button and other component actions.
  * 
  * @author jurij
  *
@@ -36,9 +35,10 @@ public class AbActions {
 	protected ActionDeleteGroup actionDeleteGroup;
 	protected ActionShowView actionShowView;
 	protected ActionHelp actionHelp;
+	protected ActionSyncContacts actionSyncContacts;
 	
 	/**
-	 * Constructor which creates actions.
+	 * Constructor which creates instances of all actions.
 	 */
 	public AbActions() {
 		actionSaveProfile = new ActionSaveProfile();
@@ -51,92 +51,111 @@ public class AbActions {
 		actionHelp = new ActionHelp();
 		actionAddGroup = new ActionAddGroup();
 		actionDeleteGroup = new ActionDeleteGroup();
+		actionSyncContacts = new ActionSyncContacts();
 	}
 	
 	/**
+	 * Method returns instance of action which save profile.
 	 * 
-	 * @return
+	 * @return actionSaveProfile
 	 */
 	public ActionSaveProfile getActionSaveProfile() {
 		return actionSaveProfile;
 	}
 	
 	/**
+	 * Method returns instance of action which creates new profile.
 	 * 
-	 * @return
+	 * @return actionNewProfile
 	 */
 	public ActionNewProfile getActionNewProfile() {
 		return actionNewProfile;
 	}
 
 	/**
+	 * Method returns instance of action which open new profile.
 	 * 
-	 * @return
+	 * @return actionOpenProfile
 	 */
 	public ActionOpenProfile getActionOpenProfile() {
 		return actionOpenProfile;
 	}
 
 	/**
+	 * Method returns instance of action which exit program.
 	 * 
-	 * @return
+	 * @return actionExitProgram
 	 */
 	public ActionExitProgram getActionExitProgram() {
 		return actionExitProgram;
 	}
 
 	/**
+	 * Method returns instance of action which add contact.
 	 * 
-	 * @return
+	 * @return actionAddContact
 	 */
 	public ActionAddContact getActionAddContact() {
 		return actionAddContact;
 	}
 
 	/**
+	 * Method returns instance of action which delete contact.
 	 * 
-	 * @return
+	 * @return actionDeleteConctact
 	 */
 	public ActionDeleteContact getActionDeleteContact() {
 		return actionDeleteContact;
 	}
 	
 	/**
+	 * Method returns instance of action which show specific view.
 	 * 
-	 * @return
+	 * @return actionShowView
 	 */
 	public ActionShowView getActionShowView() {
 		return actionShowView;
 	}
 	
 	/**
+	 * Method returns instance of action which add groups.
 	 * 
-	 * @return
+	 * @return actionAddGroup
 	 */
 	public ActionAddGroup getActionAddGroup() {
 		return actionAddGroup;
 	}
 
 	/**
+	 * Method returns instance of action which delete group.
 	 * 
-	 * @return
+	 * @return ActionDeleteGroup
 	 */
 	public ActionDeleteGroup getActionDeleteGroup() {
 		return actionDeleteGroup;
 	}
 
 	/**
+	 * Method returns instance of action which show help.
 	 * 
-	 * @return
+	 * @return actionHelp
 	 */
 	public ActionHelp getActionHelp() {
 		return actionHelp;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	public ActionSyncContacts getActionSyncContacts(){
+		return actionSyncContacts;
+	}
+	
 	// ---------------------------------------------------------------------- //
 
 	/**
-	 * Action which closes application.
+	 * Action closes application.
 	 * 
 	 * @author jurij
 	 *
@@ -150,7 +169,7 @@ public class AbActions {
     }
     
     /**
-	 * Action which creates new profile.
+	 * Action creates new profile.
 	 * 
 	 * @author jurij
 	 *
@@ -169,7 +188,7 @@ public class AbActions {
     }
     
     /**
-	 * Action which closes application.
+	 * Action saves profile.
 	 * 
 	 * @author jurij
 	 *
@@ -191,7 +210,8 @@ public class AbActions {
     }
     
     /**
-	 * Action which open existing profile.
+	 * Action opens existing profile. User is asked if he wants to save profile.
+	 * Then open dialog appears and user select the file. 
 	 * 
 	 * @author jurij
 	 *
@@ -204,10 +224,12 @@ public class AbActions {
         	// save actual profile //
         	int result = AbDialogs.YesNoCancel("Do you want to save actual project?");
         	
+        	// user cancels dialog //
         	if(result == JOptionPane.CANCEL_OPTION) {
         		return;
         	}
         	
+        	// user wants to save profile //
         	if(result == JOptionPane.OK_OPTION) {
         		InitProfile.saveProfile();
         	}
@@ -217,21 +239,24 @@ public class AbActions {
             File[] allFiles = workspaceFile.listFiles();
             Vector<String> fileNames = new Vector<String>();
             
+            // filter .xml files //
             for(int i = 0; i < allFiles.length; i++) {
             	if(allFiles[i].getName().toLowerCase().endsWith(".xml")) {
             		fileNames.add(allFiles[i].getName());
             	}
             }
             
+            // there are no profile files //
             if(fileNames.isEmpty()) {
             	AbDialogs.report("No xml files are in your workspace.");
             	return;
             }
             
+            // creates selection dialog //
             String[] a = new String[fileNames.size()];
-            
             result = AbDialogs.select(fileNames.toArray(a), "Select file:");
             
+            // user selects new profile file //
             if(result >= 0) {
             	
             	// close all tabs //
@@ -258,7 +283,7 @@ public class AbActions {
     }
     
     /**
-     * Action which shows specific tab.
+     * Action shows specific tab.
      * 
      * @author jurij
      *
@@ -278,6 +303,12 @@ public class AbActions {
         }
     }
     
+    /**
+     * Action adds new contact.
+     * 
+     * @author Radovan Dvorsky
+     *
+     */
     @SuppressWarnings("serial")
 	class ActionAddContact extends AbstractAction
     {
@@ -287,6 +318,12 @@ public class AbActions {
         }
     }
     
+    /**
+     * Action deletes contact.
+     * 
+     * @author Radovan Dvorsky
+     *
+     */
     @SuppressWarnings("serial")
 	class ActionDeleteContact extends AbstractAction
     {
@@ -295,6 +332,12 @@ public class AbActions {
         }
     }
 
+    /**
+     * Actions shows dialog with help/informations.
+     * 
+     * @author jurij
+     *
+     */
     @SuppressWarnings("serial")
 	class ActionHelp extends AbstractAction
     {
@@ -304,6 +347,12 @@ public class AbActions {
 
     }
     
+    /**
+     * Action adds new group.
+     * 
+     * @author Marek Mesar
+     *
+     */
     @SuppressWarnings("serial")
 	class ActionAddGroup extends AbstractAction
     {
@@ -312,12 +361,36 @@ public class AbActions {
         }
     }
     
+    /**
+     * Action deletes group.
+     * 
+     * @author Marek Mesar
+     *
+     */
     @SuppressWarnings("serial")
 	class ActionDeleteGroup extends AbstractAction
     {
         public void actionPerformed(ActionEvent e) {
             // TODO
-        	InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.TRY_DELETE_GROUP);
+        	//InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.TRY_DELETE_GROUP);
+        }
+    }
+    
+    /**
+     * Action which sync contats.
+     * 
+     * @author Radovan Dvorsky
+     *
+     */
+    @SuppressWarnings("serial")
+	class ActionSyncContacts extends AbstractAction
+    {
+    	
+		public void actionPerformed(ActionEvent e) {
+			
+			if(e.getSource() instanceof AbstractButton) {
+				new AbDialogGoogleSync().setVisible(true);
+			}
         }
     }
 

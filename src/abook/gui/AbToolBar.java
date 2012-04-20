@@ -8,6 +8,13 @@ import javax.swing.JToolBar;
 
 import abook.profile.AbCard;
 
+/**
+ * Tool bar GUI class with icon buttons for basic user actions. 
+ * 
+ * @author jurij
+ * TODO mnemonics
+ *
+ */
 public class AbToolBar extends AbActions implements AbIGuiComponent {
 	
 	protected JToolBar bar;
@@ -23,7 +30,11 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
     protected JButton buttonContactDetail;
     protected JButton buttonAdd;
     protected JButton buttonRemove;
+    protected JButton buttonContactsSync;
 
+    /**
+     * Creates new toolbar.
+     */
     public AbToolBar() {
     	
         bar = new JToolBar();
@@ -67,12 +78,23 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
         
         // SEPARATOR //
         bar.addSeparator();
+        addButton("Import google contacts", "/icons/Google-icon.png", actions.getActionSyncContacts(), 0);
+        
+        // SEPARATOR //
+        bar.addSeparator();
         
         // SYSTEM //
         addButton("Help", "/icons/Info.png", actions.getActionHelp(), 0);
     }
     
-    
+    /**
+     * Adds new button at the of the tool bar.
+     * 
+     * @param tooltip
+     * @param iconPath
+     * @param action
+     * @param mnemonic
+     */
 	private void addButton(String tooltip, String iconPath, Action action, int mnemonic) {
     	
     	JButton button = new JButton();
@@ -83,6 +105,7 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
     	bar.add(button);
     }
     
+	@Override
     public JComponent getWidget(){
         return bar;
     }

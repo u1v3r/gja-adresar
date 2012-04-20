@@ -6,9 +6,17 @@ import abook.gui.ViewGui;
 import abook.listeners.InitListenerCore;
 import abook.profile.InitProfile;
 
+/**
+ * Main class which initiates profile, listeners and creates GUI.
+ * 
+ * @author jurij
+ *
+ */
 public class Main {
 
 	/**
+	 * Main method which initiates profile, listeners and creates GUI.
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {

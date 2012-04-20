@@ -27,6 +27,12 @@ import abook.listeners.InitListenerCore;
 import abook.profile.AbCard;
 import abook.profile.InitProfile;
 
+/**
+ * Main panel for all tab lines.
+ * 
+ * @author jurij
+ *
+ */
 public class AbTabLine implements AbIGuiComponent, AbListener {
 	
 	protected JTabbedPane tabbedPane;
@@ -90,6 +96,9 @@ public class AbTabLine implements AbIGuiComponent, AbListener {
 		tabDetails = new AbTabContactDetails();
 	}
 	
+	/**
+	 * Creates add tab button.
+	 */
 	private void createAddTab() {
 		
 		// tab which adds new tab //
@@ -344,7 +353,7 @@ public class AbTabLine implements AbIGuiComponent, AbListener {
 
 	@Override
     public void myEventOccurred(AbEvent evt, int type) {
-		if(type == GROUP_SELECTION_CHANGED) {
+		if(type == GROUP_SELECTION_CHANGED || type == SEARCH_CHANGED) {
 			
 			//System.out.println("actualize");
 			

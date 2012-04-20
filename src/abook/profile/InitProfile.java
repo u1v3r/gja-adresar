@@ -19,6 +19,8 @@ import abook.listeners.AbListener;
 import abook.listeners.InitListenerCore;
 
 /**
+ * Class for initialization of profile.
+ * Class contains static instance of profile.
  * 
  * @author jurij
  *
@@ -31,11 +33,14 @@ public class InitProfile {
 	protected static File userFile;
 	protected static File userFileDir;
 	
+	/**
+	 * Creates new profile. Asks user for profile name.
+	 */
 	public void createProfile() {
 		// TODO ... get workspace information from user //
 		
 		// 1. workspace //
-		workspace = new String("./workspace-aBook");
+		workspace = new String("." + File.separator + "workspace-aBook");
 		
 		workspaceFile = new File(workspace);
 		if(!workspaceFile.exists()) {
@@ -47,11 +52,11 @@ public class InitProfile {
 		String user = AbDialogs.input("Type user:");
 		if(user == null || user.isEmpty()) {
 			user = "user";
-			userFile = new File(workspace + "/user.xml");
-			userFileDir = new File(workspace + "/user");
+			userFile = new File(workspace + File.separator + "user.xml");
+			userFileDir = new File(workspace + File.separator + "user");
 		} else {
-			userFile = new File(workspace + "/" + user + ".xml");
-			userFileDir = new File(workspace + "/" + user);
+			userFile = new File(workspace + File.separator + user + ".xml");
+			userFileDir = new File(workspace + File.separator + user);
 		}
 		
 		if(!userFile.exists()) {
@@ -65,6 +70,7 @@ public class InitProfile {
     }
 	
 	/**
+	 * Creates new profile with selected name.
 	 * 
 	 * @param user
 	 */
@@ -80,26 +86,25 @@ public class InitProfile {
 		// create default groups //
 		profile.addGroup("friends");
 		profile.addGroup("school");
-		profile.n_addGroup("friends");
-		profile.n_addGroup("school");
 		
 		// create default contacts //
 		AbPerson person1 = new AbPerson("Karel", "Novák");
 		person1.setCity("Praha");
-		person1.addGroup(0);
+		person1.addGroup("friends");
 		profile.addPerson(person1);
 		
 		// create default contacts //
 		AbPerson person2 = new AbPerson("Laco", "Lakatoš");
 		person2.setCity("Košice");
-		person2.addGroup(0);
-		person2.addGroup(1);
+		person2.addGroup("friends");
+		person2.addGroup("school");
 		profile.addPerson(person2);
 		
 		
 	}
 	
 	/**
+	 * Opens profile witch selected file.
 	 * 
 	 * @param file
 	 */
@@ -122,49 +127,53 @@ public class InitProfile {
         String a = new String(buffer);
         profile = (AbProfile) xstream.fromXML(a);
         String user = profile.getUserName();        
-        userFile = new File(workspace + "/" + user + ".xml");
-		userFileDir = new File(workspace + "/" + user);
+        userFile = new File(workspace + File.separator + user + ".xml");
+		userFileDir = new File(workspace + File.separator  + user);
 		
 		if(ViewGui.isGuiCreated()) {
-			InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.NEW_PROFILE_OPENED);
+			InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.PROFILE_CHANGED);
 		}
         
 	}
 	
 	/**
+	 * Returns static instance of profile.
 	 * 
-	 * @return
+	 * @return profile
 	 */
 	public static AbProfile getProfile() {
 		return profile;
 	}
 	
 	/**
+	 * Returns actual name of workspace.
 	 * 
-	 * @return
+	 * @return workspace
 	 */
 	public static String getWorkspace() {
 		return workspace;
 	}
 
 	/**
+	 * Returns actual workspace file.
 	 * 
-	 * @return
+	 * @return workspaceFile
 	 */
 	public static File getWorkspaceFile() {
 		return workspaceFile;
 	}
 
 	/**
+	 * Returns actual user file directory path.
 	 * 
-	 * @return
+	 * @return userFileDir
 	 */
 	public static File getUserFileDir() {
 		return userFileDir;
 	}
 
 	/**
-     * Methods save the file
+     * Method saves the file.
      */
     public static void saveProfile() {
     	
@@ -180,7 +189,7 @@ public class InitProfile {
     }
     
     /**
-     * Methods save the file
+     * Method saves "as" the file.
      */
     public static void exportProfile() {
     	File selFile;
@@ -219,7 +228,7 @@ public class InitProfile {
             AbDialogs.report("Soubor se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
         }
         
-        InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.WORKSPACE_CHANGED);
+        InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.WORKSPACE_STRUCT_CHANGED);
     }
 
 }

@@ -1,10 +1,14 @@
 package abook.gui.dialogs;
 
-import java.util.Vector;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+/**
+ * Class with static dialog methods.
+ * 
+ * @author jurij
+ *
+ */
 public class AbDialogs {
 	
 	/**
@@ -17,7 +21,8 @@ public class AbDialogs {
 	}
 	
 	
-	/** Default report
+	/**
+	 * Default report
 	 *
 	 * @param s
 	 */
@@ -27,10 +32,11 @@ public class AbDialogs {
 	}
 	
 	/**
+	 * Dialog for selection.
 	 * 
 	 * @param options
 	 * @param question
-	 * @return
+	 * @return index
 	 */
 	public static int select(String[] options, String question) {
 		JFrame frame = new JFrame();
@@ -50,9 +56,10 @@ public class AbDialogs {
     }
 	
 	/**
+	 * Default input dialog.
 	 *
 	 * @param question
-	 * @return
+	 * @return result
 	 */
 	public static String input(String question) {
 		JFrame frame = new JFrame();

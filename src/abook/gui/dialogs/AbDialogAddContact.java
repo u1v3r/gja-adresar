@@ -1,12 +1,11 @@
 package abook.gui.dialogs;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -24,13 +23,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileFilter;
 
+import net.miginfocom.swing.MigLayout;
+
 import org.apache.commons.validator.GenericValidator;
 
-import abook.others.AddContactFormFocusTravel;
+import abook.listeners.AbEvent;
+import abook.listeners.AbListener;
+import abook.listeners.InitListenerCore;
+import abook.profile.AbGroup;
 import abook.profile.AbPerson;
 import abook.profile.AbProfile;
 import abook.profile.InitProfile;
@@ -42,18 +45,20 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.toedter.calendar.JDateChooser;
 
 /**
+ * User add dialog
  * 
- * @author Radovan Dvorský
+ * @author Radovan Dvorsky
  *
  */
+@SuppressWarnings("serial")
 public class AbDialogAddContact extends JDialog {
-	
 	
 	private static final int IMAGE_WIDTH = 100;
 	private static final int IMAGE_HEIGHT = 100;
+	private static final Color VALIDATE_ERROR_COLOR = Color.RED;
 	
 	/**
-	 * Filter pre file dialog
+	 * File dialog filter
 	 */
 	private class ImageFileFilter extends FileFilter {
 
@@ -80,13 +85,14 @@ public class AbDialogAddContact extends JDialog {
 	private AbProfile profile;
 
 	private final JPanel contentPanel = new JPanel();
+	private Image userImage;
 	private JTextField namePrefixTextField;
 	private JTextField firstNameTextField;
 	private JTextField lastnameTextField;
 	private JTextField nameSuffixTextField;
 	private JTextField streetTextField;
 	private JTextField cityTextField;
-	private JTextField pscTextField;
+	private JTextField zipCodeTextField;
 	private JTextField countryTextField;
 	private JTextField phoneHomeTextField;
 	private JTextField phoneWorkTextField;
@@ -97,334 +103,403 @@ public class AbDialogAddContact extends JDialog {
 	private JTextField skypeTextField;
 	private JTextField jabberTextField;
 	private JTextField gtalkTextField;
-	private JButton btnUserImage;
+	private JDateChooser birthdayDateChooser;
 	private JTextArea noteTextArea;
 	private JList groupsList;
-	private Image userImage;
-	private JDateChooser birthdayDateChooser;
-
+	private JButton btnUserImage;
+	
+	private AbPerson editedContact;
+	
+	
 	/**
-	 * Create the dialog.
+	 * Create empty dialog.
 	 */
 	public AbDialogAddContact() {
 		
 		this.profile = InitProfile.getProfile();
 		this.groupListModel = new DefaultListModel();
-		
-		setResizable(false);
 		setAlwaysOnTop(true);
 		setModal(true);
-		setBounds(100, 100, 774, 542);
+		setBounds(100, 100, 830, 565);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
-			JPanel formPanelContent = new JPanel();
-			contentPanel.add(formPanelContent, BorderLayout.CENTER);
-			formPanelContent.setLayout(new FormLayout(new ColumnSpec[] {
-					FormFactory.RELATED_GAP_COLSPEC,
-					FormFactory.DEFAULT_COLSPEC,
-					FormFactory.RELATED_GAP_COLSPEC,
-					ColumnSpec.decode("max(61dlu;default):grow"),
-					FormFactory.RELATED_GAP_COLSPEC,
-					ColumnSpec.decode("max(21dlu;default)"),
-					FormFactory.RELATED_GAP_COLSPEC,
-					FormFactory.DEFAULT_COLSPEC,
-					FormFactory.RELATED_GAP_COLSPEC,
-					ColumnSpec.decode("max(60dlu;default):grow"),
-					FormFactory.RELATED_GAP_COLSPEC,
-					ColumnSpec.decode("30dlu"),
-					FormFactory.RELATED_GAP_COLSPEC,
-					ColumnSpec.decode("29dlu"),
-					FormFactory.RELATED_GAP_COLSPEC,
-					ColumnSpec.decode("default:grow"),},
-				new RowSpec[] {
-					FormFactory.RELATED_GAP_ROWSPEC,
-					RowSpec.decode("max(10dlu;default)"),
-					FormFactory.RELATED_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,
-					FormFactory.RELATED_GAP_ROWSPEC,
-					RowSpec.decode("default:grow"),
-					FormFactory.RELATED_GAP_ROWSPEC,
-					RowSpec.decode("default:grow"),}));
+			JPanel formPanelHead = new JPanel();
+			contentPanel.add(formPanelHead, BorderLayout.CENTER);
+			formPanelHead.setLayout(new MigLayout("", "[][220px:220px:220px][220px:220px:220px][220px:220px:220px]", "[grow][grow][17px]"));
 			{
-				JLabel lblNewLabel = new JLabel("Tel. čísla");
-				lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 14));
-				formPanelContent.add(lblNewLabel, "2, 4");
+				btnUserImage = new JButton("");
+				btnUserImage.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						chooseUserImage();
+					}
+				});
+				btnUserImage.setSize(new Dimension(100, 100));
+				btnUserImage.setContentAreaFilled(false);
+				btnUserImage.setIcon(new ImageIcon(AbDialogAddContact.class.getResource("/icons/default_user_icon.jpg")));
+				formPanelHead.add(btnUserImage, "cell 0 0");
 			}
 			{
-				JLabel lblEmail = new JLabel("E-Mail");
-				lblEmail.setFont(new Font("Dialog", Font.BOLD, 14));
-				formPanelContent.add(lblEmail, "8, 4");
-			}
-			{
-				JLabel lblIm = new JLabel("IM");
-				lblIm.setFont(new Font("Dialog", Font.BOLD, 14));
-				formPanelContent.add(lblIm, "14, 4");
-			}
-			{
-				JLabel lblDomov = new JLabel("Domov");
-				formPanelContent.add(lblDomov, "2, 6, right, default");
-			}
-			{
-				phoneHomeTextField = new JTextField();
-				formPanelContent.add(phoneHomeTextField, "4, 6, left, default");
-				phoneHomeTextField.setColumns(10);
-			}
-			{
-				JLabel lblEmail_1 = new JLabel("Domov");
-				formPanelContent.add(lblEmail_1, "8, 6, right, default");
-			}
-			{
-				emailHomeTextField = new JTextField();
-				formPanelContent.add(emailHomeTextField, "10, 6, left, default");
-				emailHomeTextField.setColumns(10);
-			}
-			{
-				JLabel lblIcq = new JLabel("ICQ");
-				formPanelContent.add(lblIcq, "14, 6, right, default");
-			}
-			{
-				icqTextField = new JTextField();
-				formPanelContent.add(icqTextField, "16, 6, left, default");
-				icqTextField.setColumns(10);
-			}
-			{
-				JLabel lblPrca = new JLabel("Práca");
-				formPanelContent.add(lblPrca, "2, 8, right, default");
-			}
-			{
-				phoneWorkTextField = new JTextField();
-				formPanelContent.add(phoneWorkTextField, "4, 8, left, default");
-				phoneWorkTextField.setColumns(10);
-			}
-			{
-				JLabel lblEmail_2 = new JLabel("Práca");
-				formPanelContent.add(lblEmail_2, "8, 8, right, default");
-			}
-			{
-				emailWorkTextField = new JTextField();
-				formPanelContent.add(emailWorkTextField, "10, 8, left, default");
-				emailWorkTextField.setColumns(10);
-			}
-			{
-				JLabel lblSkype = new JLabel("Skype");
-				formPanelContent.add(lblSkype, "14, 8, right, default");
-			}
-			{
-				skypeTextField = new JTextField();
-				formPanelContent.add(skypeTextField, "16, 8, left, default");
-				skypeTextField.setColumns(10);
-			}
-			{
-				JLabel lblMobil = new JLabel("Mobil");
-				formPanelContent.add(lblMobil, "2, 10, right, default");
-			}
-			{
-				cellPhoneTextField = new JTextField();
-				formPanelContent.add(cellPhoneTextField, "4, 10, left, default");
-				cellPhoneTextField.setColumns(10);
-			}
-			{
-				JLabel lblJabber = new JLabel("Jabber");
-				formPanelContent.add(lblJabber, "14, 10, right, default");
-			}
-			{
-				jabberTextField = new JTextField();
-				formPanelContent.add(jabberTextField, "16, 10, left, default");
-				jabberTextField.setColumns(10);
-			}
-			{
-				JLabel lblGtalk = new JLabel("GTalk");
-				formPanelContent.add(lblGtalk, "14, 12, right, default");
-			}
-			{
-				gtalkTextField = new JTextField();
-				formPanelContent.add(gtalkTextField, "16, 12, left, default");
-				gtalkTextField.setColumns(10);
-			}
-			{
-				JLabel lblPersonal = new JLabel("Osobné");
-				lblPersonal.setFont(new Font("Dialog", Font.BOLD, 14));
-				formPanelContent.add(lblPersonal, "2, 16");
-			}
-			{
-				JLabel lblGroups = new JLabel("Skupiny");
-				lblGroups.setFont(new Font("Dialog", Font.BOLD, 14));
-				formPanelContent.add(lblGroups, "8, 16");
-			}
-			{
-				JLabel lblPoznmka = new JLabel("Poznámka");
-				lblPoznmka.setFont(new Font("Dialog", Font.BOLD, 14));
-				formPanelContent.add(lblPoznmka, "14, 16");
-			}
-			{
-				JLabel lblNarodeniny = new JLabel("Narodeniny");
-				formPanelContent.add(lblNarodeniny, "2, 18, right, default");
-			}
-			{
-				birthdayDateChooser = new JDateChooser();
-				formPanelContent.add(birthdayDateChooser, "4, 18, fill, fill");
-			}
-			{
-				JScrollPane scrollPane = new JScrollPane();
-				formPanelContent.add(scrollPane, "10, 20, fill, fill");
-				{
-					groupsList = new JList();
-					groupsList.setVisibleRowCount(5);
-					scrollPane.setViewportView(groupsList);
-				}
-			}
-			{
-				noteTextArea = new JTextArea();
-				noteTextArea.setLineWrap(true);
-				noteTextArea.setWrapStyleWord(true);
-				noteTextArea.setColumns(20);
-				formPanelContent.add(noteTextArea, "16, 20, fill, fill");
-			}
-		}
-		{
-			JPanel panel = new JPanel();
-			contentPanel.add(panel, BorderLayout.NORTH);
-			panel.setLayout(new BorderLayout(0, 0));
-			{
-				JPanel formPanelHead = new JPanel();
-				panel.add(formPanelHead, BorderLayout.CENTER);
-				FormLayout fl_formPanelHead = new FormLayout(new ColumnSpec[] {
+				JPanel panel_1 = new JPanel();
+				formPanelHead.add(panel_1, "cell 1 0,grow");
+				panel_1.setLayout(new FormLayout(new ColumnSpec[] {
 						FormFactory.RELATED_GAP_COLSPEC,
-						ColumnSpec.decode("max(16dlu;default)"),
+						ColumnSpec.decode("default:grow"),
 						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
-						FormFactory.RELATED_GAP_COLSPEC,
-						ColumnSpec.decode("max(59dlu;default)"),
-						FormFactory.RELATED_GAP_COLSPEC,
-						ColumnSpec.decode("max(31dlu;default)"),
-						FormFactory.RELATED_GAP_COLSPEC,
-						ColumnSpec.decode("max(28dlu;default)"),
-						FormFactory.RELATED_GAP_COLSPEC,
-						ColumnSpec.decode("default:grow"),},
+						ColumnSpec.decode("center:default:grow"),},
 					new RowSpec[] {
 						FormFactory.RELATED_GAP_ROWSPEC,
-						RowSpec.decode("22dlu"),
-						FormFactory.RELATED_GAP_ROWSPEC,
 						FormFactory.DEFAULT_ROWSPEC,
 						FormFactory.RELATED_GAP_ROWSPEC,
 						FormFactory.DEFAULT_ROWSPEC,
 						FormFactory.RELATED_GAP_ROWSPEC,
 						FormFactory.DEFAULT_ROWSPEC,
 						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC,});
-				formPanelHead.setLayout(fl_formPanelHead);
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,}));
 				{
-					JLabel lblJmnoKontaktu = new JLabel("Jméno kontaktu");
-					lblJmnoKontaktu.setFont(new Font("Dialog", Font.BOLD, 14));
-					formPanelHead.add(lblJmnoKontaktu, "4, 2");
+					JLabel lblJmno = new JLabel(Messages.getString("AbDialogAddContact.lblJmno.text")); //$NON-NLS-1$
+					lblJmno.setFont(new Font("Dialog", Font.BOLD, 14));
+					panel_1.add(lblJmno, "2, 2");
 				}
 				{
-					JLabel lblAddress = new JLabel("Adresa");
-					lblAddress.setFont(new Font("Dialog", Font.BOLD, 14));
-					formPanelHead.add(lblAddress, "10, 2");
-				}
-				{
-					JLabel lblPrefix = new JLabel("Titul");
-					formPanelHead.add(lblPrefix, "4, 4, right, default");
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text")); //$NON-NLS-1$
+					panel_1.add(label, "2, 4, right, default");
 				}
 				{
 					namePrefixTextField = new JTextField();
-					formPanelHead.add(namePrefixTextField, "6, 4, left, default");
-					namePrefixTextField.setColumns(10);				
+					namePrefixTextField.setColumns(10);
+					panel_1.add(namePrefixTextField, "4, 4, fill, default");
 				}
 				{
-					JLabel lblStreet = new JLabel("Ulice");
-					formPanelHead.add(lblStreet, "10, 4, right, default");
-				}
-				{
-					streetTextField = new JTextField();
-					formPanelHead.add(streetTextField, "12, 4, left, default");
-					streetTextField.setColumns(10);
-				}
-				{
-					JLabel lblFirstName = new JLabel("Jméno");
-					formPanelHead.add(lblFirstName, "4, 6, right, default");
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_1")); //$NON-NLS-1$
+					panel_1.add(label, "2, 6, right, default");
 				}
 				{
 					firstNameTextField = new JTextField();
-					formPanelHead.add(firstNameTextField, "6, 6, left, default");
 					firstNameTextField.setColumns(10);
+					panel_1.add(firstNameTextField, "4, 6, fill, default");
 				}
 				{
-					JLabel lblCity = new JLabel("Město");
-					formPanelHead.add(lblCity, "10, 6, right, default");
-				}
-				{
-					cityTextField = new JTextField();
-					formPanelHead.add(cityTextField, "12, 6, left, default");
-					cityTextField.setColumns(10);
-				}
-				{
-					JLabel lblLastName = new JLabel("Příjmení");
-					formPanelHead.add(lblLastName, "4, 8, right, default");
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_2")); //$NON-NLS-1$
+					panel_1.add(label, "2, 8, right, default");
 				}
 				{
 					lastnameTextField = new JTextField();
-					formPanelHead.add(lastnameTextField, "6, 8, left, default");
 					lastnameTextField.setColumns(10);
+					panel_1.add(lastnameTextField, "4, 8, fill, default");
 				}
 				{
-					JLabel lblPSC = new JLabel("PSČ");
-					formPanelHead.add(lblPSC, "10, 8, right, default");
-				}
-				{
-					pscTextField = new JTextField();
-					formPanelHead.add(pscTextField, "12, 8, left, default");
-					pscTextField.setColumns(10);
-				}
-				{
-					JLabel lblNameSuffix = new JLabel("Titul za");
-					formPanelHead.add(lblNameSuffix, "4, 10, right, default");
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_3")); //$NON-NLS-1$
+					panel_1.add(label, "2, 10, right, default");
 				}
 				{
 					nameSuffixTextField = new JTextField();
-					formPanelHead.add(nameSuffixTextField, "6, 10, left, default");
 					nameSuffixTextField.setColumns(10);
-				}
-				{
-					JLabel lblCountry = new JLabel("Krajina");
-					formPanelHead.add(lblCountry, "10, 10, right, default");
-				}
-				{
-					countryTextField = new JTextField();
-					formPanelHead.add(countryTextField, "12, 10, left, default");
-					countryTextField.setColumns(10);
+					panel_1.add(nameSuffixTextField, "4, 10, fill, default");
 				}
 			}
 			{
 				JPanel panel_1 = new JPanel();
-				panel.add(panel_1, BorderLayout.WEST);
-				panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 20));
+				formPanelHead.add(panel_1, "cell 2 0,grow");
+				panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+						FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("default:grow"),
+						FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("default:grow"),},
+					new RowSpec[] {
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,}));
 				{
-					btnUserImage = new JButton(" ");
-					btnUserImage.setMargin(new Insets(10, 14, 2, 14));
-					panel_1.add(btnUserImage);
-					btnUserImage.setPreferredSize(new Dimension(IMAGE_WIDTH, IMAGE_HEIGHT));
-					btnUserImage.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							chooseUserImage();
-						}
-					});
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_4")); //$NON-NLS-1$
+					label.setFont(new Font("Dialog", Font.BOLD, 14));
+					panel_1.add(label, "2, 2");
+				}
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_5")); //$NON-NLS-1$
+					panel_1.add(label, "2, 4, right, default");
+				}
+				{
+					streetTextField = new JTextField();
+					streetTextField.setColumns(10);
+					panel_1.add(streetTextField, "4, 4");
+				}
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_6")); //$NON-NLS-1$
+					panel_1.add(label, "2, 6, right, default");
+				}
+				{
+					cityTextField = new JTextField();
+					cityTextField.setColumns(10);
+					panel_1.add(cityTextField, "4, 6");
+				}
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_7")); //$NON-NLS-1$
+					panel_1.add(label, "2, 8, right, default");
+				}
+				{
+					zipCodeTextField = new JTextField();
+					zipCodeTextField.setColumns(10);
+					panel_1.add(zipCodeTextField, "4, 8");
+				}
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_8")); //$NON-NLS-1$
+					panel_1.add(label, "2, 10, right, default");
+				}
+				{
+					countryTextField = new JTextField();
+					countryTextField.setColumns(10);
+					panel_1.add(countryTextField, "4, 10");
+				}
+			}
+			{
+				JPanel panel_1 = new JPanel();
+				formPanelHead.add(panel_1, "cell 3 0,grow");
+				panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+						FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("default:grow"),
+						FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("default:grow"),},
+					new RowSpec[] {
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,}));
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_9")); //$NON-NLS-1$
+					label.setFont(new Font("Dialog", Font.BOLD, 14));
+					panel_1.add(label, "2, 2");
+				}
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_10")); //$NON-NLS-1$
+					panel_1.add(label, "2, 4, right, default");
+				}
+				{
+					emailHomeTextField = new JTextField();
+					emailHomeTextField.setColumns(10);
+					panel_1.add(emailHomeTextField, "4, 4, fill, default");
+				}
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_11")); //$NON-NLS-1$
+					panel_1.add(label, "2, 6, right, default");
+				}
+				{
+					emailWorkTextField = new JTextField();
+					emailWorkTextField.setColumns(10);
+					panel_1.add(emailWorkTextField, "4, 6, fill, default");
+				}
+			}
+			{
+				JPanel panel_1 = new JPanel();
+				panel_1.setPreferredSize(new Dimension(10, 80));
+				formPanelHead.add(panel_1, "cell 1 1,grow");
+				panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+						FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("default:grow"),
+						FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("default:grow"),},
+					new RowSpec[] {
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,}));
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_12")); //$NON-NLS-1$
+					label.setFont(new Font("Dialog", Font.BOLD, 14));
+					panel_1.add(label, "2, 2");
+				}
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_13")); //$NON-NLS-1$
+					panel_1.add(label, "2, 4, right, default");
+				}
+				{
+					phoneHomeTextField = new JTextField();
+					phoneHomeTextField.setColumns(10);
+					panel_1.add(phoneHomeTextField, "4, 4, fill, default");
+				}
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_14")); //$NON-NLS-1$
+					panel_1.add(label, "2, 6, right, default");
+				}
+				{
+					phoneWorkTextField = new JTextField();
+					phoneWorkTextField.setColumns(10);
+					panel_1.add(phoneWorkTextField, "4, 6, fill, default");
+				}
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_15")); //$NON-NLS-1$
+					panel_1.add(label, "2, 8, right, default");
+				}
+				{
+					cellPhoneTextField = new JTextField();
+					cellPhoneTextField.setColumns(10);
+					panel_1.add(cellPhoneTextField, "4, 8, fill, default");
+				}
+			}
+			{
+				JPanel panel_1 = new JPanel();
+				formPanelHead.add(panel_1, "cell 2 1,grow");
+				panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+						FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("default:grow"),
+						FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("default:grow"),},
+					new RowSpec[] {
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,}));
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_16")); //$NON-NLS-1$
+					label.setFont(new Font("Dialog", Font.BOLD, 14));
+					panel_1.add(label, "2, 2");
+				}
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_17")); //$NON-NLS-1$
+					panel_1.add(label, "2, 4, right, default");
+				}
+				{
+					icqTextField = new JTextField();
+					icqTextField.setColumns(10);
+					panel_1.add(icqTextField, "4, 4, fill, default");
+				}
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_18")); //$NON-NLS-1$
+					panel_1.add(label, "2, 6, right, default");
+				}
+				{
+					skypeTextField = new JTextField();
+					skypeTextField.setColumns(10);
+					panel_1.add(skypeTextField, "4, 6, fill, default");
+				}
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_19")); //$NON-NLS-1$
+					panel_1.add(label, "2, 8, right, default");
+				}
+				{
+					gtalkTextField = new JTextField();
+					gtalkTextField.setColumns(10);
+					panel_1.add(gtalkTextField, "4, 8, fill, default");
+				}
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_20")); //$NON-NLS-1$
+					panel_1.add(label, "2, 10, right, default");
+				}
+				{
+					jabberTextField = new JTextField();
+					jabberTextField.setColumns(10);
+					panel_1.add(jabberTextField, "4, 10, fill, default");
+				}
+			}
+			{
+				JPanel panel_1 = new JPanel();
+				formPanelHead.add(panel_1, "cell 3 1,grow");
+				panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+						FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("default:grow"),
+						FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("default:grow"),},
+					new RowSpec[] {
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						RowSpec.decode("default:grow"),}));
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_21")); //$NON-NLS-1$
+					label.setFont(new Font("Dialog", Font.BOLD, 14));
+					panel_1.add(label, "2, 2");
+				}
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_22")); //$NON-NLS-1$
+					panel_1.add(label, "2, 4, right, top");
+				}
+				{
+					birthdayDateChooser = new JDateChooser();
+					panel_1.add(birthdayDateChooser, "4, 4, fill, top");
+				}
+			}
+			{
+				JPanel panel_1 = new JPanel();
+				formPanelHead.add(panel_1, "cell 1 2,grow");
+				panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+						FormFactory.RELATED_GAP_COLSPEC,
+						FormFactory.DEFAULT_COLSPEC,
+						FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("default:grow"),},
+					new RowSpec[] {
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						RowSpec.decode("default:grow"),}));
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_23")); //$NON-NLS-1$
+					label.setFont(new Font("Dialog", Font.BOLD, 14));
+					panel_1.add(label, "2, 2");
+				}
+				{
+					JScrollPane scrollPane = new JScrollPane();
+					scrollPane.setPreferredSize(new Dimension(50, 70));
+					panel_1.add(scrollPane, "4, 4, fill, fill");
+					{
+						groupsList = new JList();
+						scrollPane.setViewportView(groupsList);
+					}
+				}
+			}
+			{
+				JPanel panel_1 = new JPanel();
+				formPanelHead.add(panel_1, "cell 2 2,grow");
+				panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+						FormFactory.RELATED_GAP_COLSPEC,
+						FormFactory.DEFAULT_COLSPEC,
+						FormFactory.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("center:default"),},
+					new RowSpec[] {
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						RowSpec.decode("default:grow"),}));
+				{
+					JLabel label = new JLabel(Messages.getString("AbDialogAddContact.label.text_24")); //$NON-NLS-1$
+					label.setFont(new Font("Dialog", Font.BOLD, 14));
+					panel_1.add(label, "2, 2");
+				}
+				{
+					JScrollPane scrollPane = new JScrollPane();
+					scrollPane.setMinimumSize(new Dimension(65, 150));
+					scrollPane.setMaximumSize(new Dimension(65, 150));
+					panel_1.add(scrollPane, "4, 4, fill, fill");
+					{
+						noteTextArea = new JTextArea();
+						scrollPane.setViewportView(noteTextArea);
+						noteTextArea.setRows(10);
+						noteTextArea.setWrapStyleWord(true);
+						noteTextArea.setLineWrap(true);
+						noteTextArea.setColumns(20);
+					}
 				}
 			}
 		}
@@ -455,64 +530,109 @@ public class AbDialogAddContact extends JDialog {
 			}
 		}
 		
-		initGroupList();
-		
-		List<Component> focusList = new ArrayList<Component>();
-		focusList.add(namePrefixTextField);
-		focusList.add(firstNameTextField);
-		focusList.add(lastnameTextField);
-		focusList.add(nameSuffixTextField);
-		focusList.add(streetTextField);
-		focusList.add(cityTextField);
-		focusList.add(pscTextField);
-		focusList.add(countryTextField);
-		focusList.add(phoneHomeTextField);
-		focusList.add(phoneWorkTextField);
-		focusList.add(cellPhoneTextField);
-		focusList.add(emailHomeTextField);
-		focusList.add(emailWorkTextField);
-		focusList.add(icqTextField);
-		focusList.add(skypeTextField);
-		focusList.add(jabberTextField);
-		focusList.add(gtalkTextField);
-		focusList.add(noteTextArea);
-		
-		setFocusTraversalPolicy(new AddContactFormFocusTravel(focusList));
-		
-		
+		initGroupList();		
 	}
 	
 	
 	/**
-	 * Inicializuje Jlist pre vyber skupin
+	 * Open dialog with provided {@link AbPerson}
+	 * 
+	 * @param person {@link AbPerson}
+	 */
+	public AbDialogAddContact(AbPerson person){
+		this();
+		this.editedContact = person;
+		fillFormular(person);
+	}
+	
+	
+	/**
+	 * Fill fomular with provided data
+	 * 
+	 * @param person {@link AbPerson}
+	 */
+	private void fillFormular(AbPerson person) {
+		
+		namePrefixTextField.setText(person.getNamePrefix());
+		nameSuffixTextField.setText(person.getNameSuffix());
+		firstNameTextField.setText(person.getFirstName());
+		lastnameTextField.setText(person.getLastName());
+		streetTextField.setText(person.getStreet());
+		cityTextField.setText(person.getCity());
+		zipCodeTextField.setText(person.getZipCode());
+		countryTextField.setText(person.getCountry());
+		emailHomeTextField.setText(person.getEmailHome());
+		emailWorkTextField.setText(person.getEmailWork());
+		phoneHomeTextField.setText(person.getPhoneHome());
+		phoneWorkTextField.setText(person.getPhoneWork());
+		cellPhoneTextField.setText(person.getCellPhone());
+		icqTextField.setText(person.getIcq());
+		skypeTextField.setText(person.getSkype());
+		gtalkTextField.setText(person.getGtalk());
+		jabberTextField.setText(person.getJabber());
+		if(person.getBirthday() != null) birthdayDateChooser.setDate(person.getBirthday());
+		
+		
+		List<Integer> selected = new ArrayList<Integer>();
+		
+		for (String group : person.getListOfGroups()) {
+			selected.add(groupListModel.indexOf(group));		
+			
+		}
+		
+		if(selected.size() > 0){						
+			groupsList.setSelectedIndices(castIntegers(selected));
+		}
+		
+		
+		noteTextArea.setText(person.getNote());
+		
+		btnUserImage.setIcon(new ImageIcon(person.getUserImage()));
+	}
+
+
+	/**
+	 * Initialize groupsList
 	 */
 	private void initGroupList() {
 		
-		groupsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		
-		for (String groupName : profile.getListOfGroups()) {
-			groupListModel.addElement(groupName);
-		}		
+		for (AbGroup group : profile.getListOfGroups()) {
+			groupListModel.addElement(group.getGroupName());
+		}
 		
 		groupsList.setModel(groupListModel);
 	}
 
 
 	/**
-	 * Uloží hondnoty zadané do formulára
+	 * Save formular and create new user
 	 */
 	private void save() {
 		
 		if(validateForm()){
-						
-			AbPerson contact = new AbPerson(firstNameTextField.getText(), 
-					lastnameTextField.getText());
 			
+			AbPerson contact;
+			
+			// ak edituje tak vloz editovany inak novy
+			if(this.editedContact != null){
+				// odstranenie priradenia do starych skupin				
+				this.editedContact.getListOfGroups().clear();
+								
+				//treba odstranit stary zaznam				
+				this.profile.getListOfAbPersons().remove(this.editedContact);
+				
+				contact = this.editedContact;
+			}else {
+				contact = new AbPerson();
+			}
+			
+			contact.setFirstName(firstNameTextField.getText());
+			contact.setLastName(lastnameTextField.getText());
 			contact.setNamePrefix(namePrefixTextField.getText());
 			contact.setNameSuffix(nameSuffixTextField.getText());
 			contact.setStreet(streetTextField.getText());
 			contact.setCity(cityTextField.getText());
-			contact.setPsc(pscTextField.getText());
+			contact.setPsc(zipCodeTextField.getText());
 			contact.setCountry(countryTextField.getText());
 			contact.setPhoneHome(phoneHomeTextField.getText());
 			contact.setPhoneWork(phoneWorkTextField.getText());
@@ -524,71 +644,79 @@ public class AbDialogAddContact extends JDialog {
 			contact.setJabber(jabberTextField.getText());
 			contact.setGtalk(gtalkTextField.getText());			
 			contact.setBirthday(birthdayDateChooser.getDate());
-			
-			for (Integer groups : this.groupsList.getSelectedIndices()) {
-				contact.addGroup(groups);
+									
+			for (Object group : this.groupsList.getSelectedValues()) {
+				contact.addGroup(group.toString());
 			}
+			
 			contact.setBirthday(birthdayDateChooser.getDate());
 			contact.setNote(noteTextArea.getText());
-			contact.setUserImage(userImage);
-			
+			if(userImage != null) contact.setUserImage(userImage);
 			profile.addPerson(contact);
 			
 			// zatvor dialog
 			setVisible(false);
+			
+			InitListenerCore.getListenerCore().fireListeners(
+					new AbEvent(this), AbListener.PROFILE_CHANGED);
 		}		
 	}
 
 
 	/**
-	 * Skontroluje správnosť hodnôt zadaných do formulára
+	 * Validate formular
 	 * 
 	 * @return boolean
 	 */
 	private boolean validateForm() {
 		
 		// kontorla mena
-		if(firstNameTextField.getText().isEmpty() || lastnameTextField.getText().isEmpty()){
+		if(firstNameTextField.getText().isEmpty()){
+			firstNameTextField.setBackground(VALIDATE_ERROR_COLOR);
+			return false;		
+		}
+		if(lastnameTextField.getText().isEmpty()){
+			lastnameTextField.setBackground(VALIDATE_ERROR_COLOR);
 			return false;
 		}
 		
 		// ak je nastavene psc, tak musi byt číslo
-		if(!pscTextField.getText().isEmpty()){
+		if(!zipCodeTextField.getText().isEmpty()){
 			// je cislo a je 5 znakov dlhe
-			if(!GenericValidator.isInt(pscTextField.getText()) ||
-					!GenericValidator.isInRange(Integer.valueOf(pscTextField.getText()), 5, 5)){
+			if(!GenericValidator.isInt(zipCodeTextField.getText())){
+				zipCodeTextField.setBackground(VALIDATE_ERROR_COLOR);				
 				return false;
 			}
 		}
 		
 		// ak su nastavene telefonne cisla, tak musia byt cisla
-		if(!phoneHomeTextField.getText().isEmpty()){
-			if(!GenericValidator.isInt(phoneHomeTextField.getText())){
-				return false;
-			}
+		if(!validatePhone(phoneHomeTextField.getText())){
+			phoneHomeTextField.setBackground(VALIDATE_ERROR_COLOR);
+			return false;						
 		}
 		
-		if(!phoneWorkTextField.getText().isEmpty()){
-			if(!GenericValidator.isInt(phoneWorkTextField.getText())){
-				return false;
-			}
+		if(!validatePhone(phoneWorkTextField.getText())){
+			phoneWorkTextField.setBackground(VALIDATE_ERROR_COLOR);
+			return false;
 		}
 		
-		if(!cellPhoneTextField.getText().isEmpty()){
-			if(!GenericValidator.isInt(cellPhoneTextField.getText())){
-				return false;
-			}
+		if(!validatePhone(cellPhoneTextField.getText())){
+			cellPhoneTextField.setBackground(VALIDATE_ERROR_COLOR);
+			return false;
+			
 		}
 		
 		// ak je nastaveny mail, tak musi mat spravny format
 		if(!emailHomeTextField.getText().isEmpty()){
 			if(GenericValidator.isEmail(emailHomeTextField.getText())){
+				emailHomeTextField.setBackground(VALIDATE_ERROR_COLOR);
 				return true;
 			}
 		}
 		
 		if(!emailWorkTextField.getText().isEmpty()){
 			if(GenericValidator.isEmail(emailWorkTextField.getText())){
+				emailWorkTextField.setBackground(VALIDATE_ERROR_COLOR);
 				return true;
 			}
 		}
@@ -596,6 +724,7 @@ public class AbDialogAddContact extends JDialog {
 		// gtalk a jabber ma format emailu
 		if(!gtalkTextField.getText().isEmpty()){
 			if(!GenericValidator.isEmail(gtalkTextField.getText())){
+				gtalkTextField.setBackground(VALIDATE_ERROR_COLOR);
 				return false;
 			}
 		}
@@ -603,6 +732,7 @@ public class AbDialogAddContact extends JDialog {
 		
 		if(!jabberTextField.getText().isEmpty()){
 			if(!GenericValidator.isEmail(jabberTextField.getText())){
+				jabberTextField.setBackground(VALIDATE_ERROR_COLOR);
 				return false;
 			}
 		}
@@ -611,39 +741,105 @@ public class AbDialogAddContact extends JDialog {
 		// icq musi byt cislo
 		if(!icqTextField.getText().isEmpty()){
 			if(!GenericValidator.isInt(icqTextField.getText())){
+				icqTextField.setBackground(VALIDATE_ERROR_COLOR);
 				return false;
 			}
 		}
 		
+		// musi byt vybrana aspon jedna skupina
+		if(groupsList.getSelectedIndices().length < 1){
+			groupsList.setBackground(VALIDATE_ERROR_COLOR);
+			return false;
+		}
+		
 		// kontrola datumu
-		if(birthdayDateChooser.getDate() != null){
+		/*if(birthdayDateChooser.getDate() != null){
 			if(!GenericValidator.isDate(birthdayDateChooser.getDateFormatString(), 
 					getLocale())){
 				return false;
 			}
-		}
+		}*/
 		
 		return true;
 	}
 	
-
+	
 	/**
-	 * Výber fotky užívateľa
+	 * User image choose dialog
 	 */
 	private void chooseUserImage(){
-		
+
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new AbDialogAddContact.ImageFileFilter());
-		
+
 		if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
 			// ziskame obrazok z dialogu
-			ImageIcon userImageIcon = new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath());			
-			Image img = userImageIcon.getImage();
-			// zmensime resp. zvascime na pozadovanu velkost
-			userImage = img.getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH);
-			// nastavime upraveny obrazok do btn
-			btnUserImage.setIcon(new ImageIcon(userImage));
-			btnUserImage.repaint();
+			ImageIcon imgIcon = new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath());
+			setUserImage(imgIcon);			
 		}	
+	}
+	
+	
+	/**
+	 * Set image to btnUserImage
+	 * 
+	 * @param icon {@link ImageIcon}
+	 */
+	private void setUserImage(ImageIcon icon){					
+		Image img = icon.getImage();
+		// zmensime resp. zvascime na pozadovanu velkost
+		userImage = img.getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH);
+		// nastavime upraveny obrazok do btn
+		btnUserImage.setIcon(new ImageIcon(userImage));
+		btnUserImage.repaint();
+	}
+	
+	/**
+	 * Cast {@link Integer} to int[]
+	 * 
+	 * @param integers[] {@link Integer}
+	 * 
+	 * @return int[]
+	 */
+	public int[] castIntegers(List<Integer> integers){
+		
+	    int[] ret = new int[integers.size()];
+	    for (int i=0; i < ret.length; i++)
+	    {
+	        ret[i] = integers.get(i).intValue();
+	    }
+	    
+	    return ret;
+	}
+	
+	/**
+	 * Validate phone number
+	 * 
+	 * @param phoneNumber {@link String}
+	 * 
+	 * @return boolean
+	 */
+	private boolean validatePhone(String phoneNumber){
+				
+		if(!phoneNumber.isEmpty()){			
+			if(phoneNumber.indexOf("+") == 0){
+				String number = phoneNumber.substring(phoneNumber.indexOf("+")+1);				
+				try{
+					Long.parseLong(number,10);
+					return true;
+				} catch (NumberFormatException e){					
+					return false;				
+				}
+			}else{
+				if(GenericValidator.isInt(phoneNumber)){				
+					return true;
+				}
+			}
+		}
+		else{
+			return true;
+		}
+		
+		return false;
 	}
 }

@@ -16,58 +16,62 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 /**
+ * 
+ * Creates dialog with informations about program.
  *
- * @author jurij
+ * @author xjanda17
  */
 @SuppressWarnings("serial")
 public class AbHelp extends JFrame {
 
-    protected JTextPane textovePole;
-    protected SimpleAttributeSet hlavniNadpis;
-    protected SimpleAttributeSet vedlejsiNadpis;
+    protected JTextPane textField;
+    protected SimpleAttributeSet mainTitle;
+    protected SimpleAttributeSet subTitle;
     protected SimpleAttributeSet text;
     protected JPanel panel;
 
+    /**
+     * Creates new dialog.
+     */
     public AbHelp() {
-        super("GJA 2012 - o programu");
+        super("GJA 2012 - about program");
         setLayout(new BorderLayout());
 
-        Point stred = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
-        int sirkaOkna = 680;
-        int vyskaOkna = 360;
-        setBounds((stred.x - sirkaOkna / 2), (stred.y - vyskaOkna / 2), sirkaOkna, vyskaOkna);
+        // show in the middle of screen //
+        Point middle = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
+        int frameWidth = 680;
+        int frameHeight = 360;
+        setBounds((middle.x - frameWidth / 2), (middle.y - frameHeight / 2), frameWidth, frameHeight);
 
-        // textove pole //
-        textovePole = new JTextPane();
-        textovePole.setEditable(false);
+        // text field //
+        textField = new JTextPane();
+        textField.setEditable(false);
 
-        // zainicializuju si styly //
+        // initialize styles //
         initializeStyles();
-        textovePole.setCharacterAttributes(hlavniNadpis, true);
-        textovePole.setText("Projekt pro předmět GJA 2012 - VUT FIT Brno\n");
+        textField.setCharacterAttributes(mainTitle, true);
+        textField.setText("Project for GJA 2012 course - BUT FIT\n");
 
-        addText("\nAutori:\n", vedlejsiNadpis);
+        // add text //
+        addText("\nAuthors:\n", subTitle);
         addText(" > Radovan Dvorský ... xdvors08\n", text);
         addText(" > Jiří Hynek ... xhynek05\n", text);
         addText(" > Jiří Janda ... xjanda17\n", text);
         addText(" > Marek Mešár - xmesar00\n", text);
 
-        addText("\nVzhled:\n", vedlejsiNadpis);
+        addText("\nLook and feel:\n", subTitle);
         addText(" > JTattoo swing: www.jtattoo.net\n", text);
-        addText(" > Ikony: .....\n", text);
+        addText(" > Icons: .....\n", text);
 
-        addText("\nWebsite:\n", vedlejsiNadpis);
+        addText("\nWebsite:\n", subTitle);
         addText(" > www.zeruazprasknu.cz\n", text);
 
-
+        // add content to parent frames //
         panel = new JPanel(new BorderLayout());
-        //panel.setBackground(Color.white);
         panel.setOpaque(false);
-        //textovePole.setBackground(Color.white);
-        textovePole.setOpaque(false);
-        panel.add(textovePole,BorderLayout.CENTER);
+        textField.setOpaque(false);
+        panel.add(textField,BorderLayout.CENTER);
         JLabel label = new JLabel(new ImageIcon(this.getClass().getResource("/icons/duck.png")));
-        //label.setBackground(Color.white);
         panel.setOpaque(false);
         panel.add(label,BorderLayout.EAST);
 
@@ -77,14 +81,15 @@ public class AbHelp extends JFrame {
 
     }
 
-    /** Prida text se zadanym stylem do textovehoPole
+    /**
+     * Adds text with selected style to text field.
      *
      * @param text
      * @param set
      */
     private void addText(String text, SimpleAttributeSet set) {
         try {
-                Document doc = textovePole.getStyledDocument();
+                Document doc = textField.getStyledDocument();
                 doc.insertString(doc.getLength(), text , set);
         } catch (BadLocationException ex) {
             JFrame parent = new JFrame();
@@ -93,24 +98,24 @@ public class AbHelp extends JFrame {
     }
 
     /**
-     * Zainicializuje styly
+     * Initializes styles.
      */
     private void initializeStyles() {
 
        // h1 //
-       hlavniNadpis = new SimpleAttributeSet();
-       StyleConstants.setBold(hlavniNadpis, true);
-       StyleConstants.setItalic(hlavniNadpis,true);
-       StyleConstants.setFontSize(hlavniNadpis, 22);
-       StyleConstants.setForeground(hlavniNadpis, new Color(109,115,232));
-       StyleConstants.setAlignment(hlavniNadpis, StyleConstants.ALIGN_CENTER);
+       mainTitle = new SimpleAttributeSet();
+       StyleConstants.setBold(mainTitle, true);
+       StyleConstants.setItalic(mainTitle,true);
+       StyleConstants.setFontSize(mainTitle, 22);
+       StyleConstants.setForeground(mainTitle, new Color(109,115,232));
+       StyleConstants.setAlignment(mainTitle, StyleConstants.ALIGN_CENTER);
 
        // h2 //
-       vedlejsiNadpis = new SimpleAttributeSet();
-       StyleConstants.setBold(vedlejsiNadpis, true);
-       StyleConstants.setItalic(vedlejsiNadpis,true);
-       StyleConstants.setFontSize(vedlejsiNadpis, 16);
-       StyleConstants.setForeground(vedlejsiNadpis, Color.green);
+       subTitle = new SimpleAttributeSet();
+       StyleConstants.setBold(subTitle, true);
+       StyleConstants.setItalic(subTitle,true);
+       StyleConstants.setFontSize(subTitle, 16);
+       StyleConstants.setForeground(subTitle, Color.green);
 
        // text //
        text = new SimpleAttributeSet();
