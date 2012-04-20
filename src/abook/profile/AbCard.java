@@ -1,5 +1,7 @@
 package abook.profile;
 
+import java.awt.event.KeyEvent;
+
 /**
  * Class for tab profile informations.
  * 
@@ -10,11 +12,11 @@ public class AbCard {
 	
 	protected int type;
 	protected int position;
-	public final static int HOME = 0;
-	public final static int DATABASE = 1;
-	public final static int GROUPS = 2;
-	public final static int EVENTS = 3;
-	public static final int DETAILS = 4;
+	public final static int HOME = KeyEvent.VK_H;
+	public final static int DATABASE = KeyEvent.VK_D;
+	public final static int GROUPS = KeyEvent.VK_G;
+	public final static int EVENTS = KeyEvent.VK_V;
+	public static final int DETAILS = KeyEvent.VK_T;
 	
 	/**
 	 * Creates new card.

@@ -32,6 +32,7 @@ public class InitProfile {
 	protected static File workspaceFile;
 	protected static File userFile;
 	protected static File userFileDir;
+	protected static boolean saved;
 	
 	/**
 	 * Creates new profile. Asks user for profile name.
@@ -67,6 +68,8 @@ public class InitProfile {
 			// open existing profile
 			openProfile(userFile);
 		}
+		
+		saved = true;
     }
 	
 	/**
@@ -84,7 +87,8 @@ public class InitProfile {
 		profile.addSpecialCard(AbCard.DATABASE);
 		
 		// create default groups //
-		profile.addGroup("friends");
+		profile.addGroup("all");
+		/*profile.addGroup("friends");
 		profile.addGroup("school");
 		
 		// create default contacts //
@@ -98,7 +102,7 @@ public class InitProfile {
 		person2.setCity("Košice");
 		person2.addGroup("friends");
 		person2.addGroup("school");
-		profile.addPerson(person2);
+		profile.addPerson(person2);*/
 		
 		
 	}
@@ -229,6 +233,14 @@ public class InitProfile {
         }
         
         InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.WORKSPACE_STRUCT_CHANGED);
+    }
+
+	public static boolean isSaved() {
+    	return saved;
+    }
+
+	public static void setSaved(boolean saved) {
+    	InitProfile.saved = saved;
     }
 
 }

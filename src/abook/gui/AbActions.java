@@ -1,6 +1,7 @@
 package abook.gui;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Vector;
 
@@ -200,9 +201,9 @@ public class AbActions {
         	if(e.getSource() instanceof AbstractButton) {
         		int mnemonic = ((AbstractButton) e.getSource()).getMnemonic();
         		
-        		if(mnemonic == 0) {
+        		if(mnemonic == KeyEvent.VK_S) {
         			InitProfile.saveProfile();
-        		} else if(mnemonic == 1) {
+        		} else {
         			InitProfile.exportProfile();
         		}
         	}

@@ -59,6 +59,7 @@ public class AbPerson implements Comparable<AbPerson>{
 		this.id = counter;
 		counter++;
 		this.listOfGroups = new ArrayList<String>();
+		this.addGroup("all");
 	}
 	
 	/**
