@@ -225,10 +225,14 @@ public class AbTabLine implements AbIGuiComponent, AbListener {
 			InitProfile.getProfile().addSpecialCard(type);
 			AbITabComponent component = getTab(type);
 			this.addTabToLine(component);
+			index = InitProfile.getProfile().getIndexOfCard(type);
 		} else {
 			tabbedPane.setSelectedIndex(index);
 			InitProfile.getProfile().setOpenedTab(index);
 		}
+		
+		InitProfile.getProfile().setOpenedTab(index);
+		getTab(InitProfile.getProfile().getListOfAbCards().get(index).getType()).actualizeTab();
 	}
 	
 	public void closeAllTabs() {
@@ -342,8 +346,9 @@ public class AbTabLine implements AbIGuiComponent, AbListener {
         	} else {
         		int selectedIndex = tabbedPane.getSelectedIndex();
         		if(InitProfile.getProfile().getOpenedTab() != selectedIndex) {
-        			InitProfile.getProfile().setOpenedTab(selectedIndex);
-        			getTab(InitProfile.getProfile().getListOfAbCards().get(selectedIndex).getType()).actualizeTab();
+        			//InitProfile.getProfile().setOpenedTab(selectedIndex);
+        			//getTab(InitProfile.getProfile().getListOfAbCards().get(selectedIndex).getType()).actualizeTab();
+        			openTab(InitProfile.getProfile().getListOfAbCards().get(selectedIndex).getType());
         			//System.out.println("actualize!");
         		}
         	}

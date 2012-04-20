@@ -109,7 +109,11 @@ public class AbDialogGoogleSync extends JDialog {
 				JButton syncButton = new JButton(Messages.getString("AbDialogGoogleSync.syncButton.text")); //$NON-NLS-1$
 				syncButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						syncContacts();
+						//try {
+							syncContacts();
+                        //} catch (com.google.gdata.util.ServiceException e2) {
+	                        // TODO: handle exception
+                        //}
 					}
 				});
 				syncButton.setActionCommand("OK");

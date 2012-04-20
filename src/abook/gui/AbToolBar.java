@@ -1,10 +1,14 @@
 package abook.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 
 import abook.profile.AbCard;
 
@@ -42,15 +46,15 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
         AbActions actions = ViewGui.getActions();
         
         // PROFILE //
-        addButton("New profile", "/icons/Document.png", actions.getActionNewProfile(), 0);
-        addButton("Open profile", "/icons/Open file.png", actions.getActionOpenProfile(), 0);
-        addButton("Save", "/icons/Save.png", actions.getActionSaveProfile(), 0);
+        addButton("New profile", "/icons/Document.png", actions.getActionNewProfile(), KeyEvent.VK_N);
+        addButton("Open profile", "/icons/Open file.png", actions.getActionOpenProfile(), KeyEvent.VK_O);
+        addButton("Save", "/icons/Save.png", actions.getActionSaveProfile(), KeyEvent.VK_S);
         
         // SEPARATOR //
         bar.addSeparator();
         
-        addButton("Import", "/icons/flash1.png", actions.getActionSaveProfile(), 1);
-        addButton("Export", "/icons/flash2.png", actions.getActionSaveProfile(), 1);
+        addButton("Import", "/icons/flash1.png", actions.getActionSaveProfile(), KeyEvent.VK_I);
+        addButton("Export", "/icons/flash2.png", actions.getActionSaveProfile(), KeyEvent.VK_E);
         
         // SEPARATOR //
         bar.addSeparator();
@@ -66,15 +70,15 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
         bar.addSeparator();
         
         // ADD/REMOVE CONTACT //
-        addButton("Add contact", "/icons/Add.png", actions.getActionAddContact(), 0);
-        addButton("Delete contact", "/icons/Delete.png", actions.getActionDeleteContact(), 0);
+        addButton("Add contact", "/icons/Add.png", actions.getActionAddContact(), KeyEvent.VK_PLUS);
+        addButton("Delete contact", "/icons/Delete.png", actions.getActionDeleteContact(), KeyEvent.VK_MINUS);
         
         // SEPARATOR //
         bar.addSeparator();
         
         // ADD/REMOVE GROUP //
-        addButton("Add group", "/icons/Add.png", actions.getActionAddGroup(), 0);
-        addButton("Delete group", "/icons/Delete.png", actions.getActionDeleteGroup(), 0);
+        addButton("Add group", "/icons/Add2.png", actions.getActionAddGroup(), 0);
+        addButton("Delete group", "/icons/Delete2.png", actions.getActionDeleteGroup(), 0);
         
         // SEPARATOR //
         bar.addSeparator();
