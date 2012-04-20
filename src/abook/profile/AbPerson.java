@@ -1,9 +1,19 @@
 package abook.profile;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  * Contact attributes.
@@ -14,7 +24,9 @@ import java.util.List;
 public class AbPerson implements Comparable<AbPerson>{	
 
 	public static final String DATE_FORMAT = "d.M.yyyy";
-	
+
+	private static final String DEFAULT_ICON = "/icons/default_user_icon.jpg";
+				
 	protected int id;
 	protected String namePrefix = "";
 	protected String firstName = "";
@@ -33,10 +45,10 @@ public class AbPerson implements Comparable<AbPerson>{
 	protected String icq = "";
 	protected String jabber = "";
 	protected String gtalk = "";	
-	protected Image userImage;
 	protected String note = "";
 	protected Date birthday;
-	protected List<String> listOfGroups;
+	protected List<String> listOfGroups;	
+	protected Boolean photo = false;
 	
 	private static int counter = 1;
 	
@@ -204,9 +216,9 @@ public class AbPerson implements Comparable<AbPerson>{
 	}
 
 	/**
-	 * Returns PSC.
+	 * Returns zip code.
 	 * 
-	 * @return PSC
+	 * @return zip code
 	 */
 	public String getZipCode() {
 		return psc;
@@ -407,18 +419,60 @@ public class AbPerson implements Comparable<AbPerson>{
 	 * @return userImage
 	 */
 	public Image getUserImage() {
-		return userImage;
-	}
-
-	/**
-	 * Sets user image.
-	 * 
-	 * @param userImage
-	 */
-	public void setUserImage(Image userImage) {
-		this.userImage = userImage;
+		
+		File img = new File(InitProfile.getUserFileDir().getPath() 
+				+ File.separator + this.id);		
+		Image image = null;
+		if(hasPhoto()){
+			try {
+				image =  ImageIO.read(img);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else{			
+			image = (new ImageIcon(this.getClass().getResource(DEFAULT_ICON))).getImage();			
+		}
+		
+		return image;
 	}
 	
+	/**
+	 * Saves user image
+	 * 
+	 * @param image
+	 */
+	public void setUserImage(Image image){
+		try {
+			
+			BufferedImage bi = new BufferedImage(
+					image.getWidth(null), 
+					image.getHeight(null), 
+					BufferedImage.TYPE_INT_RGB);
+			
+			 Graphics2D g2 = bi.createGraphics();
+		        g2.drawImage(image, 0, 0, null);
+		        g2.dispose();
+			
+			File saveDir = new File(InitProfile.getUserFileDir().getPath());
+			
+			if(!saveDir.exists()){
+				if(saveDir.mkdir()){
+					System.out.println("created directory: " + saveDir.getPath());
+				}else{
+					System.err.println("failed to create directory: " + saveDir.getPath());
+				}
+			}
+			
+			File saveFile = new File(InitProfile.getUserFileDir().getPath() + File.separator + this.id);		
+			ImageIO.write(bi, "PNG", saveFile);
+			
+			this.photo = true;
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Returns note.
 	 * 
@@ -496,19 +550,23 @@ public class AbPerson implements Comparable<AbPerson>{
 		return this.firstName + " " 
 				+ this.lastName;
 	}
-
-	@Override
-	public String toString() {
-		return "AbPerson [id=" + id + ", namePrefix=" + namePrefix
-				+ ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", nameSuffix=" + nameSuffix + ", street=" + street
-				+ ", city=" + city + ", psc=" + psc + ", country=" + country
-				+ ", phoneWork=" + phoneWork + ", phoneHome=" + phoneHome
-				+ ", cellPhone=" + cellPhone + ", emailWork=" + emailWork
-				+ ", emailHome=" + emailHome + ", skype=" + skype + ", icq="
-				+ icq + ", jabber=" + jabber + ", gtalk=" + gtalk
-				+ ", userImage=" + userImage + ", note=" + note + ", birthday="
-				+ birthday + ", listOfGroups=" + listOfGroups + "]";
+	
+	/**
+	 * Returns true if user has photo.
+	 * 
+	 * @return boolean
+	 */
+	public boolean hasPhoto(){		
+		return this.photo;		
+	}
+	
+	/**
+	 * Sets boolean value for photo.
+	 * 
+	 * @param photo boolean
+	 */
+	public void setHasPhoto(boolean photo){
+		this.photo = photo;
 	}
 
 	@Override

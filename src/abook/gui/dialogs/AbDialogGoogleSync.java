@@ -20,6 +20,9 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+
+import com.google.gdata.client.GoogleService.InvalidCredentialsException;
+
 import java.awt.Font;
 import java.awt.Color;
 
@@ -105,8 +108,7 @@ public class AbDialogGoogleSync extends JDialog {
 			{
 				JButton syncButton = new JButton(Messages.getString("AbDialogGoogleSync.syncButton.text")); //$NON-NLS-1$
 				syncButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {	
-						loadingLabel.setText("working..");
+					public void actionPerformed(ActionEvent e) {
 						syncContacts();
 					}
 				});
@@ -144,15 +146,21 @@ public class AbDialogGoogleSync extends JDialog {
 			return;
 		}
 				
-		
-		GoogleSync sync = new GoogleSync(login, pwd);
-		
-		AbProfile profile = InitProfile.getProfile();
-		
-		for (AbPerson person : sync.fetchContacts()) {
-			profile.addPerson(person);
+		try{
+			
+			GoogleSync sync = new GoogleSync(login, pwd);
+			
+			AbProfile profile = InitProfile.getProfile();
+			
+			for (AbPerson person : sync.fetchContacts()) {
+				profile.addPerson(person);
+			}
+			
+			this.setVisible(false);
+			
+		} catch (InvalidCredentialsException e) {
+			loginTextField.setBackground(Color.RED);
+			pwdTextField.setBackground(Color.RED);
 		}
-		
-		this.setVisible(false);
 	}
 }

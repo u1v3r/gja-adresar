@@ -115,7 +115,8 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		panel_1.add(panel_2, BorderLayout.WEST);
 		
 		userImagebutton = new JButton("");
-		userImagebutton.setPreferredSize(new Dimension(100, 100));		
+		userImagebutton.setPreferredSize(new Dimension(100, 100));	
+		userImagebutton.setIcon(new ImageIcon(this.getClass().getResource("/icons/default_user_icon.jpg")));
 		panel_2.add(userImagebutton);
 		
 		JPanel panel_3 = new JPanel();
@@ -340,10 +341,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 	 */
 	public void fillContactDetails(AbPerson person) {
 		
-		if(person.getUserImage() != null){
-			userImagebutton.setIcon(new ImageIcon(person.getUserImage()));
-		}
-		
+		userImagebutton.setIcon(new ImageIcon(person.getUserImage()));				
 		contactNameHeadLabel.setText(person.getFullname());
 		emailHeadLabel.setText(person.getEmailHome());
 		phoneHomeLabel.setText(person.getPhoneHome());

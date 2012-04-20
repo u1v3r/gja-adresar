@@ -1,6 +1,9 @@
 package abook.profile;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
@@ -8,14 +11,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
 import org.apache.commons.validator.GenericValidator;
 
 import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
 import abook.listeners.InitListenerCore;
 
+import com.google.gdata.client.GoogleService.InvalidCredentialsException;
 import com.google.gdata.client.Query;
+import com.google.gdata.client.Service.GDataRequest;
 import com.google.gdata.client.contacts.ContactsService;
+import com.google.gdata.data.Link;
 import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.contacts.ContactFeed;
 import com.google.gdata.data.contacts.ContactGroupEntry;
@@ -26,6 +34,7 @@ import com.google.gdata.data.extensions.Im;
 import com.google.gdata.data.extensions.Name;
 import com.google.gdata.data.extensions.PhoneNumber;
 import com.google.gdata.data.extensions.StructuredPostalAddress;
+import com.google.gdata.util.ResourceNotFoundException;
 import com.google.gdata.util.ServiceException;
 
 /**
@@ -45,13 +54,19 @@ public class GoogleSync {
 	private static final String REL_SKYPE = "SKYPE";
 	private static final String REL_ICQ = "ICQ";
 	private static final String ANDROID_FAVORITE="Starred in Android";
-
+	
 	private String login;
 	private String pwd;
 	private URL feedUrl;
 	private AbProfile profile;
 	private URL groupFeedUrl;
 	
+	/**
+	 * Class constructor
+	 * 
+	 * @param login
+	 * @param pwd
+	 */
 	public GoogleSync(String login, String pwd){
 		
 		this.login = login;
@@ -81,7 +96,7 @@ public class GoogleSync {
 	 * 
 	 * @return List<AbPerson>
 	 */
-	public List<AbPerson> fetchContacts(){		
+	public List<AbPerson> fetchContacts() throws InvalidCredentialsException{		
 		
 		List<AbPerson> persons = new ArrayList<AbPerson>();
 		
@@ -229,16 +244,57 @@ public class GoogleSync {
 					}
 				}			
 				persons.add(person);
-			}
-						
+				
+				
+				// ./workspace-aBook/user_name/userid.png
+				
+				File usrDirPath = InitProfile.getUserFileDir();
+				File imgFile = new File(usrDirPath.getPath() + File.separator + person.getId());
+				
+				// photo
+				try{
+					Link photoLink = entry.getContactPhotoLink();								
+					GDataRequest request = myService.createLinkQueryRequest(photoLink);
+					request.execute();
+					InputStream inStream = request.getResponseStream();
+					BufferedImage inputImage = ImageIO.read(inStream);
+					
+					
+					if(!usrDirPath.exists()){
+						if(usrDirPath.mkdir()){
+							System.out.println("created directory: " + usrDirPath.getPath());
+						}else{
+							System.err.println("failed to create directory: " + usrDirPath.getPath());
+						}
+					}
+					
+					ImageIO.write(inputImage, "PNG", imgFile);
+				} catch (ResourceNotFoundException e) {					
+				} catch (ServiceException e){
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+				} finally {
+					if(imgFile.exists()){
+						person.setHasPhoto(true);
+					}else{
+						person.setHasPhoto(false);
+					}
+				}
+				
+			}						
 		
 			InitListenerCore.getListenerCore().fireListeners(
 					new AbEvent(this), AbListener.GROUPS_CHANGED);
 			InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.PROFILE_CHANGED);
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (InvalidCredentialsException e){
+			throw new InvalidCredentialsException(e.getMessage());
 		} catch (ServiceException e) {
-			e.printStackTrace();
+			
 		}
 		
 		return persons;		

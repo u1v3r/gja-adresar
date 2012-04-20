@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -106,10 +105,11 @@ public class AbDialogAddContact extends JDialog {
 	private JTextField gtalkTextField;
 	private JDateChooser birthdayDateChooser;
 	private JTextArea noteTextArea;
-	private JButton btnUserImage;
 	private JList groupsList;
+	private JButton btnUserImage;
 	
 	private AbPerson editedContact;
+	
 	
 	/**
 	 * Create empty dialog.
@@ -128,23 +128,18 @@ public class AbDialogAddContact extends JDialog {
 		{
 			JPanel formPanelHead = new JPanel();
 			contentPanel.add(formPanelHead, BorderLayout.CENTER);
-			formPanelHead.setLayout(new MigLayout("", "[110px:110px:110px][220px:220px:220px][220px:220px:220px][220px:220px:220px]", "[][][17px]"));
+			formPanelHead.setLayout(new MigLayout("", "[][220px:220px:220px][220px:220px:220px][220px:220px:220px]", "[grow][grow][17px]"));
 			{
-				JPanel panel = new JPanel();
-				formPanelHead.add(panel, "cell 0 0,growx,aligny top");
-				panel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 20));
-				{
-					btnUserImage = new JButton(" ");
-					btnUserImage.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							chooseUserImage();
-						}
-					});
-					btnUserImage.setPreferredSize(new Dimension(100, 100));
-					btnUserImage.setMargin(new Insets(10, 14, 2, 14));
-					btnUserImage.setBorder(null);
-					panel.add(btnUserImage);
-				}
+				btnUserImage = new JButton("");
+				btnUserImage.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						chooseUserImage();
+					}
+				});
+				btnUserImage.setSize(new Dimension(100, 100));
+				btnUserImage.setContentAreaFilled(false);
+				btnUserImage.setIcon(new ImageIcon(AbDialogAddContact.class.getResource("/icons/default_user_icon.jpg")));
+				formPanelHead.add(btnUserImage, "cell 0 0");
 			}
 			{
 				JPanel panel_1 = new JPanel();
@@ -591,6 +586,8 @@ public class AbDialogAddContact extends JDialog {
 		
 		
 		noteTextArea.setText(person.getNote());
+		
+		btnUserImage.setIcon(new ImageIcon(person.getUserImage()));
 	}
 
 
@@ -654,8 +651,7 @@ public class AbDialogAddContact extends JDialog {
 			
 			contact.setBirthday(birthdayDateChooser.getDate());
 			contact.setNote(noteTextArea.getText());
-			contact.setUserImage(userImage);
-			
+			if(userImage != null) contact.setUserImage(userImage);
 			profile.addPerson(contact);
 			
 			// zatvor dialog
@@ -767,6 +763,7 @@ public class AbDialogAddContact extends JDialog {
 		return true;
 	}
 	
+	
 	/**
 	 * User image choose dialog
 	 */
@@ -777,9 +774,11 @@ public class AbDialogAddContact extends JDialog {
 
 		if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
 			// ziskame obrazok z dialogu
-			setUserImage(new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath()));
+			ImageIcon imgIcon = new ImageIcon(fileChooser.getSelectedFile().getAbsolutePath());
+			setUserImage(imgIcon);			
 		}	
 	}
+	
 	
 	/**
 	 * Set image to btnUserImage
