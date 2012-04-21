@@ -19,6 +19,7 @@ import abook.gui.dialogs.AbHelp;
 import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
 import abook.listeners.InitListenerCore;
+import abook.profile.AbCard;
 import abook.profile.InitProfile;
 
 /**
@@ -399,8 +400,10 @@ public class AbActions {
 	class ActionDeleteGroup extends AbstractAction
     {
         public void actionPerformed(ActionEvent e) {
-            // TODO
-        	InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.TRY_DELETE_GROUP);
+        	if(InitProfile.getProfile().getListOfAbCards().get(InitProfile.getProfile().getOpenedTab()).getType() == AbCard.GROUPS){
+        		InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.TRY_DELETE_GROUP);
+        	}
+        		
         }
     }
     

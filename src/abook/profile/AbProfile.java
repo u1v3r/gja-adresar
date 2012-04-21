@@ -192,8 +192,25 @@ public class AbProfile {
     }
 	
     /**
-     * Method adds new group.
+     * Method adds new group with description.
      * 
+     * @param newGroup
+     */
+    public void addGroup(String newGroup, String description) {
+    	
+    	// check if group with selected name exists //
+    	for(AbGroup gr : listOfGroups) {
+    		if(gr.getGroupName().equals(newGroup)) return;
+    	}
+    	
+    	// create new group and add to list //
+    	listOfGroups.add(new AbGroup (newGroup, description));
+    	
+    	InitProfile.setSaved(false);
+    }
+    
+    /**
+     * Method adds new group with blank description.
      * @param newGroup
      */
     public void addGroup(String newGroup) {

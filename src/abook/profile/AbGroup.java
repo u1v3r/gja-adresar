@@ -9,17 +9,28 @@ package abook.profile;
 public class AbGroup {
 
 	protected String name;
-	//protected boolean selected;
 	protected String description;
 	
 	/**
 	 * Creates new group.
 	 * 
-	 * @param name
+	 * @param name = group name
 	 */
 	public AbGroup(String name) {
-			this.name = name;
-			//this.selected = false;
+		this.name = name;
+		this.description = "";
+	}
+	
+	/**
+	 * Creates new group with a description
+	 * 
+	 * @param name = group name
+	 * @param description = group description
+	 */
+	public AbGroup(String name, String description)
+	{
+		this.name = name;
+		this.description = description;
 	}
 	
 	/**
@@ -58,17 +69,6 @@ public class AbGroup {
 	 */
 	public void setDescription(String description) {
     	this.description = description;
-    }
-	
-	/*public boolean isSelected()
-	{
-		return selected;
-	}
-	
-	public void setSelected(boolean value)
-	{
-		this.selected = value;
-	}*/
-	
+    }	
 	
 }

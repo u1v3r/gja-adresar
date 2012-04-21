@@ -1,7 +1,6 @@
 package abook.gui.tabs;
 
 import java.awt.Component;
-import java.awt.Dialog;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.util.EventObject;
@@ -9,7 +8,6 @@ import java.util.List;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -17,7 +15,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.plaf.basic.BasicTreeUI.SelectionModelPropertyChangeHandler;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
@@ -57,7 +54,6 @@ public class AbTabGroups implements TableModelListener, AbITabComponent, AbListe
 		
 		InitListenerCore.getListenerCore().addListener(this);
 		
-
 		createTable();
 		
 		this.panel = new JScrollPane(table);

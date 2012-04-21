@@ -8,12 +8,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 
 import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
@@ -29,14 +31,21 @@ import abook.profile.InitProfile;
  */
 
 @SuppressWarnings("serial")
-public class AbDialogAddGroup extends JFrame{
+public class AbDialogAddGroup extends JDialog{
 	
 	private AbProfile profile;
 	
     protected JPanel textPanel;
     protected JLabel label;
+   
 	protected JTextField groupNameTextField;
-	protected ImageIcon validIcon;
+
+	//protected ImageIcon validIcon;
+	
+	protected JPanel DescrPanel;
+	protected JLabel label2;
+	protected JTextArea groupDescriptionTxtArea;
+	private JScrollPane scrollBar1; // Scroll pane for text area
 	
     protected JPanel buttonPanel;
     protected JButton okeyButton;
@@ -54,8 +63,8 @@ public class AbDialogAddGroup extends JFrame{
 		// ---Layout handling--- 
 		setLayout(new BorderLayout());
 		Point middle = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
-        int width = 300;
-        int height = 100;
+        int width = 330;
+        int height = 220;
         setBounds((middle.x - width / 2), (middle.y - height / 2), width, height);
 		
         
@@ -63,12 +72,14 @@ public class AbDialogAddGroup extends JFrame{
         textPanel = new JPanel(new BorderLayout());
         textPanel.setOpaque(false);
         
-        label = new JLabel("Group name: ");
+        label = new JLabel("* Group name: ");
         label.setLabelFor(groupNameTextField);
         
         groupNameTextField = new JTextField();
         groupNameTextField.setBounds(30, 30,40, 40);
         groupNameTextField.setOpaque(true);
+        groupNameTextField.createToolTip();
+        groupNameTextField.setToolTipText("Group name. (Required)");
         groupNameTextField.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -88,12 +99,29 @@ public class AbDialogAddGroup extends JFrame{
 			}
 		});
         
-        //validIcon = new ImageIcon();
-        //TODO validate image icon
-        
         textPanel.add(label,BorderLayout.WEST);
         textPanel.add(groupNameTextField,BorderLayout.CENTER);
         
+        // Description text area //
+        DescrPanel = new JPanel(new BorderLayout());
+        DescrPanel.setOpaque(false);
+        
+        label2 = new JLabel("  Description:   ");
+        label2.setLabelFor(groupDescriptionTxtArea);
+        
+        groupDescriptionTxtArea = new JTextArea();
+        groupDescriptionTxtArea.setRows(5);
+		groupDescriptionTxtArea.setColumns(20);
+        groupDescriptionTxtArea.setWrapStyleWord(true);
+        groupDescriptionTxtArea.setLineWrap(true);
+        groupDescriptionTxtArea.createToolTip();
+        groupDescriptionTxtArea.setToolTipText("Description of the contact group. (Optional)");
+        scrollBar1 = new JScrollPane(groupDescriptionTxtArea);
+        scrollBar1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        
+        DescrPanel.add(label2,BorderLayout.WEST);
+        DescrPanel.add(scrollBar1, BorderLayout.CENTER);
+ 
         
         // Button panel//
         buttonPanel = new JPanel(new BorderLayout());
@@ -125,6 +153,7 @@ public class AbDialogAddGroup extends JFrame{
         
         // add all elements to frame
         add(textPanel,BorderLayout.NORTH);
+        add(DescrPanel,BorderLayout.CENTER);
         add(buttonPanel,BorderLayout.SOUTH);
         setVisible(true);
         groupNameTextField.requestFocus();
@@ -157,10 +186,7 @@ public class AbDialogAddGroup extends JFrame{
 	 */
 	protected void SaveNewGroup() {
 		
-		//TODO remove old style adding group below
-		profile.addGroup(groupNameTextField.getText());
-		
-		profile.addGroup(groupNameTextField.getText());		
+		profile.addGroup(groupNameTextField.getText(),groupDescriptionTxtArea.getText());		
 		InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.GROUPS_CHANGED);	
 	}
 
