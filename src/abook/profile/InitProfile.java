@@ -70,6 +70,11 @@ public class InitProfile {
 		}
 		
 		saved = true;
+		
+		if(ViewGui.isGuiCreated()) {
+			InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.PROFILE_CHANGED);
+			InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.WORKSPACE_STRUCT_CHANGED);
+		}
     }
 	
 	/**
@@ -105,10 +110,6 @@ public class InitProfile {
 		profile.addPerson(person2);*/
 		
 		saved = true;
-		
-		if(ViewGui.isGuiCreated()) {
-			InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.PROFILE_CHANGED);
-		}
 	}
 	
 	/**
