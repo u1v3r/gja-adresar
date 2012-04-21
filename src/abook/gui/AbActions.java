@@ -16,6 +16,9 @@ import abook.gui.dialogs.AbDialogGoogleSync;
 import abook.gui.dialogs.AbDialogs;
 import abook.gui.dialogs.AbHelp;
 
+import abook.listeners.AbEvent;
+import abook.listeners.AbListener;
+import abook.listeners.InitListenerCore;
 import abook.profile.InitProfile;
 
 /**
@@ -397,7 +400,7 @@ public class AbActions {
     {
         public void actionPerformed(ActionEvent e) {
             // TODO
-        	//InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.TRY_DELETE_GROUP);
+        	InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.TRY_DELETE_GROUP);
         }
     }
     

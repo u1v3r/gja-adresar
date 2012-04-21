@@ -30,7 +30,10 @@ public interface AbListener extends EventListener {
 	 */
 	public final static int GROUPS_CHANGED = 4;
 
-	//public final static int TRY_DELETE_GROUP = 5;
+	/**
+	 * When signal to validate group deletion in groupTab.
+	 */
+	public final static int TRY_DELETE_GROUP = 5;
 	
 	/**
 	 * When search pattern is changed.

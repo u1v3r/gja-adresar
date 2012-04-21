@@ -241,7 +241,7 @@ public class AbProfile {
      */
     public boolean updateGroupName(String oldName, String newName) {
     	
-    	// if selected names empty, return //
+    	// if selected names are empty, return //
     	if(newName != "" && oldName != "") {
     		// find group with old name //
 	    	for(AbGroup gr : listOfGroups) {
@@ -257,6 +257,16 @@ public class AbProfile {
     	
     	return false;
     }    
+    
+    public void updateGroupDescription(String groupName, String description)
+    {
+    	for(AbGroup gr : listOfGroups) {
+    		if(gr.getGroupName().equals(groupName)) {
+    			gr.setDescription(description);
+    			return;
+    		}
+    	}
+    }
     
     /**
      * Method returns list of groups.
