@@ -3,7 +3,10 @@ package abook.profile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
 
 import javax.swing.JFileChooser;
@@ -194,7 +197,7 @@ public class InitProfile {
     		PrintStream tisk = new PrintStream(userFile);
     		tisk.print(a);
     	} catch (FileNotFoundException ex) {
-    		AbDialogs.report("Soubor se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
+    		AbDialogs.report("Soubor " + userFile +  " se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
     	}
     	
     	setSaved(true);
@@ -203,7 +206,7 @@ public class InitProfile {
     /**
      * Method saves "as" the file.
      */
-    public static void exportProfile() {
+    public static void saveAsProfile() {
     	File selFile;
 
         // show file chooser //
@@ -228,17 +231,48 @@ public class InitProfile {
         selFile = (fc.getSelectedFile());
         if(selFile == null) { return; }
         //System.out.print(selFile);
-        profile.setUserName(selFile.getName() + ".xml");
 
         XStream xstream = new XStream();
         String a = xstream.toXML(profile);
         //System.out.print(a);
         try {
-            PrintStream tisk = new PrintStream(selFile);
+        	File xmlFile = new File(selFile.getPath() + ".xml");
+            PrintStream tisk = new PrintStream(xmlFile);
             tisk.print(a);
+            
+            profile.setUserName(selFile.getName());
+            userFile = new File(workspace + File.separator + xmlFile);
+			File newUserFileDir = new File(workspace + File.separator + selFile.getName());
+			
+			if (!newUserFileDir.exists()) {
+                newUserFileDir.mkdir();
+            }
+			
+			String[] children = userFileDir.list();
+	        for (int i = 0; i < children.length; i++) {
+	        	System.out.println(children[i]);
+	        	
+	        	InputStream in = new FileInputStream(new File(userFileDir + File.separator + children[i]));
+	            OutputStream out = new FileOutputStream(new File(newUserFileDir + File.separator + children[i]));
+	            
+	            byte[] buf = new byte[1024];
+	            int len;
+	            while ((len = in.read(buf)) > 0) {
+	                out.write(buf, 0, len);
+	            }
+	            in.close();
+	            out.close();
+	        }
+	        
+	        userFileDir = newUserFileDir;
+            
         } catch (FileNotFoundException ex) {
             AbDialogs.report("Soubor se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
+        } catch (IOException e) {
+        	AbDialogs.report("Kopirovani slozky se nepodarilo.\nTreba nemate prava pro zapis.");
         }
+        
+        setSaved(true);
         
         InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.WORKSPACE_STRUCT_CHANGED);
     }
@@ -253,6 +287,16 @@ public class InitProfile {
 			InitProfile.saved = saved;
 			InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.SAVED_CHANGED);
 		}
+    }
+
+	public static void importProfile() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public static void exportProfile() {
+	    // TODO Auto-generated method stub
+	    
     }
 
 }

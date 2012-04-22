@@ -21,8 +21,8 @@ import abook.gui.dialogs.AbHelp;
 import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
 import abook.listeners.InitListenerCore;
-import abook.profile.AbCard;
 import abook.profile.AbGroup;
+import abook.profile.AbPerson;
 import abook.profile.InitProfile;
 
 /**
@@ -37,6 +37,7 @@ public class AbActions {
 	protected ActionNewProfile actionNewProfile;
 	protected ActionOpenProfile actionOpenProfile;
 	protected ActionExitProgram actionExitProgram;
+	protected ActionImportExport actionImportExport;
 	protected ActionAddContact actionAddContact;
 	protected ActionDeleteContact actionDeleteContact;
 	protected ActionAddGroup actionAddGroup;
@@ -153,12 +154,22 @@ public class AbActions {
 	}
 	
 	/**
+	 * Method returns instance of action which synchronize contact.
 	 * 
-	 * @return
+	 * @return actionSyncContacts
 	 */
 	public ActionSyncContacts getActionSyncContacts(){
 		return actionSyncContacts;
 	}
+	
+	/**
+	 * Method returns instance of action which import or export contact.
+	 * 
+	 * @return actionImportExport;
+	 */
+	public ActionImportExport getActionImportExport() {
+    	return actionImportExport;
+    }
 	
 	// ---------------------------------------------------------------------- //
 
@@ -234,8 +245,8 @@ public class AbActions {
         		
         		if(mnemonic == KeyEvent.VK_S) {
         			InitProfile.saveProfile();
-        		} else {
-        			InitProfile.exportProfile();
+        		} else if(mnemonic == KeyEvent.VK_A) {
+        			InitProfile.saveAsProfile();
         		}
         	}
         }
@@ -315,6 +326,29 @@ public class AbActions {
     }
     
     /**
+     * Action imports or export profile.
+     * 
+     * @author Radovan Dvorsky
+     *
+     */
+    @SuppressWarnings("serial")
+	class ActionImportExport extends AbstractAction
+    {
+        public void actionPerformed(ActionEvent e) {
+           
+        	if(e.getSource() instanceof AbstractButton) {
+        		int mnemonic = ((AbstractButton) e.getSource()).getMnemonic();
+        		
+        		if(mnemonic == KeyEvent.VK_I) {
+        			InitProfile.importProfile();
+        		} else if(mnemonic == KeyEvent.VK_E) {
+        			InitProfile.exportProfile();
+        		}
+        	}
+        }
+    }
+    
+    /**
      * Action shows specific tab.
      * 
      * @author jurij
@@ -360,7 +394,26 @@ public class AbActions {
 	class ActionDeleteContact extends AbstractAction
     {
         public void actionPerformed(ActionEvent e) {
-            // TODO
+        	List<String> listOfPersonNames = new ArrayList<String>();
+        	List<AbPerson> listOfPersons = InitProfile.getProfile().getListOfAbPersons();
+        	
+        	for(AbPerson person : listOfPersons) {
+        		String name = person.getFullname() + " (id: " + person.getId() + ")";
+        		listOfPersonNames.add(name);
+        	}
+        	
+        	// creates selection dialog //
+            String[] a = new String[listOfPersonNames.size()];
+            int result = AbDialogs.select(listOfPersonNames.toArray(a), "Select group:");
+            
+            if(result != -1) {
+            	AbPerson selectedPerson = listOfPersons.get(result);
+            	
+            	InitProfile.getProfile().removePerson(selectedPerson);
+            	
+            	InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.GROUPS_CHANGED);
+            	InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.GROUP_SELECTION_CHANGED);
+            }
         }
     }
 
@@ -430,7 +483,7 @@ public class AbActions {
     }
     
     /**
-     * Action which sync contats.
+     * Action which sync contacts.
      * 
      * @author Radovan Dvorsky
      *

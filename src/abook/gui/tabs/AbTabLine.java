@@ -384,7 +384,6 @@ public class AbTabLine implements AbIGuiComponent, AbListener {
         		if(InitProfile.getProfile().getOpenedTab() != selectedIndex) {
         			//InitProfile.getProfile().setOpenedTab(selectedIndex);
         			//getTab(InitProfile.getProfile().getListOfAbCards().get(selectedIndex).getType()).actualizeTab();
-        			System.out.println(InitProfile.getProfile().getListOfAbCards().get(selectedIndex).getType());
         			openTab(InitProfile.getProfile().getListOfAbCards().get(selectedIndex).getType());
         			//System.out.println("actualize!");
         		}

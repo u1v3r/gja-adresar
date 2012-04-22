@@ -47,6 +47,7 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
         addButton("New profile", "/icons/Document.png", actions.getActionNewProfile(), KeyEvent.VK_N);
         addButton("Open profile", "/icons/Open file.png", actions.getActionOpenProfile(), KeyEvent.VK_O);
         addButton("Save", "/icons/Save.png", actions.getActionSaveProfile(), KeyEvent.VK_S);
+        addButton("Save as", "/icons/Save as.png", actions.getActionSaveProfile(), KeyEvent.VK_A);
         
         // SEPARATOR //
         bar.addSeparator();
