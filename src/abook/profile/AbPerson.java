@@ -528,8 +528,17 @@ public class AbPerson implements Comparable<AbPerson>{
 	 * @param group
 	 */
 	public void removeGroup(String group) {
-		if(listOfGroups.contains(group)) {
-			this.listOfGroups.remove(group);
+		
+		int i = 0;
+		for(String groupName : listOfGroups) {
+			if(group.equals(groupName)) {
+				break;
+			}
+			i++;
+		}
+		
+		if(i < listOfGroups.size()) {
+			listOfGroups.remove(i);
 		}
 	}
 	

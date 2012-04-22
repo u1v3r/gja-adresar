@@ -105,12 +105,12 @@ public class AbMenu extends AbActions implements AbIGuiComponent {
         // c) Add contact //
         JMenuItem menuAddGroup = editMenu.add("Add group");
         //menuAddGroup.setMnemonic(KeyEvent.VK_A);
-        menuAddGroup.addActionListener(actions.getActionAddContact());
+        menuAddGroup.addActionListener(actions.getActionAddGroup());
         
         // b) Help //
-        JMenuItem menuRemoveGroup = editMenu.add("Delete contact");
+        JMenuItem menuRemoveGroup = editMenu.add("Delete group");
         //menuRemoveGroup.setMnemonic(KeyEvent.VK_R);
-        menuRemoveGroup.addActionListener(actions.getActionDeleteContact());
+        menuRemoveGroup.addActionListener(actions.getActionDeleteGroup());
 
         // 6.) HELP //
         JMenu helpMenu = new JMenu("Help");

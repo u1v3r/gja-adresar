@@ -3,6 +3,8 @@ package abook.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.AbstractAction;
@@ -20,6 +22,7 @@ import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
 import abook.listeners.InitListenerCore;
 import abook.profile.AbCard;
+import abook.profile.AbGroup;
 import abook.profile.InitProfile;
 
 /**
@@ -400,9 +403,28 @@ public class AbActions {
 	class ActionDeleteGroup extends AbstractAction
     {
         public void actionPerformed(ActionEvent e) {
-        	if(InitProfile.getProfile().getListOfAbCards().get(InitProfile.getProfile().getOpenedTab()).getType() == AbCard.GROUPS){
+        	/*if(InitProfile.getProfile().getListOfAbCards().get(InitProfile.getProfile().getOpenedTab()).getType() == AbCard.GROUPS){
         		InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.TRY_DELETE_GROUP);
+        	}*/
+        	List<String> listOfGroups = new ArrayList<String>();
+        	for(AbGroup group : InitProfile.getProfile().getListOfGroups()) {
+        		String groupName = group.getGroupName();
+        		if(!groupName.equals("all")) {
+        			listOfGroups.add(groupName);
+        		}
         	}
+        	// creates selection dialog //
+            String[] a = new String[listOfGroups.size()];
+            int result = AbDialogs.select(listOfGroups.toArray(a), "Select group:");
+            
+            if(result != -1) {
+            	String selectedGroup = listOfGroups.get(result);
+            	
+            	InitProfile.getProfile().removeGroup(selectedGroup);
+            	
+            	InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.GROUPS_CHANGED);
+            	InitListenerCore.getListenerCore().fireListeners(new AbEvent(this), AbListener.GROUP_SELECTION_CHANGED);
+            }
         		
         }
     }

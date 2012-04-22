@@ -76,7 +76,7 @@ public class AbProfile {
 	public AbPerson addPerson(String name, String surname) {
 		
 		AbPerson person = new AbPerson(name, surname);
-		listOfAbPersons.remove(person);
+		listOfAbPersons.add(person);
 		InitProfile.setSaved(false);
 		
 		return person;
@@ -237,7 +237,7 @@ public class AbProfile {
     	for(AbGroup gr : listOfGroups) {
     		if(gr.getGroupName().equals(groupName)) {
     			listOfGroups.remove(gr);
-    			return;
+    			break;
     		}
     	}
     	
@@ -245,6 +245,8 @@ public class AbProfile {
     	for(AbPerson person : listOfAbPersons) {
     		person.removeGroup(groupName);
     	}
+    	
+    	removeSelectedGroup(groupName);
     	
     	InitProfile.setSaved(false);
     }
@@ -332,10 +334,17 @@ public class AbProfile {
      */
     public void removeSelectedGroup(String oldGroup) {
     	
+    	int i = 0;
     	for(String group : listOfSelectedGroups) {
-    		if(oldGroup.equals(group)) listOfSelectedGroups.remove(group);
+    		if(oldGroup.equals(group)) {
+    			break;
+    		}
+    		i++;
     	}
     	
+    	if(i < listOfSelectedGroups.size()) {
+    		listOfSelectedGroups.remove(i);
+    	}
     	InitProfile.setSaved(false);
     	
     	return;
