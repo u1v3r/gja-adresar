@@ -46,7 +46,7 @@ public class AbTabLine implements AbIGuiComponent, AbListener {
 	protected Color tabBackgroud;
 	protected ImageIcon iconClose;
 	protected int tabCounter;
-	protected final String[] views = { "Home", "Database", "Groups", "Events","Details" };
+	protected final String[] views = { "Home", "Database", "Groups", "Events", "Details" };
 	
 	/**
 	 * Creates list of cards
@@ -166,6 +166,42 @@ public class AbTabLine implements AbIGuiComponent, AbListener {
 		}
 		
 		return component;
+	}
+	
+	private int convertIndexToType(int index) {
+		
+		int type;
+		
+		switch (index) {
+		case 0:
+		
+			type = AbCard.HOME;
+			break;
+	
+		case 1:
+		
+			type = AbCard.DATABASE;
+			break;
+			
+		case 2:
+			
+			type = AbCard.GROUPS;
+			break;
+			
+		case 3:
+			
+			type = AbCard.EVENTS;
+			break;
+		case 4:
+			
+			type = AbCard.DETAILS;
+			break;
+		default:
+			type = -1;
+			break;
+		}
+		
+		return type;
 	}
 	
 	/**
@@ -336,11 +372,11 @@ public class AbTabLine implements AbIGuiComponent, AbListener {
         	if(tabbedPane.getSelectedComponent() == tabAdd) {
         		if(e.getClickCount() == 1) {
         			
-            		int type = AbDialogs.select(views, "Zvolte pohled");
-            		if(type < 0) {
+            		int index = AbDialogs.select(views, "Zvolte pohled");
+            		if(index < 0) {
             			
             		} else {
-            			openTab(type);
+            			openTab(convertIndexToType(index));
             		}
             	}
         	} else {
@@ -348,6 +384,7 @@ public class AbTabLine implements AbIGuiComponent, AbListener {
         		if(InitProfile.getProfile().getOpenedTab() != selectedIndex) {
         			//InitProfile.getProfile().setOpenedTab(selectedIndex);
         			//getTab(InitProfile.getProfile().getListOfAbCards().get(selectedIndex).getType()).actualizeTab();
+        			System.out.println(InitProfile.getProfile().getListOfAbCards().get(selectedIndex).getType());
         			openTab(InitProfile.getProfile().getListOfAbCards().get(selectedIndex).getType());
         			//System.out.println("actualize!");
         		}
