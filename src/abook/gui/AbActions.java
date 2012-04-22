@@ -54,6 +54,7 @@ public class AbActions {
 		actionNewProfile = new ActionNewProfile();
 		actionOpenProfile = new ActionOpenProfile();
 		actionExitProgram = new ActionExitProgram();
+		actionImportExport = new ActionImportExport();
 		actionAddContact = new ActionAddContact();
 		actionDeleteContact = new ActionDeleteContact();
 		actionShowView = new ActionShowView();
@@ -246,7 +247,7 @@ public class AbActions {
         		if(mnemonic == KeyEvent.VK_S) {
         			InitProfile.saveProfile();
         		} else if(mnemonic == KeyEvent.VK_A) {
-        			InitProfile.saveAsProfile();
+        			InitProfile.saveAsProfile(true);
         		}
         	}
         }

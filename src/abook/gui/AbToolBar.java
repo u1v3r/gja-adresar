@@ -52,8 +52,8 @@ public class AbToolBar extends AbActions implements AbIGuiComponent {
         // SEPARATOR //
         bar.addSeparator();
         
-        addButton("Import", "/icons/flash1.png", actions.getActionSaveProfile(), KeyEvent.VK_I);
-        addButton("Export", "/icons/flash2.png", actions.getActionSaveProfile(), KeyEvent.VK_E);
+        addButton("Import", "/icons/flash1.png", actions.getActionImportExport(), KeyEvent.VK_I);
+        addButton("Export", "/icons/flash2.png", actions.getActionImportExport(), KeyEvent.VK_E);
         
         // SEPARATOR //
         bar.addSeparator();

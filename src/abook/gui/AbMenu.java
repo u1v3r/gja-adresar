@@ -48,6 +48,20 @@ public class AbMenu extends AbActions implements AbIGuiComponent {
         menuSaveAs.setMnemonic(KeyEvent.VK_A);
         menuSaveAs.addActionListener(actions.getActionSaveProfile());
         
+        fileMenu.addSeparator();
+        
+        // -- Save //
+        JMenuItem menuImport = fileMenu.add("Import");
+        menuImport.setMnemonic(KeyEvent.VK_I);
+        menuImport.addActionListener(actions.getActionImportExport());
+
+        // -- Save as //
+        JMenuItem menuExport = fileMenu.add("Export");
+        menuExport.setMnemonic(KeyEvent.VK_E);
+        menuExport.addActionListener(actions.getActionImportExport());
+        
+        fileMenu.addSeparator();
+        
         // -- Exit //
         JMenuItem menuExitFile = fileMenu.add("Exit");
         menuExitFile.addActionListener(actions.getActionExitProgram());

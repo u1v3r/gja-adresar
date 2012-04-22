@@ -206,7 +206,7 @@ public class InitProfile {
     /**
      * Method saves "as" the file.
      */
-    public static void saveAsProfile() {
+    public static void saveAsProfile(boolean newProfile) {
     	File selFile;
 
         // show file chooser //
@@ -240,8 +240,10 @@ public class InitProfile {
             PrintStream tisk = new PrintStream(xmlFile);
             tisk.print(a);
             
-            profile.setUserName(selFile.getName());
-            userFile = new File(workspace + File.separator + xmlFile);
+            if(newProfile) {
+            	profile.setUserName(selFile.getName());
+                userFile = new File(workspace + File.separator + xmlFile);
+            }
 			File newUserFileDir = new File(workspace + File.separator + selFile.getName());
 			
 			if (!newUserFileDir.exists()) {
@@ -264,7 +266,9 @@ public class InitProfile {
 	            out.close();
 	        }
 	        
-	        userFileDir = newUserFileDir;
+	        if(newProfile) {
+	        	userFileDir = newUserFileDir;
+	        }
             
         } catch (FileNotFoundException ex) {
             AbDialogs.report("Soubor se nepodarilo vytvorit.\nTreba nemate prava pro zapis.");
@@ -295,8 +299,7 @@ public class InitProfile {
     }
 
 	public static void exportProfile() {
-	    // TODO Auto-generated method stub
-	    
+	    saveAsProfile(false);
     }
 
 }
