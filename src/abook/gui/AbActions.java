@@ -247,7 +247,14 @@ public class AbActions {
         		if(mnemonic == KeyEvent.VK_S) {
         			InitProfile.saveProfile();
         		} else if(mnemonic == KeyEvent.VK_A) {
-        			InitProfile.saveAsProfile(true);
+        			
+        			String user = AbDialogs.input("Type user:");
+        			
+        			if(user == null || user.isEmpty()) return;
+        			
+        			File selFile = new File(InitProfile.getWorkspace() + File.separator + user + ".xml");
+        			
+        			InitProfile.saveAsProfile(selFile, true);
         		}
         	}
         }
@@ -265,17 +272,20 @@ public class AbActions {
     {
         public void actionPerformed(ActionEvent e) {
         	
-        	// save actual profile //
-        	int result = AbDialogs.YesNoCancel("Do you want to save actual project?");
-        	
-        	// user cancels dialog //
-        	if(result == JOptionPane.CANCEL_OPTION) {
-        		return;
-        	}
-        	
-        	// user wants to save profile //
-        	if(result == JOptionPane.OK_OPTION) {
-        		InitProfile.saveProfile();
+        	if(!InitProfile.isSaved()) {
+        		
+        		// save actual profile //
+            	int result = AbDialogs.YesNoCancel("Do you want to save actual project?");
+            	
+            	// user cancels dialog //
+            	if(result == JOptionPane.CANCEL_OPTION) {
+            		return;
+            	}
+            	
+            	// user wants to save profile //
+            	if(result == JOptionPane.OK_OPTION) {
+            		InitProfile.saveProfile();
+            	}
         	}
         	
         	// get new profile name //
@@ -298,7 +308,7 @@ public class AbActions {
             
             // creates selection dialog //
             String[] a = new String[fileNames.size()];
-            result = AbDialogs.select(fileNames.toArray(a), "Select file:");
+            int result = AbDialogs.select(fileNames.toArray(a), "Select file:");
             
             // user selects new profile file //
             if(result >= 0) {

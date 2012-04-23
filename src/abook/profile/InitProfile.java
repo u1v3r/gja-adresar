@@ -146,7 +146,7 @@ public class InitProfile {
 			InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.PROFILE_CHANGED);
 		}
         
-		saved = true;
+		setSaved(true);
 	}
 	
 	/**
@@ -192,7 +192,7 @@ public class InitProfile {
     	
     	XStream xstream = new XStream();
     	String a = xstream.toXML(profile);
-    	//System.out.print(a);
+    	//System.out.print(userFile);
     	try {
     		PrintStream tisk = new PrintStream(userFile);
     		tisk.print(a);
@@ -206,43 +206,27 @@ public class InitProfile {
     /**
      * Method saves "as" the file.
      */
-    public static void saveAsProfile(boolean newProfile) {
-    	File selFile;
-
-        // show file chooser //
-        JFrame frame = new JFrame();
-        frame.setBounds(200, 200, 500, 350);
-        JFileChooser fc = new JFileChooser();
-        fc.setCurrentDirectory(workspaceFile);
-        fc.setFileFilter(new FileFilter() {
-			
-			@Override
-			public String getDescription() {
-				return ".xml";
-			}
-			
-			@Override
-			public boolean accept(File file) {
-				return file.isDirectory() || file.getName().toLowerCase().endsWith(".xml");
-			}
-		});
-        frame.add(fc);
-        fc.showSaveDialog(frame);
-        selFile = (fc.getSelectedFile());
-        if(selFile == null) { return; }
-        //System.out.print(selFile);
+    public static void saveAsProfile(File selFile, boolean newProfile) {
 
         XStream xstream = new XStream();
         String a = xstream.toXML(profile);
         //System.out.print(a);
         try {
-        	File xmlFile = new File(selFile.getPath() + ".xml");
+        	File xmlFile;
+        	if(!selFile.getPath().endsWith(".xml")) {
+        		xmlFile = new File(selFile.getPath() + ".xml");
+        	} else {
+        		xmlFile = selFile;
+        	}
             PrintStream tisk = new PrintStream(xmlFile);
             tisk.print(a);
             
             if(newProfile) {
             	profile.setUserName(selFile.getName());
-                userFile = new File(workspace + File.separator + xmlFile);
+                userFile = new File(xmlFile.getPath());
+            }
+            if(selFile.getPath().endsWith(".xml")) {
+            	selFile = new File(selFile.getPath().substring(0, selFile.getPath().length()-4));
             }
 			File newUserFileDir = new File(workspace + File.separator + selFile.getName());
 			
@@ -252,7 +236,7 @@ public class InitProfile {
 			
 			String[] children = userFileDir.list();
 	        for (int i = 0; i < children.length; i++) {
-	        	System.out.println(children[i]);
+	        	//System.out.println(children[i]);
 	        	
 	        	InputStream in = new FileInputStream(new File(userFileDir + File.separator + children[i]));
 	            OutputStream out = new FileOutputStream(new File(newUserFileDir + File.separator + children[i]));
@@ -281,10 +265,20 @@ public class InitProfile {
         InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.WORKSPACE_STRUCT_CHANGED);
     }
 
+    /**
+     * Returns information if profile is saved
+     * 
+     * @return isSaved
+     */
 	public static boolean isSaved() {
     	return saved;
     }
 
+	/**
+	 * Changes information about saving of profile.
+	 * 
+	 * @param saved
+	 */
 	public static void setSaved(boolean saved) {
 		
 		if(InitProfile.saved != saved) {
@@ -293,13 +287,114 @@ public class InitProfile {
 		}
     }
 
+	/**
+	 * Imports profile.
+	 */
 	public static void importProfile() {
-	    // TODO Auto-generated method stub
+	    
+		File selFile = getFileFromUser("Import");
+		
+		if(selFile == null) { return; }
+		
+		File importXmlFile;
+    	if(!selFile.getPath().endsWith(".xml")) {
+    		importXmlFile = new File(selFile.getPath() + ".xml");
+    	} else {
+    		importXmlFile = selFile;
+    	}
+    	File newXmlFile = new File(workspace + File.separator + importXmlFile.getName());
+    	
+    	try {
+	        InputStream in = new FileInputStream(importXmlFile);
+	        OutputStream out = new FileOutputStream(newXmlFile);
+	        
+	        byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            in.close();
+            out.close();
+            
+            if(selFile.getPath().endsWith(".xml")) {
+            	selFile = new File(selFile.getPath().substring(0, selFile.getPath().length()-4));
+            }
+            File newUserFileDir = new File(workspace + File.separator + selFile.getName());
+            
+            if (!newUserFileDir.exists()) {
+                newUserFileDir.mkdir();
+            }
+			
+			String[] children = selFile.list();
+	        for (int i = 0; i < children.length; i++) {
+	        	//System.out.println(children[i]);
+	        	
+	        	in = new FileInputStream(new File(selFile + File.separator + children[i]));
+	            out = new FileOutputStream(new File(newUserFileDir + File.separator + children[i]));
+	            
+	            buf = new byte[1024];
+	            while ((len = in.read(buf)) > 0) {
+	                out.write(buf, 0, len);
+	            }
+	            in.close();
+	            out.close();
+	        }
+            
+        } catch (FileNotFoundException e) {
+        	AbDialogs.report("Unable to import profile");
+        } catch (IOException e) {
+        	AbDialogs.report("Unable to import profile");
+        }
+    	
+        InitListenerCore.getListenerCore().fireListeners(new AbEvent(profile), AbListener.WORKSPACE_STRUCT_CHANGED);
 	    
     }
 
+	/**
+	 * Exports profile.
+	 */
 	public static void exportProfile() {
-	    saveAsProfile(false);
+		
+		File selFile = getFileFromUser("Export");
+
+        if(selFile == null) { return; }
+        //System.out.print(selFile);
+		
+	    saveAsProfile(selFile, false);
     }
+	
+	/**
+	 * Shows file dialog to user and return his selected file.
+	 * 
+	 * @param approveText
+	 * @return selectedFile
+	 */
+	private static File getFileFromUser(String approveText) {
+		
+		File selFile;
+
+        // show file chooser //
+        JFrame frame = new JFrame();
+        frame.setBounds(200, 200, 500, 350);
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(workspaceFile);
+        fc.setFileFilter(new FileFilter() {
+			
+			@Override
+			public String getDescription() {
+				return ".xml";
+			}
+			
+			@Override
+			public boolean accept(File file) {
+				return file.isDirectory() || file.getName().toLowerCase().endsWith(".xml");
+			}
+		});
+        frame.add(fc);
+        fc.showDialog(frame, approveText);
+        selFile = (fc.getSelectedFile());
+        
+        return selFile;
+	}
 
 }
