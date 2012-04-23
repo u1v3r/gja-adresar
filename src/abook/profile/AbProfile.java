@@ -407,6 +407,12 @@ public class AbProfile {
     	InitProfile.setSaved(false);
     }
 
+	/**
+	 * Returns contact to person with selected id.
+	 * 
+	 * @param id
+	 * @return contact
+	 */
 	public AbPerson getContact(int id) {
 	    
 		for(AbPerson person : listOfAbPersons) {
@@ -414,6 +420,7 @@ public class AbProfile {
 		}
 	    return null;
     }
+	
     
 	/**
      * 
