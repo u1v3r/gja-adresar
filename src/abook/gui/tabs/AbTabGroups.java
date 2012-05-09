@@ -119,7 +119,7 @@ public class AbTabGroups implements TableModelListener, AbITabComponent, AbListe
 		List<AbGroup> listOfGroups = InitProfile.getProfile().getListOfGroups();
 
 		for(AbGroup gr : listOfGroups){	
-			Object[] row = new Object[3];
+			Object[] row = new Object[2];
 			row[0] = gr.getGroupName();
 			row[1] = gr.getDescription();
 			
