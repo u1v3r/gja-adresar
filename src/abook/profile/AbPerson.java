@@ -47,14 +47,14 @@ public class AbPerson implements Comparable<AbPerson>{
 	protected List<String> listOfGroups;	
 	protected Boolean photo = false;
 	
-	private static int counter = 1;
 	
 	/**
 	 * Creates new contact.
 	 */
 	public AbPerson(){
-		this.id = counter;
-		counter++;
+		int lastId = InitProfile.getProfile().getLastContactId();
+		this.id = lastId + 1;		
+		InitProfile.getProfile().setLastContactId(this.id);		
 		this.listOfGroups = new ArrayList<String>();
 		this.addGroup("all");
 	}

@@ -20,6 +20,7 @@ public class AbProfile {
 	protected String searchText;
 	protected List<AbGroup> listOfGroups;
 	protected List<String> listOfSelectedGroups;
+	protected int lastContactId;
 	
 	/**
 	 * Creates new profile.
@@ -35,6 +36,7 @@ public class AbProfile {
 		this.openedTab = 0;
 		this.listOfGroups = new ArrayList<AbGroup>();
 		this.searchText = new String();
+		this.lastContactId = 0;
 	}
 
 	/**
@@ -420,6 +422,22 @@ public class AbProfile {
 		}
 	    return null;
     }
+	
+	/**
+	 * Sets last inserted contact id
+	 * @param id
+	 */
+	public void setLastContactId(int id){
+		this.lastContactId = id;
+	}
+	
+	/**
+	 * Returns last inserted contact id
+	 * @return
+	 */
+	public int getLastContactId(){
+		return this.lastContactId;
+	}
 	
     
 	/**
