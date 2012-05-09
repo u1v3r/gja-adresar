@@ -570,7 +570,12 @@ public class AbDialogAddContact extends JDialog {
 		skypeTextField.setText(person.getSkype());
 		gtalkTextField.setText(person.getGtalk());
 		jabberTextField.setText(person.getJabber());
-		if(person.getBirthday() != null) birthdayDateChooser.setDate(person.getBirthday());
+		if(person.getBirthday() != null) {
+			birthdayDateChooser.setDate(person.getBirthday());
+		}
+		else{
+			birthdayDateChooser.setDate(null);
+		}
 		
 		
 		List<Integer> selected = new ArrayList<Integer>();
@@ -643,7 +648,6 @@ public class AbDialogAddContact extends JDialog {
 			contact.setSkype(skypeTextField.getText());
 			contact.setJabber(jabberTextField.getText());
 			contact.setGtalk(gtalkTextField.getText());			
-			contact.setBirthday(birthdayDateChooser.getDate());
 									
 			for (Object group : this.groupsList.getSelectedValues()) {
 				contact.addGroup(group.toString());

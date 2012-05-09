@@ -43,7 +43,7 @@ public class AbPerson implements Comparable<AbPerson>{
 	protected String jabber = "";
 	protected String gtalk = "";	
 	protected String note = "";
-	protected Date birthday;
+	protected Date birthday = null;
 	protected List<String> listOfGroups;	
 	protected Boolean photo = false;
 	

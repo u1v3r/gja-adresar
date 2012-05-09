@@ -361,7 +361,10 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		if(person.getBirthday() != null){
 			SimpleDateFormat format = new SimpleDateFormat(AbPerson.DATE_FORMAT);
 			birthdayLabel.setText(format.format(person.getBirthday()));
-		}		
+		}
+		else{
+			birthdayLabel.setText("");
+		}
 	}
 
 	@Override
