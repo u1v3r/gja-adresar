@@ -13,8 +13,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-import com.google.gdata.data.dublincore.Date;
-
 import abook.gui.dialogs.AbDialogAddContact;
 import abook.listeners.AbEvent;
 import abook.listeners.AbListener;
@@ -25,7 +23,7 @@ import abook.profile.InitProfile;
 /**
  * Tab with birthday events.
  * 
- * @author bakulla
+ * @author xmesar00
  *
  */
 public class AbTabEvents implements AbListener, AbITabComponent {
@@ -59,8 +57,7 @@ public class AbTabEvents implements AbListener, AbITabComponent {
 	/**
 	 * Creates table layout
 	 */
-	private void createLayout()
-	{
+	private void createLayout() {
 			
 			tableModel = new MyTableModel();
 			
@@ -81,7 +78,7 @@ public class AbTabEvents implements AbListener, AbITabComponent {
 			table.getColumn("ID").setPreferredWidth(0);
 			table.getColumn("ID").setResizable(false);
 			
-			table.setSelectionMode(0); // only one row can be selected at the same time //	
+			table.setSelectionMode(0); // only one row can be selected at the same time //
 			table.addMouseListener(new MyMouseListener());
 			
 			TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(tableModel);
@@ -122,10 +119,9 @@ public class AbTabEvents implements AbListener, AbITabComponent {
 		SimpleDateFormat bdate_formatter;
 		bdate_formatter = new SimpleDateFormat("d'.' MMM yyyy", Locale.getDefault());
 		
-		for(AbPerson per : listOfContacts){
+		for(AbPerson per : listOfContacts) {
 			
-			if(per.getBirthday() != null)
-			{
+			if(per.getBirthday() != null){
 				Object[] row = new Object[6];
 				row[0] = per.getId();
 				row[1] = per.getFirstName();
@@ -146,8 +142,7 @@ public class AbTabEvents implements AbListener, AbITabComponent {
 				// counting days to next birthday party
 				birth.set(Calendar.YEAR, today.get(Calendar.YEAR));
 				int difference = birth.get(Calendar.DAY_OF_YEAR) - today.get(Calendar.DAY_OF_YEAR);
-				if(difference < 0)				
-				{	
+				if(difference < 0) {	
 					// we have already missed the date	
 					// ...counting to next year birthday
 					birth.add(Calendar.YEAR, 1); 
@@ -165,8 +160,7 @@ public class AbTabEvents implements AbListener, AbITabComponent {
 
 	@Override
 	public void myEventOccurred(AbEvent evt, int type) {
-		if(type == 3)
-		{
+		if(type == 3) {
 			actualizeTab();
 		}
 	}  
@@ -209,8 +203,7 @@ public class AbTabEvents implements AbListener, AbITabComponent {
 		public void mouseClicked(MouseEvent e) {
 			if (e.getClickCount() == 2) {
 				
-				//get selected AbPerson
-				
+				//get selected AbPerson	
 				int id = (Integer) table.getValueAt(table.getSelectedRow(), 0);
 				
 				// Calling Edit person dialog

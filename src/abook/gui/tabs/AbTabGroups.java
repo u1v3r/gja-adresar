@@ -29,7 +29,7 @@ import abook.profile.InitProfile;
 /**
  * Tab for groups.
  * 
- * @author Marek Mesar
+ * @author xmesar00
  *
  */
 public class AbTabGroups implements TableModelListener, AbITabComponent, AbListener {

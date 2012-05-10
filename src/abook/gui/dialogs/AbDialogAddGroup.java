@@ -26,7 +26,7 @@ import abook.profile.InitProfile;
 
 /**
  * 
- * @author Marek Mesar
+ * @author xmesar00
  *
  */
 
