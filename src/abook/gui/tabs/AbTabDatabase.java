@@ -28,6 +28,7 @@ public class AbTabDatabase implements AbITabComponent {
 	protected final String tooltip = "Table of all contacts";
 	protected JTable table;
 	protected DefaultTableModel tableModel;
+	protected Object columnId;
 	
 	/**
 	 * Creates new tab.
@@ -48,7 +49,8 @@ public class AbTabDatabase implements AbITabComponent {
 		tableModel = new DefaultTableModel();
 		
 		// make column titles //
-		tableModel.addColumn("ID");
+		columnId = new String("ID");
+		tableModel.addColumn(columnId);
 		tableModel.addColumn("Name");
 		tableModel.addColumn("Surname");
 		tableModel.addColumn("Location");
@@ -73,7 +75,9 @@ public class AbTabDatabase implements AbITabComponent {
 			public void mousePressed(MouseEvent e) {
 				
 				if(e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
-					String a = ((String) (table.getModel().getValueAt(table.getSelectedRow(), 0)));
+					//System.out.println(table.getValueAt(table.getSelectedRow(), table.getColumnModel().getColumnIndex(columnId)));
+					String a = (String) (table.getValueAt(table.getSelectedRow(), table.getColumnModel().getColumnIndex(columnId)));
+					//String a = ((String) (table.getModel().getValueAt(table.getSelectedRow(), 0)));
 					new AbDialogAddContact(InitProfile.getProfile().getContact(new Integer(a))).setVisible(true);
 				}
 			}
