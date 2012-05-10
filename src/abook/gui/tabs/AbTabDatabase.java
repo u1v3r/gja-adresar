@@ -12,6 +12,9 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
 import abook.gui.dialogs.AbDialogAddContact;
+import abook.listeners.AbEvent;
+import abook.listeners.AbListener;
+import abook.listeners.InitListenerCore;
 import abook.profile.AbPerson;
 import abook.profile.InitProfile;
 
@@ -21,7 +24,7 @@ import abook.profile.InitProfile;
  * @author xjanda17
  *
  */
-public class AbTabDatabase implements AbITabComponent {
+public class AbTabDatabase implements AbITabComponent, AbListener {
 	
 	protected JScrollPane panel;
 	protected final String name = "Database";
@@ -34,6 +37,8 @@ public class AbTabDatabase implements AbITabComponent {
 	 * Creates new tab.
 	 */
 	public AbTabDatabase() {
+		
+		InitListenerCore.getListenerCore().addListener(this);
 		
 		createTable();
 		
@@ -150,6 +155,15 @@ public class AbTabDatabase implements AbITabComponent {
 	@Override
 	public String getTooltip() {
 		return tooltip;
+	}
+
+	@Override
+	public void myEventOccurred(AbEvent evt, int type) {
+		if(type == 3)
+		{
+			actualizeTab();
+		}
+		
 	}
 
 }

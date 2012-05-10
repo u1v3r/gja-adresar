@@ -24,6 +24,9 @@ import javax.swing.event.ListSelectionListener;
 
 import net.miginfocom.swing.MigLayout;
 import abook.gui.dialogs.AbDialogAddContact;
+import abook.listeners.AbEvent;
+import abook.listeners.AbListener;
+import abook.listeners.InitListenerCore;
 import abook.profile.AbPerson;
 import abook.profile.InitProfile;
 import java.awt.event.ActionListener;
@@ -37,7 +40,7 @@ import java.awt.event.ActionEvent;
  *
  */
 @SuppressWarnings("serial")
-public class AbTabContactDetails extends JPanel implements AbITabComponent{
+public class AbTabContactDetails extends JPanel implements AbITabComponent, AbListener{
 
 
 	/**
@@ -90,6 +93,8 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 	 * Create the panel.
 	 */
 	public AbTabContactDetails() {
+		InitListenerCore.getListenerCore().addListener(this);
+		
 		setPreferredSize(new Dimension(750, 600));		
 			
 		setLayout(new BorderLayout(0, 0));
@@ -414,4 +419,13 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent{
 		usersList.setModel(usersListModel);		
 		usersList.repaint();
     }
+
+	@Override
+	public void myEventOccurred(AbEvent evt, int type) {
+		if(type == 3)
+		{
+			actualizeTab();
+		}
+		
+	}
 }
