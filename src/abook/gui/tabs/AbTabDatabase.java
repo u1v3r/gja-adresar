@@ -69,10 +69,15 @@ public class AbTabDatabase implements AbITabComponent, AbListener {
 			}
 		};
 		
-		TableColumn col = table.getColumnModel().getColumn(0);
-		col.setPreferredWidth(20);
+		//TableColumn col = table.getColumnModel().getColumn(0);
+		//col.setPreferredWidth(20);
 		
-		table.removeColumn(table.getColumn("ID")); // hide "ID" column
+		// hide "ID" column
+		table.getColumn("ID").setMaxWidth(0);
+		table.getColumn("ID").setMinWidth(0);
+		table.getColumn("ID").setWidth(0);
+		table.getColumn("ID").setPreferredWidth(0);
+		table.getColumn("ID").setResizable(false);
 		
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(tableModel);
 		table.setRowSorter(sorter);

@@ -74,7 +74,13 @@ public class AbTabEvents implements AbListener, AbITabComponent {
 			
 			table = new JTable(tableModel);
 			
-			table.removeColumn(table.getColumn("ID")); // hide "ID" column
+			// hide "ID" column
+			table.getColumn("ID").setMaxWidth(0);
+			table.getColumn("ID").setMinWidth(0);
+			table.getColumn("ID").setWidth(0);
+			table.getColumn("ID").setPreferredWidth(0);
+			table.getColumn("ID").setResizable(false);
+			
 			table.setSelectionMode(0); // only one row can be selected at the same time //	
 			table.addMouseListener(new MyMouseListener());
 			
@@ -180,7 +186,7 @@ public class AbTabEvents implements AbListener, AbITabComponent {
 	     
 		@Override  
 	      public Class<?> getColumnClass(int col) {  
-	        if (col == 4 || col == 5)       // columns accepts only Integer values  
+	        if (col == 4 || col == 5 || col == 0 )       // columns accepts only Integer values  
 	            return Integer.class;  
         	else
         		return String.class;  //other columns accept String values  
@@ -204,10 +210,8 @@ public class AbTabEvents implements AbListener, AbITabComponent {
 			if (e.getClickCount() == 2) {
 				
 				//get selected AbPerson
-				int id = (Integer) table.getValueAt(table.getSelectedRow(), 0);
 				
-				System.out.println("row" + table.getSelectedRow());
-				System.out.println(id);
+				int id = (Integer) table.getValueAt(table.getSelectedRow(), 0);
 				
 				// Calling Edit person dialog
 				new AbDialogAddContact(InitProfile.getProfile().getContact(id)).setVisible(true);
