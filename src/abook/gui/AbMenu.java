@@ -134,7 +134,7 @@ public class AbMenu extends AbActions implements AbIGuiComponent {
         // a) Google //
         JMenuItem menuGoogle = connectMenu.add("Google");
         menuGoogle.setMnemonic(KeyEvent.VK_G);
-        menuGoogle.addActionListener(actions.getActionHelp());
+        menuGoogle.addActionListener(actions.getActionSyncContacts());
 
         // 6.) HELP //
         JMenu helpMenu = new JMenu("Help");
