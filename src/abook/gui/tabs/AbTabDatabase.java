@@ -67,6 +67,8 @@ public class AbTabDatabase implements AbITabComponent {
 		TableColumn col = table.getColumnModel().getColumn(0);
 		col.setPreferredWidth(20);
 		
+		table.removeColumn(table.getColumn("ID")); // hide "ID" column
+		
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(tableModel);
 		table.setRowSorter(sorter);
 		table.addMouseListener(new MouseAdapter() {

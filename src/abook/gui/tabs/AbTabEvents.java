@@ -159,7 +159,7 @@ public class AbTabEvents implements AbListener, AbITabComponent {
 
 	@Override
 	public void myEventOccurred(AbEvent evt, int type) {
-		if(type == 4)
+		if(type == 3)
 		{
 			actualizeTab();
 		}
@@ -204,7 +204,10 @@ public class AbTabEvents implements AbListener, AbITabComponent {
 			if (e.getClickCount() == 2) {
 				
 				//get selected AbPerson
-				int id = (Integer) tableModel.getValueAt(table.getSelectedRow(), 0);
+				int id = (Integer) table.getValueAt(table.getSelectedRow(), 0);
+				
+				System.out.println("row" + table.getSelectedRow());
+				System.out.println(id);
 				
 				// Calling Edit person dialog
 				new AbDialogAddContact(InitProfile.getProfile().getContact(id)).setVisible(true);
