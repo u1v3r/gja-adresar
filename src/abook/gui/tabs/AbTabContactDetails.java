@@ -390,6 +390,8 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent, AbLi
 	@Override
     public void actualizeTab() {
 		
+		int selectedRow = usersList.getSelectedIndex();
+		
 		usersListModel = new DefaultListModel();		
 		contactsList = InitProfile.getProfile().getListOfAbPersons();
 		contactsListFiltered = new ArrayList<AbPerson>();
@@ -418,6 +420,7 @@ public class AbTabContactDetails extends JPanel implements AbITabComponent, AbLi
 			
 		usersList.setModel(usersListModel);		
 		usersList.repaint();
+		usersList.setSelectedIndex(selectedRow);
     }
 
 	@Override
