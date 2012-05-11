@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="GJA 2012" default="compile" basedir=".">
+  <description>GJA 2012 - verze 1.0</description>
+  <target name="clean">
+    <delete dir="build"/>
+    <delete dir="dest"/>
+    <delete dir="doc"/>
+  </target>
+  <target name="compile">
+    <mkdir dir="build"/>
+      <javac srcdir="src" extdirs="ext" destdir="build" />
+    <mkdir dir="dest"/>
+    <copy file="src/abook/gui/tabs/tabs_messages.properties" tofile="build/abook/gui/tabs/tabs_messages.properties" />
+    <copy file="src/abook/gui/dialogs/messages.properties" tofile="build/abook/gui/dialogs/messages.properties" />
+      <jar destfile="dest/gja2012.jar" basedir="build">
+        <zipfileset src="ext/AbIcons.jar" />
+        <zipfileset src="ext/commons-validator.jar" />
+        <zipfileset src="ext/forms-1.3.0.jar" excludes="META-INF/**"/>
+        <zipfileset src="ext/forms-1.3.0-src.zip" excludes="META-INF/**" />
+        <zipfileset src="ext/jcalendar-1.4.jar" />
+        <zipfileset src="ext/gdata-client-1.0.jar" />
+        <zipfileset src="ext/gdata-client-meta-1.0.jar" />
+        <zipfileset src="ext/gdata-contacts-3.0.jar" />
+        <zipfileset src="ext/gdata-contacts-meta-3.0.jar" />
+        <zipfileset src="ext/gdata-core-1.0.jar" />
+        <zipfileset src="ext/guava-10.0.1.jar" />
+        <zipfileset src="ext/jakarta-oro-2.0.8.jar" />
+        <zipfileset src="ext/jgoodies-looks-src.zip" />
+        <zipfileset src="ext/JTattoo.jar" />
+        <zipfileset src="ext/looks.jar" />
+        <zipfileset src="ext/miglayout15-swing.jar" excludes="META-INF/**" />
+        <zipfileset src="ext/miglayout-src.zip" excludes="META-INF/**" />
+        <zipfileset src="ext/xmlpull-1.1.3.1.jar" />
+        <zipfileset src="ext/xpp3_min-1.1.4c.jar" />
+        <zipfileset src="ext/xstream-1.4.2.jar" />
+        <manifest>
+          <attribute name="Main-Class" value="abook.Main"/>
+        </manifest>
+      </jar>
+    <mkdir dir="doc"/>
+      <javadoc destdir="doc" extdirs="ext">
+        <packageset dir="src" defaultexcludes="yes">
+          <include name="**"/>
+        </packageset>
+      </javadoc>
+  </target>
+   <target name="run">
+       <java jar="dest/gja2012.jar" fork="true"/>
+   </target>
+</project>
+

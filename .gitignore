@@ -5,5 +5,3 @@ libs/gdata
 workspace-aBook/*
 bin/
 *.old
-gja-adresar.jar
-build.xml
